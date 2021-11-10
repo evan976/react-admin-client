@@ -1,0 +1,19 @@
+.sidebar {
+  width: 240px;
+  height: auto;
+  background: #fff;
+  border-radius: 2px;
+  padding: 0 8px;
+}
+
+.user-info {
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.publish-btn {
+  margin: 15px 0;
+  height: 36px;
+}

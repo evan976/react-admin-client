@@ -1,5 +1,6 @@
 import Index from '../views/Index'
 import Login from '../views/Login'
+import FrameLayout from '../layout/frame-layout'
 
 const routes = [
   {
@@ -7,8 +8,14 @@ const routes = [
     component: Login
   },
   {
-    path: '/index',
-    component: Index
+    path: '/',
+    component: FrameLayout,
+    children: [
+      {
+        path: '/index',
+        component: Index
+      }
+    ]
   }
 ]
 
