@@ -267,7 +267,7 @@ module.exports = {
     // 要求箭头函数体使用大括号
     'arrow-body-style': 2,
     // 要求箭头函数的参数使用圆括号
-    'arrow-parens': 2,
+    'arrow-parens': [2, 'as-needed'],
     'arrow-spacing': [2, {
       'before': true,
       'after': true

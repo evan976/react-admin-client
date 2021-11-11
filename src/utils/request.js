@@ -8,16 +8,16 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem('token')
     config.headers['auth'] = token
     return config
   },
-  (error) => Promise.reject(error)
+  error => Promise.reject(error)
 )
 
 service.interceptors.response.use(
-  (response) => {
+  response => {
     if (response.status >= 200 && response.status < 300) {
       const data = response.data
       if (data.code === 0) {
@@ -25,7 +25,7 @@ service.interceptors.response.use(
       }
     }
   },
-  (error) => Promise.reject(error)
+  error => Promise.reject(error)
 )
 
 export default service
