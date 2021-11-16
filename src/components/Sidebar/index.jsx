@@ -1,48 +1,83 @@
-import React from 'react'
+import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import { Avatar, Button, Menu } from 'antd'
-import {
-  UserOutlined,
-  HomeOutlined,
-  CodeOutlined,
-  SettingOutlined
-} from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
+import matchRoutes from '../../utils/match-routes'
 import './style.css'
 
 const { SubMenu } = Menu
 
-function Siderbar() {
+function Siderbar({ route, history, location }) {
+  const [openKeys, setOpenKeys] = useState([])
+  const [selectedKeys, setSelectedKeys] = useState([])
+
+  const handleMenuChange = useCallback(({ key }) => history.push(key), [])
+
+  const handleOpenChange = useCallback(openKeys => setOpenKeys(openKeys), [])
+
+  const renderMenu = useMemo(() => {
+    const renderMenuItem = menus =>
+      menus.map(menu => {
+        if (menu.children) {
+          return (
+            <SubMenu
+              key={menu.path}
+              icon={menu.meta.icon ? <menu.meta.icon /> : null}
+              title={menu.meta.title}
+            >
+              {renderMenuItem(menu.children)}
+            </SubMenu>
+          )
+        }
+        return (
+          <Menu.Item
+            key={menu.path}
+            icon={menu.meta.icon ? <menu.meta.icon /> : null}
+          >
+            {menu.meta.title}
+          </Menu.Item>
+        )
+      })
+    return (
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={['/index']}
+        openKeys={openKeys}
+        selectedKeys={selectedKeys}
+        onClick={handleMenuChange}
+        onOpenChange={handleOpenChange}
+      >
+        {renderMenuItem(route.children)}
+      </Menu>
+    )
+  }, [route, selectedKeys, openKeys])
+
+  useEffect(() => {
+    const matches = matchRoutes(route.children, location.pathname)
+    if (matches.length > 1) {
+      setSelectedKeys([matches.pop().route.path])
+      setOpenKeys(matches.map(item => item.route.path))
+    } else {
+      setSelectedKeys([matches.pop()?.route.path ?? '/index'])
+    }
+  }, [location])
+
   return (
     <div className="sidebar">
       <div className="user-info">
         <div className="avatar">
           <Avatar size={52} icon={<UserOutlined />} />
         </div>
-        <div className="info" style={{marginLeft: 10}}>
-          <div className="name" style={{fontSize: 16, fontWeight: 600}}>Evan</div>
+        <div className="info" style={{ marginLeft: 10 }}>
+          <div className="name" style={{ fontSize: 16, fontWeight: 600 }}>
+            Evan
+          </div>
           <div className="position">前端 @ undefined</div>
         </div>
       </div>
-      <Button type="primary" block className="publish-btn">发表文章</Button>
-      <Menu mode="inline">
-        <Menu.Item key="/" icon={<HomeOutlined />}>首页</Menu.Item>
-        <SubMenu key="/a" title="内容管理" icon={<CodeOutlined />}>
-          <Menu.Item key="/article">文章管理</Menu.Item>
-          <Menu.Item key="/category">分类管理</Menu.Item>
-          <Menu.Item key="/tag">标签管理</Menu.Item>
-        </SubMenu>
-        <SubMenu key="/c" title="数据中心" icon={<SettingOutlined />}>
-          <Menu.Item key="/option">内容数据</Menu.Item>
-          <Menu.Item key="/userinfo">站点数据</Menu.Item>
-        </SubMenu>
-        <SubMenu key="/d" title="个人中心" icon={<SettingOutlined />}>
-          <Menu.Item key="/option">个人信息</Menu.Item>
-          <Menu.Item key="/userinfo">修改密码</Menu.Item>
-        </SubMenu>
-        <SubMenu key="/b" title="系统设置" icon={<SettingOutlined />}>
-          <Menu.Item key="/option">站点配置</Menu.Item>
-          <Menu.Item key="/userinfo">其他</Menu.Item>
-        </SubMenu>
-      </Menu>
+      <Button type="primary" block className="publish-btn">
+        发表文章
+      </Button>
+      {renderMenu}
     </div>
   )
 }

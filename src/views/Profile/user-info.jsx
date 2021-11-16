@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function UserInfo() {
-  return (
-    <div>
-      UserInfo
-    </div>
-  )
+  return <div>UserInfo</div>;
 }
 
-export default UserInfo
+export default UserInfo;

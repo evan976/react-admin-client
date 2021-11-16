@@ -1,8 +1,8 @@
-import React from 'react'
-import FrameLayout from './layout/frame-layout'
+import routes from './routes'
+import renderRoutes from './utils/render-routes'
 
 function App() {
-  return <FrameLayout />
+  return renderRoutes(routes)
 }
 
 export default App

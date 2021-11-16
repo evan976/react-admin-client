@@ -1,58 +1,54 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'commonjs': true,
-    'es6': true
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true
   },
-  'parser': 'babel-eslint',
-  'extends': [
-    'eslint:recommended',
-    'plugin:react/recommended'
-  ],
-  'parserOptions': {
-    'ecmaVersion': 7,
+  parser: 'babel-eslint',
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  parserOptions: {
+    ecmaVersion: 7,
     // 开启实验属性
-    'ecmaFeatures': {
-      'experimentalObjectRestSpread': true,
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
       // 修饰器
-      'experimentalDecorators': true,
-      'jsx': true
+      experimentalDecorators: true,
+      jsx: true
     },
-    'sourceType': 'module'
+    sourceType: 'module'
   },
-  'plugins': [
-    'react'
-  ],
-  'globals': {
-    '__DEV__': false,
-    '__dirname': false,
-    'window': true,
-    'define': true,
-    'history': true,
-    'location': true,
-    'wxjs': true,
-    '$': true,
-    'WeixinJSBridge': true,
-    'wx': true,
-    'process': true,
-    'qq': true
+  plugins: ['react'],
+  globals: {
+    __DEV__: false,
+    __dirname: false,
+    window: true,
+    define: true,
+    history: true,
+    location: true,
+    wxjs: true,
+    $: true,
+    WeixinJSBridge: true,
+    wx: true,
+    process: true,
+    qq: true
   },
-  'settings': {
-    'react': {
-      'version': '16.2.0'
+  settings: {
+    react: {
+      version: '16.2.0'
     }
   },
 
   /**
-     * "off" 或 0 - 关闭规则
-     * "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),
-     * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
-     */
-  'rules': {
+   * "off" 或 0 - 关闭规则
+   * "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),
+   * "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
+   */
+  rules: {
     'no-cond-assign': 2,
     'no-console': [
-      'error', {
-        'allow': ['log', 'warn', 'error', 'info']
+      'error',
+      {
+        allow: ['log', 'warn', 'error', 'info']
       }
     ],
     // 禁止 function 定义中出现重名参数
@@ -71,7 +67,7 @@ module.exports = {
     'no-extra-parens': 0,
 
     // 强制所有控制语句使用一致的括号风格
-    'curly': [2, 'all'],
+    curly: [2, 'all'],
     // 禁止 catch 子句的参数与外层作用域中的变量同名
     'no-catch-shadow': 0,
     // 不允许标签与变量同名
@@ -97,14 +93,21 @@ module.exports = {
     'block-spacing': [1, 'never'],
     // 强制使用一致的缩进 第二个参数为 "tab" 时，会使用tab，
     // if while function 后面的{必须与if在同一行，java风格。
-    'brace-style': [2, '1tbs', {
-      'allowSingleLine': true
-    }],
+    'brace-style': [
+      2,
+      '1tbs',
+      {
+        allowSingleLine: true
+      }
+    ],
     // 控制逗号前后的空格
-    'comma-spacing': [2, {
-      'before': false,
-      'after': true
-    }],
+    'comma-spacing': [
+      2,
+      {
+        before: false,
+        after: true
+      }
+    ],
     // 控制逗号在行尾出现还是在行首出现 (默认行尾)
     // http://eslint.org/docs/rules/comma-style
     'comma-style': [2, 'last'],
@@ -120,20 +123,24 @@ module.exports = {
     'func-names': 0,
     // 文件末尾强制换行
     'eol-last': 2,
-    'indent': [
-      'error', 2
-    ],
+    indent: ['error', 2],
     // 要求或禁止在函数标识符和其调用之间有空格
     'func-call-spacing': 2,
     // 强制在对象字面量的属性中键和值之间使用一致的间距
-    'key-spacing': [2, {
-      'beforeColon': false,
-      'afterColon': true
-    }],
+    'key-spacing': [
+      2,
+      {
+        beforeColon: false,
+        afterColon: true
+      }
+    ],
     // 要求在注释周围有空行 ( 要求在块级注释之前有一空行)
-    'lines-around-comment': [2, {
-      'beforeBlockComment': true
-    }],
+    'lines-around-comment': [
+      2,
+      {
+        beforeBlockComment: true
+      }
+    ],
     'func-style': 0,
     // 强制回调函数最大嵌套深度 5层
     'max-nested-callbacks': [2, 5],
@@ -148,7 +155,7 @@ module.exports = {
     // 强制在关键字前后使用一致的空格 (前后腰需要)
     'keyword-spacing': 2,
     // 强制一行的最大长度
-    'max-len': [2, 200, { 'ignoreUrls': true }],
+    'max-len': [2, 200, { ignoreUrls: true }],
     // 强制最大行数
     'max-lines': 0,
     // 强制 function 定义中最多允许的参数数量
@@ -158,10 +165,13 @@ module.exports = {
     // 强制每一行中所允许的最大语句数量
     'max-statements-per-line': 0,
     // 要求构造函数首字母大写 （要求调用 new 操作符时有首字母大小的函数，允许调用首字母大写的函数时没有 new 操作符。）
-    'new-cap': [2, {
-      'newIsCap': true,
-      'capIsNew': false
-    }],
+    'new-cap': [
+      2,
+      {
+        newIsCap: true,
+        capIsNew: false
+      }
+    ],
     // 要求调用无参构造函数时有圆括号
     'new-parens': 2,
     // 要求或禁止 var 声明语句后有一行空行
@@ -183,13 +193,14 @@ module.exports = {
     // 禁止混合使用不同的操作符
     'no-mixed-operators': 0,
     // 禁止空格和 tab 的混合缩进
-    'no-mixed-spaces-and-tabs': [
-      'error', 'smart-tabs'
-    ],
+    'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
     // 不允许多个空行
-    'no-multiple-empty-lines': [2, {
-      'max': 2
-    }],
+    'no-multiple-empty-lines': [
+      2,
+      {
+        max: 2
+      }
+    ],
     // 不允许否定的表达式
     'no-negated-condition': 0,
     // 不允许使用嵌套的三元表达式
@@ -217,18 +228,22 @@ module.exports = {
     // 要求或禁止在可能的情况下要求使用简化的赋值操作符
     'operator-assignment': 0,
     // 强制操作符使用一致的换行符
-    'operator-linebreak': [2, 'after', {
-      'overrides': {
-        '?': 'before',
-        ':': 'before'
+    'operator-linebreak': [
+      2,
+      'after',
+      {
+        overrides: {
+          '?': 'before',
+          ':': 'before'
+        }
       }
-    }],
+    ],
     // 要求或禁止块内填充
     'padded-blocks': 0,
     // 要求对象字面量属性名称用引号括起来
     'quote-props': 0,
     // 强制使用一致的反勾号、双引号或单引号
-    'quotes': [2, 'single', 'avoid-escape'],
+    quotes: [2, 'single', 'avoid-escape'],
     // 要求使用 JSDoc 注释
     'require-jsdoc': 0,
     // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）
@@ -246,14 +261,21 @@ module.exports = {
     // 要求操作符周围有空格
     'space-infix-ops': 2,
     // 强制在一元操作符前后使用一致的空格
-    'space-unary-ops': [2, {
-      'words': true,
-      'nonwords': false
-    }],
+    'space-unary-ops': [
+      2,
+      {
+        words: true,
+        nonwords: false
+      }
+    ],
     // 强制在注释中 // 或 /* 使用一致的空格
-    'spaced-comment': [2, 'always', {
-      'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!']
-    }],
+    'spaced-comment': [
+      2,
+      'always',
+      {
+        markers: ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!']
+      }
+    ],
     // 要求或禁止 Unicode BOM
     'unicode-bom': 2,
     // 要求正则表达式被括号括起来
@@ -268,15 +290,21 @@ module.exports = {
     'arrow-body-style': 2,
     // 要求箭头函数的参数使用圆括号
     'arrow-parens': [2, 'as-needed'],
-    'arrow-spacing': [2, {
-      'before': true,
-      'after': true
-    }],
+    'arrow-spacing': [
+      2,
+      {
+        before: true,
+        after: true
+      }
+    ],
     // 强制 generator 函数中 * 号周围使用一致的空格
-    'generator-star-spacing': [2, {
-      'before': true,
-      'after': true
-    }],
+    'generator-star-spacing': [
+      2,
+      {
+        before: true,
+        after: true
+      }
+    ],
     // 禁止修改类声明的变量
     'no-class-assign': 2,
     // 不允许箭头功能，在那里他们可以混淆的比较
@@ -324,16 +352,24 @@ module.exports = {
     // 在JSX中验证右括号位置
     // "react/jsx-closing-bracket-location": 1,
     // 在JSX属性和表达式中加强或禁止大括号内的空格。
-    'react/jsx-curly-spacing': [2, {
-      'when': 'never',
-      'children': true
-    }],
+    'react/jsx-curly-spacing': [
+      2,
+      {
+        when: 'never',
+        children: true
+      }
+    ],
+    'react/display-name': 0,
+    'react/prop-types': 0,
     // 在数组或迭代器中验证JSX具有key属性
     'react/jsx-key': 2,
     // 限制JSX中单行上的props的最大数量
-    'react/jsx-max-props-per-line': [1, {
-      'maximum': 5
-    }],
+    'react/jsx-max-props-per-line': [
+      1,
+      {
+        maximum: 5
+      }
+    ],
     // 防止在JSX中重复的props
     'react/jsx-no-duplicate-props': 2,
     //  //防止使用未包装的JSX字符串
@@ -368,11 +404,13 @@ module.exports = {
     'react/no-deprecated': 2,
     // 在JSX属性中强制或禁止等号周围的空格
     'react/jsx-equals-spacing': 2,
-    'react/jsx-filename-extension': [2, {
-      'extensions': ['.js', '.jsx']
-    }],
+    'react/jsx-filename-extension': [
+      2,
+      {
+        extensions: ['.js', '.jsx']
+      }
+    ],
     // 禁止未使用的变量
     'no-unused-vars': 0
   }
 }
-

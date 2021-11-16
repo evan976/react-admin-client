@@ -9,3 +9,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.content {
+  flex: 1;
+  height: auto;
+  margin-left: 20px;
+  border-radius: 2px;
+  background-color: #fff;
+}

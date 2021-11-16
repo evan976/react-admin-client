@@ -1,11 +1,7 @@
-import React from 'react'
+import renderRoutes from '../../utils/render-routes'
 
-function Profile() {
-  return (
-    <div>
-      Profile
-    </div>
-  )
+function Profile({ route }) {
+  return renderRoutes(route.children)
 }
 
 export default Profile

@@ -11,26 +11,36 @@ import logo from '../../assets/images/logo.svg'
 import './style.css'
 
 function FrameHeader() {
-
-  const handleHeaderMenuClick = useCallback(({key}) => {
+  const handleHeaderMenuClick = useCallback(({ key }) => {
     console.log(key)
   }, [])
 
-  const headerMenu = useMemo(() => (
-    <Menu onClick={handleHeaderMenuClick}>
-      <Menu.Item key="/profile" icon={<UserOutlined />}>个人信息</Menu.Item>
-      <Menu.Item key="/option" icon={<UnlockOutlined />}>修改密码</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="/logout" icon={<PoweroffOutlined />}>退出登录</Menu.Item>
-    </Menu>
-  ), [])
+  const headerMenu = useMemo(
+    () => (
+      <Menu onClick={handleHeaderMenuClick}>
+        <Menu.Item key="/profile" icon={<UserOutlined />}>
+          个人信息
+        </Menu.Item>
+        <Menu.Item key="/option" icon={<UnlockOutlined />}>
+          修改密码
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="/logout" icon={<PoweroffOutlined />}>
+          退出登录
+        </Menu.Item>
+      </Menu>
+    ),
+    []
+  )
 
   return (
     <header className="header">
       <div className="header-container main-container">
         <div className="logo">
           <img src={logo} alt="logo" />
-          <span style={{marginLeft: 20, color: '#1890FF'}}>生之宇宙，归之殊途</span>
+          <span style={{ marginLeft: 20, color: '#1890FF' }}>
+            生之宇宙，归之殊途
+          </span>
         </div>
         <div className="right">
           <div className="link">
@@ -39,11 +49,7 @@ function FrameHeader() {
           <div className="notice">
             <BellOutlined />
           </div>
-          <Dropdown
-            overlay={headerMenu}
-            placement="bottomRight"
-            arrow
-          >
+          <Dropdown overlay={headerMenu} placement="bottomRight" arrow>
             <Avatar icon={<UserOutlined />} />
           </Dropdown>
         </div>

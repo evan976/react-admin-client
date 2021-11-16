@@ -1,10 +1,8 @@
-import React from 'react'
+import renderRoutes from '../../utils/render-routes'
 
-function Data() {
+function Data({ route }) {
   return (
-    <div>
-      Data
-    </div>
+    renderRoutes(route.children)
   )
 }
 

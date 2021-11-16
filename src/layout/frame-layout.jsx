@@ -1,18 +1,21 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import FrameHeader from '../components/Header'
 import Siderbar from '../components/Sidebar'
+import FrameFooter from '../components/Footer'
+import renderRoutes from '../utils/render-routes'
 import './style.css'
 
-function FrameLayout() {
+function FrameLayout({ route, history, location }) {
   return (
     <div className="frame-layout">
       <FrameHeader />
       <main className="container main-container">
-        <Siderbar />
+        <Siderbar route={route} history={history} location={location} />
+        <section className="content">{renderRoutes(route.children)}</section>
       </main>
+      <FrameFooter />
     </div>
   )
 }
 
-export default withRouter(FrameLayout)
+export default FrameLayout

@@ -1,10 +1,8 @@
-import React from 'react'
+import renderRoutes from '../../utils/render-routes'
 
-function Setting() {
+function Setting({ route }) {
   return (
-    <div>
-      Setting
-    </div>
+    renderRoutes(route.children)
   )
 }
 

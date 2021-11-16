@@ -1,11 +1,8 @@
 import React from 'react'
+import renderRoutes from '../../utils/render-routes'
 
-function Content() {
-  return (
-    <div>
-      Content
-    </div>
-  )
+function Content({ route }) {
+  return renderRoutes(route.children)
 }
 
 export default Content
