@@ -1,8 +1,15 @@
 import React from 'react'
-import { Card, Form, Input, Button, Checkbox, message } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { Redirect } from 'react-router-dom'
 import { useSelector, connect } from 'react-redux'
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  message
+} from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { loginSuccessSyncAction } from '../../store/actions/user'
 import './style.css'
 import { login } from '../../api/user'
@@ -14,7 +21,6 @@ function Login(props) {
   const onFinish = async values => {
     const data = await login(values)
     if (data.code === 0) {
-      const data = await login(values)
       props.handleLogin(data.data)
       message.success(data.message)
     } else {
@@ -88,9 +94,7 @@ function Login(props) {
   )
 }
 
-const mapStateToProps = state => ({
-  token: state.user.token
-})
+const mapStateToProps = null
 
 const mapDispatchToProps = dispatch => ({
   handleLogin: token => dispatch(loginSuccessSyncAction(token))

@@ -12,7 +12,7 @@ import logo from '../../assets/images/logo.svg'
 import { logoutSyncAction } from '../../store/actions/user'
 import './style.css'
 
-function FrameHeader() {
+function FrameHeader(props) {
 
   const dispatch = useDispatch()
 

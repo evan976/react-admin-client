@@ -184,7 +184,7 @@ function EditorArticle() {
           </Form.Item>
           <Form.Item>
             <Space>
-              <Button>取消</Button>
+              <Button type="dashed" onClick={() => setVisible(false)}>取消</Button>
               <Button type="primary" htmlType="submit" icon={<CheckOutlined />}>直接发布</Button>
             </Space>
           </Form.Item>

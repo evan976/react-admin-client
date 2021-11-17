@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import storeFn from './store'
+import store, { persistor } from './store'
 import 'antd/dist/antd.css'
 import './styles/global.css'
 import './styles/antd.css'
 import App from './App'
-
-const { store, persistor } = storeFn()
 
 ReactDOM.render(
   <Provider store={store}>

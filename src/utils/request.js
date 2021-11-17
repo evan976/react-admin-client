@@ -1,9 +1,7 @@
 import axios from 'axios'
-import storeFn from '../store'
+import store from '../store'
 
-const { store } = storeFn()
-
-const { user: { token } } = store.getState()
+const token = store.getState().user.token
 
 const service = axios.create({
   baseURL:

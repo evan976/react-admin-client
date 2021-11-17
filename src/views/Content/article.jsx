@@ -1,5 +1,18 @@
-import React from 'react'
-import { Card, Form, Input, Select, Space, Button, Divider, Table, Tag } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { connect, useSelector } from 'react-redux'
+import {
+  Card,
+  Form,
+  Input,
+  Select,
+  Space,
+  Button,
+  Divider,
+  Table,
+  Tag
+} from 'antd'
+import { getArticleList } from '../../api/article'
+import { getArticleSyncAction } from '../../store/actions/article'
 
 const { Option } = Select
 
@@ -76,7 +89,25 @@ const data = [
   }
 ]
 
-function Article() {
+function Article(props) {
+
+  const articleList = useSelector(state => state.article.articleList)
+
+  console.log(articleList)
+
+  const fetchArticle = async() => {
+    try {
+      const result = await getArticleList()
+      props.getArticleList(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchArticle()
+  }, [])
+
   return (
     <Card title="文章管理" bordered={false}>
       <Form layout="inline">
@@ -115,4 +146,10 @@ function Article() {
   )
 }
 
-export default Article
+const mapStateToProps = null
+
+const mapDispatchToProps = dispatch => ({
+  getArticleList: article => dispatch(getArticleSyncAction(article))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Article)
