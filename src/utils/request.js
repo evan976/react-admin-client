@@ -3,7 +3,7 @@ import axios from 'axios'
 const service = axios.create({
   baseURL:
     process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8000/api/private/v1'
+      ? 'http://localhost:7001/api/v1'
       : 'https://api.evanone.site',
   timeout: 10000
 })
