@@ -1,4 +1,9 @@
 import axios from 'axios'
+import storeFn from '../store'
+
+const { store } = storeFn()
+
+const { user: { token } } = store.getState()
 
 const service = axios.create({
   baseURL:
@@ -10,8 +15,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token')
-    config.headers['auth'] = token
+    config.headers['authorization'] = `Bearer ${token}`
     return config
   },
   error => Promise.reject(error)
@@ -20,10 +24,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     if (response.status >= 200 && response.status < 300) {
-      const data = response.data
-      if (data.code === 0) {
-        return data.data
-      }
+      return response.data
     }
   },
   error => Promise.reject(error)

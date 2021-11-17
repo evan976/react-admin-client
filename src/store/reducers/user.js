@@ -5,7 +5,7 @@ const initialState = {
   token: null
 }
 
-export const userReducer = (state = initialState, { type, payload }) => {
+const userReducer = (state = initialState, { type, payload }) => {
   const _state = _.cloneDeep(state)
   switch (type) {
   case actionType.LOGIN_SUCCESS:
@@ -21,3 +21,5 @@ export const userReducer = (state = initialState, { type, payload }) => {
     return state
   }
 }
+
+export default userReducer

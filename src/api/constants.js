@@ -1,6 +1,6 @@
 const API = {
-  API_LOGIN: '/auth/login',
-  API_REGISTER: '/auth/register',
+  API_LOGIN: '/login',
+  API_REGISTER: '/register',
   API_ARTICLE: '/articles',
   API_CATEGORY: '/categories',
   API_TAG: '/tags',

@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 import { Avatar, Menu, Dropdown } from 'antd'
 import {
   UserOutlined,
@@ -8,11 +9,21 @@ import {
   PoweroffOutlined
 } from '@ant-design/icons'
 import logo from '../../assets/images/logo.svg'
+import { logoutSyncAction } from '../../store/actions/user'
 import './style.css'
 
 function FrameHeader() {
+
+  const dispatch = useDispatch()
+
   const handleHeaderMenuClick = useCallback(({ key }) => {
-    console.log(key)
+    switch (key) {
+    case '/logout':
+      dispatch(logoutSyncAction())
+      break
+    default:
+      break
+    }
   }, [])
 
   const headerMenu = useMemo(

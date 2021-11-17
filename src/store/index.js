@@ -1,8 +1,18 @@
 import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import logger from 'redux-logger'
-import rootReducer from '../reducers'
+import rootReducer from './reducers'
 
-const store = createStore(rootReducer, applyMiddleware(thunk, logger))
+const persistConfig = {
+  key: 'blogState',
+  storage
+}
 
-export default store
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+export default () => {
+  const store = createStore(persistedReducer, applyMiddleware(logger))
+  const persistor = persistStore(store)
+  return { store, persistor }
+}

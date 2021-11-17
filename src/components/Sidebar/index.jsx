@@ -74,7 +74,7 @@ function Siderbar({ route, history, location }) {
           <div className="position">前端 @ undefined</div>
         </div>
       </div>
-      <Button type="primary" block className="publish-btn">
+      <Button type="primary" block className="publish-btn" onClick={() => history.push('/content/article/create')}>
         发表文章
       </Button>
       {renderMenu}

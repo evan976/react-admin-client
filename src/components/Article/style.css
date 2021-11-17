@@ -1,0 +1,15 @@
+.edit-article {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.bytemd {
+  flex: 1;
+  height: calc(100vh - 200px);
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  width: 100%;
+  height: 120px;
+}

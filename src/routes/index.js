@@ -21,11 +21,20 @@ import Setting from '../views/Setting'
 import SiteOption from '../views/Setting/site-option'
 import Others from '../views/Setting/others'
 import FrameLayout from '../layout/frame-layout'
+import EditorArticle from '../components/Article'
 
 const routes = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/content/article/create',
+    component: EditorArticle
+  },
+  {
+    path: '/content/article/edit/:id',
+    component: EditorArticle
   },
   {
     path: '/',
