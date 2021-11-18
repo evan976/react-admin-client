@@ -5,23 +5,25 @@ import {
   SettingOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import Index from '../views/Index'
-import Login from '../views/Login'
-import Content from '../views/Content'
-import Article from '../views/Content/article'
-import Category from '../views/Content/category'
-import Tag from '../views/Content/tag'
-import Data from '../views/Data'
-import ContentData from '../views/Data/content-data'
-import SiteData from '../views/Data/site-data'
-import Profile from '../views/Profile'
-import UserInfo from '../views/Profile/user-info'
-import ModifyPassword from '../views/Profile/modify-password'
-import Setting from '../views/Setting'
-import SiteOption from '../views/Setting/site-option'
-import Others from '../views/Setting/others'
-import FrameLayout from '../layout/frame-layout'
-import EditorArticle from '../components/Article'
+import withLoadable from '../utils/with-loadable'
+
+const Index = withLoadable(() => import('../views/Index'))
+const Login = withLoadable(() => import('../views/Login'))
+const Content = withLoadable(() => import('../views/Content'))
+const Article = withLoadable(() => import('../views/Content/article'))
+const Category = withLoadable(() => import('../views/Content/category'))
+const Tag = withLoadable(() => import('../views/Content/tag'))
+const Data = withLoadable(() => import('../views/Data'))
+const ContentData = withLoadable(() => import('../views/Data/content-data'))
+const SiteData = withLoadable(() => import('../views/Data/site-data'))
+const Profile = withLoadable(() => import('../views/Profile'))
+const UserInfo = withLoadable(() => import('../views/Profile/user-info'))
+const ModifyPassword = withLoadable(() => import('../views/Profile/modify-password'))
+const Setting = withLoadable(() => import('../views/Setting'))
+const SiteOption = withLoadable(() => import('../views/Setting/site-option'))
+const Others = withLoadable(() => import('../views/Setting/others'))
+const FrameLayout = withLoadable(() => import('../layout/frame-layout'))
+const EditorArticle = withLoadable(() => import('../components/Article'))
 
 const routes = [
   {

@@ -383,7 +383,7 @@ module.exports = {
     // 防止在JSX中使用的变量被错误地标记为未使用
     'react/jsx-uses-vars': 2,
     // 防止在componentDidMount中使用setState
-    'react/no-did-mount-set-state': 2,
+    'react/no-did-mount-set-state': 0,
     // 防止在componentDidUpdate中使用setState
     'react/no-did-update-set-state': 2,
     // 防止使用未知的DOM属性

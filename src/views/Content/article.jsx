@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { connect, useSelector } from 'react-redux'
+import dayjs from 'dayjs'
 import {
   Card,
   Form,
@@ -11,6 +12,7 @@ import {
   Table,
   Tag
 } from 'antd'
+import { RedoOutlined, DeleteOutlined } from '@ant-design/icons'
 import { getArticleList } from '../../api/article'
 import { getArticleSyncAction } from '../../store/actions/article'
 
@@ -19,88 +21,68 @@ const { Option } = Select
 const columns = [
   {
     title: 'ID',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'id',
+    key: 'id',
     render: text => <a>{text}</a>
   },
   {
     title: '标题',
-    dataIndex: 'age',
-    key: 'age'
+    dataIndex: 'title',
+    key: 'title'
   },
   {
-    title: '归类',
-    dataIndex: 'address',
-    key: 'address'
+    title: '分类',
+    dataIndex: 'category',
+    key: 'category.id',
+    render: category => <Tag color={category ? 'green' : 'default'}>{category ? category.name : '未分类'}</Tag>
   },
   {
-    title: '时间',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green'
-          if (tag === 'loser') {
-            color = 'volcano'
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          )
-        })}
-      </>
-    )
+    title: '更新时间',
+    key: 'updatedAt',
+    dataIndex: 'updatedAt',
+    render: text => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
   },
   {
     title: '操作',
     key: 'action',
     render: (text, record) => (
-      <Space size="middle">
-        <Tag color="green">Invite {record.name}</Tag>
-        <Tag color="red">Delete</Tag>
-      </Space>
+      <>
+        <Tag color="blue">编辑 {record.name}</Tag>
+        <Tag color="red">删除</Tag>
+      </>
     )
-  }
-]
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser']
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
   }
 ]
 
 function Article(props) {
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+
+  const page = useSelector(state => state.article.page)
+  const pageSize = useSelector(state => state.article.pageSize)
+  const total = useSelector(state => state.article.total)
   const articleList = useSelector(state => state.article.articleList)
 
-  console.log(articleList)
+  const onSelectChange = selectedRowKeys => {
+    setSelectedRowKeys(selectedRowKeys)
+  }
 
-  const fetchArticle = async() => {
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  }
+
+  const handlePageChange = useCallback((page, pageSize) => {
+    fetchArticle(page, pageSize)
+  }, [])
+
+  const fetchArticle = async(page = 1, pageSize = 10, state = 0) => {
     try {
-      const result = await getArticleList()
+      const result = await getArticleList({page, pageSize, state})
+      console.log(result)
       props.getArticleList(result.data)
     } catch (error) {
-      console.log(error)
+      return false
     }
   }
 
@@ -112,36 +94,44 @@ function Article(props) {
     <Card title="文章管理" bordered={false}>
       <Form layout="inline">
         <Form.Item>
-          <Input placeholder="输入关键词搜索" style={{ width: 220 }} />
+          <Input placeholder="输入关键词搜索" style={{ width: 240 }} />
         </Form.Item>
         <Form.Item>
-          <Select style={{ width: 160 }} placeholder="选择分类搜索">
+          <Select style={{ width: 180 }} placeholder="选择分类搜索">
             <Option value="jack">Jack</Option>
             <Option value="lucy">Lucy</Option>
             <Option value="Yiminghe">yiminghe</Option>
           </Select>
         </Form.Item>
         <Form.Item>
-          <Select style={{ width: 160 }} placeholder="选择标签搜索">
+          <Select style={{ width: 180 }} placeholder="选择标签搜索">
             <Option value="jack">Jack</Option>
             <Option value="lucy">Lucy</Option>
             <Option value="Yiminghe">yiminghe</Option>
           </Select>
-        </Form.Item>
-        <Form.Item>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              搜索
-            </Button>
-            <Button type="dashed">重置并刷新</Button>
-            <Button type="primary" danger>
-              导出数据
-            </Button>
-          </Space>
         </Form.Item>
       </Form>
+      <Space size="middle" style={{marginTop: 15}}>
+        <Button type="primary" htmlType="submit">搜索</Button>
+        <Button type="dashed" icon={<RedoOutlined />}>重置并刷新</Button>
+        <Button type="primary" icon={<DeleteOutlined />} danger>批量删除
+        </Button>
+      </Space>
       <Divider />
-      <Table columns={columns} dataSource={data} />
+      <Table
+        rowKey="_id"
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={articleList}
+        pagination={{
+          showTotal: total => `共 ${total} 条`,
+          showSizeChanger: true,
+          total,
+          current: page,
+          pageSize,
+          onChange: handlePageChange
+        }}
+      />
     </Card>
   )
 }

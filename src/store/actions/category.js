@@ -4,7 +4,8 @@ export const getCategorySyncAction = category => ({
   type: actionType.GET_CATEGORY,
   payload: {
     categoryList: category.data,
-    pages: category.pages,
+    page: category.page,
+    pageSize: category.pageSize,
     total: category.total
   }
 })

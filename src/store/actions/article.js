@@ -4,7 +4,8 @@ export const getArticleSyncAction = article => ({
   type: actionType.GET_ARTICLE,
   payload: {
     articleList: article.data,
-    pages: article.pages,
+    page: article.page,
+    pageSize: article.pageSize,
     total: article.total
   }
 })
