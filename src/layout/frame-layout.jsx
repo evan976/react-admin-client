@@ -18,7 +18,7 @@ function FrameLayout({ route, history, location }) {
         <Siderbar route={route} history={history} location={location} />
         <section className="content">{renderRoutes(route.children)}</section>
       </main>
-      <FrameFooter />
+      {/* <FrameFooter /> */}
     </div>
   )
 }

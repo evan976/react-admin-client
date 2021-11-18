@@ -11,6 +11,7 @@ import './styles/global.css'
 import './styles/antd.css'
 import App from './App'
 
+
 ReactDOM.render(
   <Provider store={store}>
     <ConfigProvider locale={zhCN}>

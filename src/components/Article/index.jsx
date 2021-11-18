@@ -1,7 +1,19 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Editor } from '@bytemd/react'
-import { Form, Row, Col, Input, Button, Select, Space, Drawer, Upload } from 'antd'
+import {
+  Form,
+  Row,
+  Col,
+  Input,
+  Button,
+  Select,
+  Space,
+  Drawer,
+  Upload,
+  Switch,
+  message
+} from 'antd'
 import {
   LoadingOutlined,
   PlusOutlined,
@@ -13,15 +25,22 @@ import highlight from '@bytemd/plugin-highlight-ssr'
 import zhHans from 'bytemd/lib/locales/zh_Hans.json'
 import 'bytemd/dist/index.min.css'
 import 'highlight.js/styles/vs.css'
+import { createArticle, getArticleDetail, updateArticle } from '../../api/article'
 import './style.css'
 
 const plugins = [gfm(), gemoji(), highlight()]
 
 const { Option } = Select
 
-function EditorArticle() {
+function EditorArticle(props) {
+
+  const { match: { params } } = props
+
+  const [form] = Form.useForm()
 
   const token = useSelector(state => state.user.token)
+  const categoryList = useSelector(state => state.category.categoryList)
+  const tagList = useSelector(state => state.tag.tagList)
 
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState('')
@@ -41,24 +60,48 @@ function EditorArticle() {
     }
   }, [])
 
-  const onFinish = values => {
+  const onFinish = useCallback(async values => {
     const data = { ...values, title, content, thumb }
     console.log(data)
-  }
+    try {
+      if (!params.id) {
+        await createArticle(data)
+        message.success('文章发布成功！')
+      } else {
+        await updateArticle(params.id, data)
+        message.success('文章修改成功！')
+      }
+      setVisible(false)
+    } catch (error) {
+      message.error('操作失败，请稍后尝试！')
+    }
+  }, [title, content, thumb])
+
+  useEffect(async() => {
+    if (params.id) {
+      const result = await getArticleDetail(params.id)
+      form.setFieldsValue(result.data)
+      setContent(result.data.content)
+      setThumb(result.data.thumb)
+      setTitle(result.data.title)
+    }
+  }, [])
 
   return (
     <div className="edit-article">
       <Form
         layout="inline"
+        form={form}
         style={{margin: 10}}>
         <Row style={{ width: '100%' }} wrap>
           <Col span={21}>
             <Form.Item name="title">
               <Input
                 style={{border: 'none'}}
-                placeholder="请输入文章标题..."
+                placeholder="文章标题..."
                 className="title-input"
                 value={title}
+                size="large"
                 onChange={e => setTitle(e.target.value)}
               />
             </Form.Item>
@@ -94,7 +137,11 @@ function EditorArticle() {
         onClose={() => setVisible(false)}
         visible={visible}
       >
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onFinish}
+        >
           <Form.Item
             name="keywords"
             label="关键词"
@@ -113,9 +160,9 @@ function EditorArticle() {
             ]}
           >
             <Select placeholder="选择分类">
-              <Option value="1">Vue</Option>
-              <Option value="2">React</Option>
-              <Option value="3">Node</Option>
+              {
+                categoryList.map(category => (<Option key={category._id} value={category._id}>{category.name}</Option>))
+              }
             </Select>
           </Form.Item>
           <Form.Item
@@ -129,9 +176,9 @@ function EditorArticle() {
             ]}
           >
             <Select mode="tags" allowClear placeholder="选择分类">
-              <Option value="1">Vue</Option>
-              <Option value="2">React</Option>
-              <Option value="3">Node</Option>
+              {
+                tagList.map(tag => (<Option key={tag._id} value={tag._id}>{tag.name}</Option>))
+              }
             </Select>
           </Form.Item>
           <Row gutter={16}>
@@ -141,8 +188,8 @@ function EditorArticle() {
                 label="文章来源"
               >
                 <Select placeholder="选择文章来源">
-                  <Option value="0">原创</Option>
-                  <Option value="1">转载</Option>
+                  <Option value={0}>转载</Option>
+                  <Option value={1}>原创</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -152,8 +199,8 @@ function EditorArticle() {
                 label="发布状态"
               >
                 <Select placeholder="选择文章状态">
-                  <Option value="0">草稿</Option>
-                  <Option value="1">直接发布</Option>
+                  <Option value={0}>草稿</Option>
+                  <Option value={1}>直接发布</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -180,7 +227,10 @@ function EditorArticle() {
             <Input placeholder="或直接输入图片地址" value={thumb} onChange={e => setThumb(e.target.value)}/>
           </Form.Item>
           <Form.Item name="description" label="文章简介">
-            <Input.TextArea rows={4} placeholder="输入文章简介..."/>
+            <Input.TextArea rows={2} placeholder="输入文章简介..."/>
+          </Form.Item>
+          <Form.Item name="hot" label="热门" valuePropName="checked">
+            <Switch />
           </Form.Item>
           <Form.Item>
             <Space>

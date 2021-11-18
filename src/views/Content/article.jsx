@@ -18,43 +18,9 @@ import { getArticleSyncAction } from '../../store/actions/article'
 
 const { Option } = Select
 
-const columns = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-    render: text => <a>{text}</a>
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-    key: 'title'
-  },
-  {
-    title: '分类',
-    dataIndex: 'category',
-    key: 'category.id',
-    render: category => <Tag color={category ? 'green' : 'default'}>{category ? category.name : '未分类'}</Tag>
-  },
-  {
-    title: '更新时间',
-    key: 'updatedAt',
-    dataIndex: 'updatedAt',
-    render: text => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
-  },
-  {
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-      <>
-        <Tag color="blue">编辑 {record.name}</Tag>
-        <Tag color="red">删除</Tag>
-      </>
-    )
-  }
-]
-
 function Article(props) {
+
+  const { history } = props
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
@@ -62,6 +28,9 @@ function Article(props) {
   const pageSize = useSelector(state => state.article.pageSize)
   const total = useSelector(state => state.article.total)
   const articleList = useSelector(state => state.article.articleList)
+
+  const categoryList = useSelector(state => state.category.categoryList)
+  const tagList = useSelector(state => state.tag.tagList)
 
   const onSelectChange = selectedRowKeys => {
     setSelectedRowKeys(selectedRowKeys)
@@ -90,6 +59,50 @@ function Article(props) {
     fetchArticle()
   }, [])
 
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+      render: text => <a>{text}</a>
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+      key: 'title'
+    },
+    {
+      title: '分类',
+      dataIndex: 'category',
+      key: 'category.id',
+      render: category => <Tag color={category ? 'green' : 'default'}>
+        {category ? category.name : '未分类'}
+      </Tag>
+    },
+    {
+      title: '更新时间',
+      key: 'updatedAt',
+      dataIndex: 'updatedAt',
+      render: text => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <>
+          <Tag
+            color="blue"
+            style={{cursor: 'pointer'}}
+            onClick={() => {
+              history.push(`/content/article/edit/${record._id}`)
+            }}
+          >编辑</Tag>
+          <Tag color="red" style={{cursor: 'pointer'}}>删除</Tag>
+        </>
+      )
+    }
+  ]
+
   return (
     <Card title="文章管理" bordered={false}>
       <Form layout="inline">
@@ -98,16 +111,18 @@ function Article(props) {
         </Form.Item>
         <Form.Item>
           <Select style={{ width: 180 }} placeholder="选择分类搜索">
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="Yiminghe">yiminghe</Option>
+            {
+              categoryList.map(category => (<Option key={category._id} value={category._id}>{category.name}</Option>
+              ))
+            }
           </Select>
         </Form.Item>
         <Form.Item>
           <Select style={{ width: 180 }} placeholder="选择标签搜索">
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="Yiminghe">yiminghe</Option>
+            {
+              tagList.map(tag => (<Option key={tag._id} value={tag._id}>{tag.name}</Option>
+              ))
+            }
           </Select>
         </Form.Item>
       </Form>

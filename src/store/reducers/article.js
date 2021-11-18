@@ -24,7 +24,7 @@ const articleReducer = (state = initialState, { type, payload }) => {
     _state.total = 0
     return _state
   default:
-    return _state;
+    return state
   }
 }
 
