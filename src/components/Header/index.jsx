@@ -12,10 +12,9 @@ import logo from '../../assets/images/logo.svg'
 import { logoutSyncAction } from '../../store/actions/user'
 import { resetCategorySyncAction } from '../../store/actions/category'
 import { resetArticleSyncAction } from '../../store/actions/article'
-import { resetTagSyncAction } from '../../store/actions/tag'
 import './style.css'
 
-function FrameHeader(props) {
+function FrameHeader() {
 
   const dispatch = useDispatch()
 
@@ -25,7 +24,6 @@ function FrameHeader(props) {
       dispatch(logoutSyncAction())
       dispatch(resetCategorySyncAction())
       dispatch(resetArticleSyncAction())
-      dispatch(resetTagSyncAction())
       break
     default:
       break

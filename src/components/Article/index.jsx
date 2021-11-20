@@ -40,7 +40,6 @@ function EditorArticle(props) {
 
   const token = useSelector(state => state.user.token)
   const categoryList = useSelector(state => state.category.categoryList)
-  const tagList = useSelector(state => state.tag.tagList)
 
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState('')
@@ -62,7 +61,6 @@ function EditorArticle(props) {
 
   const onFinish = useCallback(async values => {
     const data = { ...values, title, content, thumb }
-    console.log(data)
     try {
       if (!params.id) {
         await createArticle(data)
@@ -168,17 +166,8 @@ function EditorArticle(props) {
           <Form.Item
             name="tags"
             label="标签"
-            rules={[
-              {
-                required: true,
-                message: '请至少选择一个标签'
-              }
-            ]}
           >
-            <Select mode="tags" allowClear placeholder="选择分类">
-              {
-                tagList.map(tag => (<Option key={tag._id} value={tag._id}>{tag.name}</Option>))
-              }
+            <Select mode="tags" allowClear placeholder="输入标签后回车">
             </Select>
           </Form.Item>
           <Row gutter={16}>
@@ -227,7 +216,7 @@ function EditorArticle(props) {
             <Input placeholder="或直接输入图片地址" value={thumb} onChange={e => setThumb(e.target.value)}/>
           </Form.Item>
           <Form.Item name="description" label="文章简介">
-            <Input.TextArea rows={2} placeholder="输入文章简介..."/>
+            <Input.TextArea rows={4} placeholder="输入文章简介..."/>
           </Form.Item>
           <Form.Item name="hot" label="热门" valuePropName="checked">
             <Switch />

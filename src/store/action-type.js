@@ -19,11 +19,5 @@ export const GET_CATEGORY = 'GET_CATEGORY'
 // 重置分类列表
 export const RESET_CATEGORY = 'RESET_CATEGORY'
 
-// 获取标签列表
-export const GET_TAG = 'GET_TAG'
-
-// 重置标签列表
-export const RESET_TAG = 'RESET_TAG'
-
 // 获取个人信息
 export const GET_USERINFO = 'GET_USERINFO'

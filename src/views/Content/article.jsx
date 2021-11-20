@@ -10,13 +10,16 @@ import {
   Button,
   Divider,
   Table,
-  Tag
+  Tag,
+  message,
+  Modal
 } from 'antd'
-import { RedoOutlined, DeleteOutlined } from '@ant-design/icons'
-import { getArticleList } from '../../api/article'
+import { RedoOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
+import { getArticleList, removeArticle } from '../../api/article'
 import { getArticleSyncAction } from '../../store/actions/article'
 
 const { Option } = Select
+const { confirm } = Modal
 
 function Article(props) {
 
@@ -28,9 +31,7 @@ function Article(props) {
   const pageSize = useSelector(state => state.article.pageSize)
   const total = useSelector(state => state.article.total)
   const articleList = useSelector(state => state.article.articleList)
-
   const categoryList = useSelector(state => state.category.categoryList)
-  const tagList = useSelector(state => state.tag.tagList)
 
   const onSelectChange = selectedRowKeys => {
     setSelectedRowKeys(selectedRowKeys)
@@ -48,7 +49,6 @@ function Article(props) {
   const fetchArticle = async(page = 1, pageSize = 10, state = 0) => {
     try {
       const result = await getArticleList({page, pageSize, state})
-      console.log(result)
       props.getArticleList(result.data)
     } catch (error) {
       return false
@@ -97,7 +97,32 @@ function Article(props) {
               history.push(`/content/article/edit/${record._id}`)
             }}
           >编辑</Tag>
-          <Tag color="red" style={{cursor: 'pointer'}}>删除</Tag>
+          <Tag
+            color="red"
+            style={{cursor: 'pointer'}}
+            onClick={() => {
+              confirm({
+                title: '此操作将永久删除该文章，是否继续？',
+                icon: <QuestionCircleOutlined />,
+                okText: '确认',
+                cancelText: '取消',
+                centered: true,
+                onOk: async() => {
+                  try {
+                    await removeArticle(record._id)
+                    let _page = page
+                    if (articleList.length === 1 && _page > 1) {
+                      _page -= 1
+                    }
+                    fetchArticle(_page, pageSize)
+                    message.success('文章删除成功！')
+                  } catch (error) {
+                    message.error('删除失败！')
+                  }
+                }
+              })
+            }}
+          >删除</Tag>
         </>
       )
     }
@@ -118,20 +143,14 @@ function Article(props) {
           </Select>
         </Form.Item>
         <Form.Item>
-          <Select style={{ width: 180 }} placeholder="选择标签搜索">
-            {
-              tagList.map(tag => (<Option key={tag._id} value={tag._id}>{tag.name}</Option>
-              ))
-            }
-          </Select>
+          <Space size="middle">
+            <Button type="primary" htmlType="submit">搜索</Button>
+            <Button type="dashed" icon={<RedoOutlined />}>重置并刷新</Button>
+            <Button type="primary" icon={<DeleteOutlined />} danger>批量删除
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
-      <Space size="middle" style={{marginTop: 15}}>
-        <Button type="primary" htmlType="submit">搜索</Button>
-        <Button type="dashed" icon={<RedoOutlined />}>重置并刷新</Button>
-        <Button type="primary" icon={<DeleteOutlined />} danger>批量删除
-        </Button>
-      </Space>
       <Divider />
       <Table
         rowKey="_id"
@@ -139,6 +158,7 @@ function Article(props) {
         columns={columns}
         dataSource={articleList}
         pagination={{
+          size: 'small',
           showTotal: total => `共 ${total} 条`,
           showSizeChanger: true,
           total,

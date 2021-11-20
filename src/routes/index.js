@@ -12,7 +12,6 @@ const Login = withLoadable(() => import('../views/Login'))
 const Content = withLoadable(() => import('../views/Content'))
 const Article = withLoadable(() => import('../views/Content/article'))
 const Category = withLoadable(() => import('../views/Content/category'))
-const Tag = withLoadable(() => import('../views/Content/tag'))
 const Data = withLoadable(() => import('../views/Data'))
 const ContentData = withLoadable(() => import('../views/Data/content-data'))
 const SiteData = withLoadable(() => import('../views/Data/site-data'))
@@ -70,13 +69,6 @@ const routes = [
             component: Category,
             meta: {
               title: '分类管理'
-            }
-          },
-          {
-            path: '/content/tag',
-            component: Tag,
-            meta: {
-              title: '标签管理'
             }
           }
         ]
