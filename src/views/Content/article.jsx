@@ -1,27 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { connect, useSelector } from 'react-redux'
-import dayjs from 'dayjs'
-import {
-  Card,
-  Form,
-  Input,
-  Select,
-  Space,
-  Button,
-  Divider,
-  Table,
-  Tag,
-  message,
-  Modal
-} from 'antd'
+import { Card, Form, Input, Select, Space, Button, Divider, Table, Tag, message, Modal } from 'antd'
 import { RedoOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import { getArticleList, removeArticle } from '../../api/article'
+
+import { getArticleList, removeArticle, removeManyArticle } from '../../api/article'
 import { getArticleSyncAction } from '../../store/actions/article'
+import { dateFormat } from '../../utils/data-format'
 
 const { Option } = Select
 const { confirm } = Modal
 
 function Article(props) {
+
+  const [form] = Form.useForm()
 
   const { history } = props
 
@@ -48,11 +39,43 @@ function Article(props) {
 
   const fetchArticle = async(page = 1, pageSize = 10, state = 0) => {
     try {
-      const result = await getArticleList({page, pageSize, state})
+      const result = await getArticleList({ page, pageSize, state })
       props.getArticleList(result.data)
     } catch (error) {
       return false
     }
+  }
+
+  const search = async values => {
+    const result = await getArticleList({ ...values, state: 0 })
+    props.getArticleList(result.data)
+    message.success('查询成功')
+  }
+
+  const handleReset = () => {
+    form.resetFields()
+    fetchArticle()
+    message.success('刷新成功')
+  }
+
+  const handleRemoveMany = () => {
+    const ids = selectedRowKeys.join()
+    confirm({
+      title: '此操作将永久删除文章，是否继续？',
+      icon: <QuestionCircleOutlined />,
+      okText: '确认',
+      cancelText: '取消',
+      centered: true,
+      onOk: async() => {
+        try {
+          await removeManyArticle(ids)
+          message.success('删除成功')
+          fetchArticle()
+        } catch (error) {
+          message.error('操作失败')
+        }
+      }
+    })
   }
 
   useEffect(() => {
@@ -83,7 +106,7 @@ function Article(props) {
       title: '更新时间',
       key: 'updatedAt',
       dataIndex: 'updatedAt',
-      render: text => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+      render: date => dateFormat(date)
     },
     {
       title: '操作',
@@ -130,14 +153,20 @@ function Article(props) {
 
   return (
     <Card title="文章管理" bordered={false}>
-      <Form layout="inline">
-        <Form.Item>
-          <Input placeholder="输入关键词搜索" style={{ width: 240 }} />
+      <Form layout="inline" form={form} onFinish={search}>
+        <Form.Item name="keyword">
+          <Input placeholder="输入关键词搜索" style={{ width: 240 }} autoComplete="off" />
         </Form.Item>
-        <Form.Item>
+        <Form.Item name="category">
           <Select style={{ width: 180 }} placeholder="选择分类搜索">
             {
-              categoryList.map(category => (<Option key={category._id} value={category._id}>{category.name}</Option>
+              categoryList.map(category => (
+                <Option
+                  key={category._id}
+                  value={category._id}
+                >
+                  {category.name}
+                </Option>
               ))
             }
           </Select>
@@ -145,8 +174,18 @@ function Article(props) {
         <Form.Item>
           <Space size="middle">
             <Button type="primary" htmlType="submit">搜索</Button>
-            <Button type="dashed" icon={<RedoOutlined />}>重置并刷新</Button>
-            <Button type="primary" icon={<DeleteOutlined />} danger>批量删除
+            <Button
+              type="dashed"
+              icon={<RedoOutlined />}
+              onClick={handleReset}
+            >重置并刷新</Button>
+            <Button
+              danger
+              type="primary"
+              icon={<DeleteOutlined />}
+              onClick={handleRemoveMany}
+              disabled={selectedRowKeys.length === 0}
+            >批量删除
             </Button>
           </Space>
         </Form.Item>

@@ -2,16 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { Card, Space, Button, Divider, Table, Tag, Modal, Form, Input, message } from 'antd'
 import { PlusOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import dayjs from 'dayjs'
 
-import {
-  getCategoryList,
-  createCategory,
-  getCategoryDetail,
-  updateCategory,
-  removeCategory
-} from '../../api/category'
+import { getCategoryList, createCategory, getCategoryDetail, updateCategory, removeCategory, removeManyCategory } from '../../api/category'
 import { getCategorySyncAction } from '../../store/actions/category'
+import { dateFormat } from '../../utils/data-format'
 
 const { confirm } = Modal
 
@@ -24,6 +18,15 @@ function Category(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const categoryList = useSelector(state => state.category.categoryList)
+
+  const onSelectChange = selectedRowKeys => {
+    setSelectedRowKeys(selectedRowKeys)
+  }
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  }
 
   const fetchCategoryDetail = async id => {
     setModalVisible(true)
@@ -39,15 +42,6 @@ function Category(props) {
     } catch (error) {
       return false
     }
-  }
-
-  const onSelectChange = selectedRowKeys => {
-    setSelectedRowKeys(selectedRowKeys)
-  }
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange
   }
 
   const handleSubmit = useCallback(async() => {
@@ -67,6 +61,27 @@ function Category(props) {
       message.error('操作失败')
     }
   }, [])
+
+  // 批量删除
+  const handleRemoveMany = () => {
+    const ids = selectedRowKeys.join()
+    confirm({
+      title: '此操作将永久删除分类，是否继续？',
+      icon: <QuestionCircleOutlined />,
+      okText: '确认',
+      cancelText: '取消',
+      centered: true,
+      onOk: async() => {
+        try {
+          await removeManyCategory(ids)
+          message.success('删除成功')
+          fetchCategory()
+        } catch (error) {
+          message.error('操作失败')
+        }
+      }
+    })
+  }
 
   useEffect(() => {
     fetchCategory()
@@ -98,7 +113,7 @@ function Category(props) {
       title: '更新时间',
       key: 'updatedAt',
       dataIndex: 'updatedAt',
-      render: text => dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+      render: text => dateFormat(text)
     },
     {
       title: '操作',
@@ -148,7 +163,14 @@ function Category(props) {
           >
             新增分类
           </Button>
-          <Button type="primary" icon={<DeleteOutlined />} danger>批量删除</Button>
+          <Button
+            danger
+            type="primary"
+            icon={<DeleteOutlined />}
+            onClick={handleRemoveMany}
+            disabled={selectedRowKeys.length === 0}
+          >批量删除
+          </Button>
         </Space>
         <Divider />
         <Table
