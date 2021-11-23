@@ -196,7 +196,6 @@ function EditorArticle(props) {
           </Row>
           <Form.Item label="缩略图">
             <Upload
-              name="avatar"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}

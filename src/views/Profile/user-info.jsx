@@ -1,18 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { Card, Form, Upload, Input, Button } from 'antd'
+import { Card, Form, Upload, Input, Button, message } from 'antd'
 import { LoadingOutlined, PlusOutlined, CheckOutlined } from '@ant-design/icons'
+
+import { getUserInfo, updateUserInfo } from '../../api/user'
 
 function UserInfo() {
 
   const [form] = Form.useForm()
 
   const [loading, setLoading] = useState(false)
-  const [avatar, setAvatar] = useState('')
+  const [avatarUrl, setAvatarUrl] = useState('')
   const token = useSelector(state => state.user.token)
 
-  const handleChange = () => {
+  const fetchUserInfo = async() => {
+    const result = await getUserInfo()
+    form.setFieldsValue(result.data)
+    setAvatarUrl(result.data.avatarUrl)
   }
+
+  const handleUpdate = useCallback(async user => {
+    const data = { ...user, avatarUrl }
+    await updateUserInfo(user._id, data)
+    message.success('用户信息更新成功')
+    fetchUserInfo()
+  }, [avatarUrl])
+
+  const handleChange = useCallback(info => {
+    if (info.file.status === 'uploading') {
+      setLoading(true)
+      return
+    }
+    if (info.file.status === 'done') {
+      setAvatarUrl(info.file.response.data.url)
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchUserInfo()
+  }, [])
 
   return (
     <Card title="个人信息" bordered={false}>
@@ -20,10 +47,13 @@ function UserInfo() {
         form={form}
         labelCol={{ span: 3 }}
         wrapperCol={{ span: 12 }}
+        onFinish={handleUpdate}
       >
-        <Form.Item name="avatarUrl" label="头像">
-          {/* <Upload
-            name="avatar"
+        <Form.Item name="_id" hidden>
+          <Input />
+        </Form.Item>
+        <Form.Item label="头像">
+          <Upload
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
@@ -33,13 +63,13 @@ function UserInfo() {
             action="http://localhost:7001/api/v1/upload"
             onChange={handleChange}
           >
-            {avatar ? <img src={avatar} alt="avatar" /> : (
+            {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{width: '100%', height: '100%'}} /> : (
               <div>
                 {loading ? <LoadingOutlined /> : <PlusOutlined />}
                 <div style={{ marginTop: 5 }}>点击上传</div>
               </div>
             )}
-          </Upload> */}
+          </Upload>
         </Form.Item>
         <Form.Item name="username" label="用户名">
           <Input />
@@ -66,7 +96,7 @@ function UserInfo() {
           <Input.TextArea rows={4} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" icon={<CheckOutlined />}>更新</Button>
+          <Button type="primary" htmlType="submit" icon={<CheckOutlined />}>更新</Button>
         </Form.Item>
       </Form>
     </Card>
