@@ -7,6 +7,13 @@ export const loginSuccessSyncAction = token => ({
   }
 })
 
+export const setUserInfoSyncAction = profile => ({
+  type: actionType.SET_USERINFO,
+  payload: {
+    profile
+  }
+})
+
 export const logoutSyncAction = () => ({
   type: actionType.LOGOUT
 })

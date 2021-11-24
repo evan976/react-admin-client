@@ -21,15 +21,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     if (response.status >= 200 && response.status < 300) {
-      if (response.data.code === 0) {
-        return response.data
-      }
       if (response.data.code === 401) {
         // 清除 store 中用户数据
         store.dispatch(resetUserSyncAction())
         message.error(response.data.message)
         return false
       }
+      return response.data
     }
   },
   error => console.log(error)

@@ -1,14 +1,28 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Avatar, Button, Menu } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+
+import { getUserInfo } from '../../api/user'
+import { setUserInfoSyncAction } from '../../store/actions/user'
 import matchRoutes from '../../utils/match-routes'
 import './style.css'
 
 const { SubMenu } = Menu
 
 function Siderbar({ route, history, location }) {
+
+  const dispatch = useDispatch()
+
+  const profile = useSelector(state => state.user.profile)
   const [openKeys, setOpenKeys] = useState([])
   const [selectedKeys, setSelectedKeys] = useState([])
+
+  useEffect(async() => {
+    if (!profile) {
+      const result = await getUserInfo()
+      dispatch(setUserInfoSyncAction(result.data))
+    }
+  }, [])
 
   const handleMenuChange = useCallback(({ key }) => history.push(key), [])
 
@@ -65,13 +79,13 @@ function Siderbar({ route, history, location }) {
     <div className="sidebar">
       <div className="user-info">
         <div className="avatar">
-          <Avatar size={52} icon={<UserOutlined />} />
+          <Avatar size={52} src={profile?.avatarUrl} />
         </div>
         <div className="info" style={{ marginLeft: 10 }}>
           <div className="name" style={{ fontSize: 16, fontWeight: 600 }}>
-            Evan
+            {profile?.nickname}
           </div>
-          <div className="position">前端 @ undefined</div>
+          <div className="position">{profile?.position} @ {profile?.company}</div>
         </div>
       </div>
       <Button type="primary" block className="publish-btn" onClick={() => history.push('/content/article/create')}>

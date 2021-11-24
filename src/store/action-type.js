@@ -19,5 +19,5 @@ export const GET_CATEGORY = 'GET_CATEGORY'
 // 重置分类列表
 export const RESET_CATEGORY = 'RESET_CATEGORY'
 
-// 获取个人信息
-export const GET_USERINFO = 'GET_USERINFO'
+// 设置个人信息
+export const SET_USERINFO = 'SET_USERINFO'

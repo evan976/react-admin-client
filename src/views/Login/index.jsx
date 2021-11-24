@@ -1,30 +1,25 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { useSelector, connect } from 'react-redux'
-import {
-  Card,
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  message
-} from 'antd'
+import { useSelector, useDispatch } from 'react-redux'
+import { Card, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
+
 import { loginSuccessSyncAction } from '../../store/actions/user'
-import './style.css'
 import { login } from '../../api/user'
+import './style.css'
 
-function Login(props) {
+function Login() {
 
+  const dispatch = useDispatch()
   const token = useSelector(state => state.user.token)
 
   const onFinish = async values => {
-    const data = await login(values)
-    if (data.code === 0) {
-      props.handleLogin(data.data)
-      message.success(data.message)
+    const result = await login(values)
+    if (result.code === 0) {
+      dispatch(loginSuccessSyncAction(result.data))
+      message.success(result.message)
     } else {
-      message.error(data.message)
+      message.error(result.message)
     }
   }
 
@@ -94,10 +89,4 @@ function Login(props) {
   )
 }
 
-const mapStateToProps = null
-
-const mapDispatchToProps = dispatch => ({
-  handleLogin: token => dispatch(loginSuccessSyncAction(token))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default Login
