@@ -22,7 +22,7 @@ const Setting = withLoadable(() => import('../views/Setting'))
 const SiteOption = withLoadable(() => import('../views/Setting/site-option'))
 const Others = withLoadable(() => import('../views/Setting/others'))
 const FrameLayout = withLoadable(() => import('../layout/frame-layout'))
-const EditorArticle = withLoadable(() => import('../components/Article'))
+const EditorArticle = withLoadable(() => import('../components/EditorArticle'))
 
 const routes = [
   {

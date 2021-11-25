@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Card, Space, Button, Divider, Table, Tag, Modal, Form, Input, message } from 'antd'
 import { PlusOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 
@@ -9,9 +9,11 @@ import { dateFormat } from '../../utils/data-format'
 
 const { confirm } = Modal
 
-function Category(props) {
+function Category() {
 
   const [form] = Form.useForm()
+
+  const dispatch = useDispatch()
 
   const [type, setType] = useState('create')
   const [modalVisible, setModalVisible] = useState(false)
@@ -38,7 +40,7 @@ function Category(props) {
   const fetchCategory = async() => {
     try {
       const result = await getCategoryList()
-      props.getCategoryList(result.data)
+      dispatch(getCategorySyncAction(result.data))
     } catch (error) {
       return false
     }
@@ -216,7 +218,10 @@ function Category(props) {
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, fieldKey, ...restField }) => (
-                    <Space key={key} style={{ display: 'flex', justifyContent: 'space-between' }} align="baseline">
+                    <Space
+                      key={key}
+                      style={{ display: 'flex', justifyContent: 'space-between' }} align="baseline"
+                    >
                       <Form.Item
                         {...restField}
                         name={[name, 'name']}
@@ -240,7 +245,12 @@ function Category(props) {
                     </Space>
                   ))}
                   <Form.Item>
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    <Button
+                      block
+                      type="dashed"
+                      onClick={() => add()}
+                      icon={<PlusOutlined />}
+                    >
                     增加扩展
                     </Button>
                   </Form.Item>
@@ -254,10 +264,4 @@ function Category(props) {
   )
 }
 
-const mapStateToProps = null
-
-const mapDispatchToProps = dispatch => ({
-  getCategoryList: category => dispatch(getCategorySyncAction(category))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Category)
+export default Category

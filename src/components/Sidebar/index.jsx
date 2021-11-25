@@ -5,7 +5,7 @@ import { Avatar, Button, Menu } from 'antd'
 import { getUserInfo } from '../../api/user'
 import { setUserInfoSyncAction } from '../../store/actions/user'
 import matchRoutes from '../../utils/match-routes'
-import './style.css'
+import { Wrapper } from './sidebar.styles'
 
 const { SubMenu } = Menu
 
@@ -76,23 +76,33 @@ function Siderbar({ route, history, location }) {
   }, [location])
 
   return (
-    <div className="sidebar">
+    <Wrapper>
       <div className="user-info">
         <div className="avatar">
           <Avatar size={52} src={profile?.avatarUrl} />
         </div>
         <div className="info" style={{ marginLeft: 10 }}>
-          <div className="name" style={{ fontSize: 16, fontWeight: 600 }}>
+          <div
+            className="name"
+            style={{ fontSize: 16, fontWeight: 600 }}
+          >
             {profile?.nickname}
           </div>
-          <div className="position">{profile?.position} @ {profile?.company}</div>
+          <div className="position">
+            {profile?.position} @ {profile?.company}
+          </div>
         </div>
       </div>
-      <Button type="primary" block className="publish-btn" onClick={() => history.push('/content/article/create')}>
+      <Button
+        type="primary"
+        block
+        className="publish-btn"
+        onClick={() => history.push('/content/article/create')}
+      >
         发表文章
       </Button>
       {renderMenu}
-    </div>
+    </Wrapper>
   )
 }
 

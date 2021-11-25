@@ -1,31 +1,33 @@
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { Avatar, Menu, Dropdown } from 'antd'
-import {
-  UserOutlined,
-  LinkOutlined,
-  BellOutlined,
-  UnlockOutlined,
-  PoweroffOutlined
-} from '@ant-design/icons'
-import logo from '../../assets/images/logo.svg'
+import { UserOutlined, LinkOutlined, BellOutlined, UnlockOutlined, PoweroffOutlined } from '@ant-design/icons'
+
 import { logoutSyncAction } from '../../store/actions/user'
 import { resetCategorySyncAction } from '../../store/actions/category'
 import { resetArticleSyncAction } from '../../store/actions/article'
-import './style.css'
+import { Wrapper } from './header.styles'
+import logo from '../../assets/images/logo.svg'
 
-function FrameHeader() {
+function FrameHeader({ history }) {
 
   const dispatch = useDispatch()
 
   const handleHeaderMenuClick = useCallback(({ key }) => {
     switch (key) {
-    case '/logout':
+    case 'logout':
       dispatch(logoutSyncAction())
       dispatch(resetCategorySyncAction())
       dispatch(resetArticleSyncAction())
       break
+    case 'profile':
+      history.push('/profile/user-info')
+      break
+    case 'password':
+      history.push('/profile/modify-password')
+      break
     default:
+      history.push('/index')
       break
     }
   }, [])
@@ -33,14 +35,14 @@ function FrameHeader() {
   const headerMenu = useMemo(
     () => (
       <Menu onClick={handleHeaderMenuClick}>
-        <Menu.Item key="/profile" icon={<UserOutlined />}>
+        <Menu.Item key="profile" icon={<UserOutlined />}>
           个人信息
         </Menu.Item>
-        <Menu.Item key="/option" icon={<UnlockOutlined />}>
+        <Menu.Item key="password" icon={<UnlockOutlined />}>
           修改密码
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="/logout" icon={<PoweroffOutlined />}>
+        <Menu.Item key="logout" icon={<PoweroffOutlined />}>
           退出登录
         </Menu.Item>
       </Menu>
@@ -49,7 +51,7 @@ function FrameHeader() {
   )
 
   return (
-    <header className="header">
+    <Wrapper>
       <div className="header-container main-container">
         <div className="logo">
           <img src={logo} alt="logo" />
@@ -69,7 +71,7 @@ function FrameHeader() {
           </Dropdown>
         </div>
       </div>
-    </header>
+    </Wrapper>
   )
 }
 

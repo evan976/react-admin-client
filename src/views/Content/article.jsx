@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Card, Form, Input, Select, Space, Button, Divider, Table, Tag, message, Modal } from 'antd'
 import { RedoOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 
@@ -14,7 +14,7 @@ function Article(props) {
 
   const [form] = Form.useForm()
 
-  const { history } = props
+  const dispatch = useDispatch()
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
@@ -40,7 +40,7 @@ function Article(props) {
   const fetchArticle = async(page = 1, pageSize = 10, state = 0) => {
     try {
       const result = await getArticleList({ page, pageSize, state })
-      props.getArticleList(result.data)
+      dispatch(getArticleSyncAction(result.data))
     } catch (error) {
       return false
     }
@@ -48,7 +48,7 @@ function Article(props) {
 
   const search = async values => {
     const result = await getArticleList({ ...values, state: 0 })
-    props.getArticleList(result.data)
+    dispatch(getArticleSyncAction(result.data))
     message.success('查询成功')
   }
 
@@ -117,7 +117,7 @@ function Article(props) {
             color="blue"
             style={{cursor: 'pointer'}}
             onClick={() => {
-              history.push(`/content/article/edit/${record._id}`)
+              props.history.push(`/content/article/edit/${record._id}`)
             }}
           >编辑</Tag>
           <Tag
@@ -155,7 +155,11 @@ function Article(props) {
     <Card title="文章管理" bordered={false}>
       <Form layout="inline" form={form} onFinish={search}>
         <Form.Item name="keyword">
-          <Input placeholder="输入关键词搜索" style={{ width: 240 }} autoComplete="off" />
+          <Input
+            autoComplete="off"
+            style={{ width: 240 }}
+            placeholder="输入关键词搜索"
+          />
         </Form.Item>
         <Form.Item name="category">
           <Select style={{ width: 180 }} placeholder="选择分类搜索">
@@ -210,10 +214,4 @@ function Article(props) {
   )
 }
 
-const mapStateToProps = null
-
-const mapDispatchToProps = dispatch => ({
-  getArticleList: article => dispatch(getArticleSyncAction(article))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Article)
+export default Article

@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 import { loginSuccessSyncAction } from '../../store/actions/user'
 import { login } from '../../api/user'
-import './style.css'
+import { Wrapper } from './login.styles'
 
 function Login() {
 
@@ -26,7 +26,7 @@ function Login() {
   return (
     token
       ? <Redirect to="/index" />
-      : <div className="login-page">
+      : <Wrapper>
         <Card title="用户登录" style={{ width: 380 }}>
           <Form
             name="user-login"
@@ -85,7 +85,7 @@ function Login() {
             </Form.Item>
           </Form>
         </Card>
-      </div>
+      </Wrapper>
   )
 }
 

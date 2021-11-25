@@ -25,8 +25,9 @@ import highlight from '@bytemd/plugin-highlight-ssr'
 import zhHans from 'bytemd/lib/locales/zh_Hans.json'
 import 'bytemd/dist/index.min.css'
 import 'highlight.js/styles/vs.css'
+
 import { createArticle, getArticleDetail, updateArticle } from '../../api/article'
-import './style.css'
+import { Wrapper } from './edit.styles'
 
 const plugins = [gfm(), gemoji(), highlight()]
 
@@ -86,7 +87,7 @@ function EditorArticle(props) {
   }, [])
 
   return (
-    <div className="edit-article">
+    <Wrapper>
       <Form
         layout="inline"
         form={form}
@@ -144,7 +145,11 @@ function EditorArticle(props) {
             name="keywords"
             label="关键词"
           >
-            <Select mode="tags" allowClear placeholder="输入关键词后回车">
+            <Select
+              allowClear
+              mode="tags"
+              placeholder="输入关键词后回车"
+            >
             </Select>
           </Form.Item>
           <Form.Item
@@ -159,7 +164,13 @@ function EditorArticle(props) {
           >
             <Select placeholder="选择分类">
               {
-                categoryList.map(category => (<Option key={category._id} value={category._id}>{category.name}</Option>))
+                categoryList.map(category => (
+                  <Option
+                    key={category._id}
+                    value={category._id}
+                  >
+                    {category.name}</Option>
+                ))
               }
             </Select>
           </Form.Item>
@@ -167,7 +178,11 @@ function EditorArticle(props) {
             name="tags"
             label="标签"
           >
-            <Select mode="tags" allowClear placeholder="输入标签后回车">
+            <Select
+              allowClear
+              mode="tags"
+              placeholder="输入标签后回车"
+            >
             </Select>
           </Form.Item>
           <Row gutter={16}>
@@ -197,7 +212,6 @@ function EditorArticle(props) {
           <Form.Item label="缩略图">
             <Upload
               listType="picture-card"
-              className="avatar-uploader"
               showUploadList={false}
               headers={{
                 authorization: `Bearer ${token}`
@@ -205,14 +219,21 @@ function EditorArticle(props) {
               action="http://localhost:7001/api/v1/upload"
               onChange={handleChange}
             >
-              {thumb ? <img src={thumb} alt="thumb" style={{ width: '100%', height: '100%' }} /> : (
-                <div>
-                  {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                  <div style={{ marginTop: 5 }}>点击上传</div>
-                </div>
-              )}
+              {thumb
+                ? <img src={thumb} alt="thumb" style={{ width: '100%', height: '100%' }} />
+                : (
+                  <div>
+                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                    <div style={{ marginTop: 5 }}>点击上传</div>
+                  </div>
+                )
+              }
             </Upload>
-            <Input placeholder="或直接输入图片地址" value={thumb} onChange={e => setThumb(e.target.value)}/>
+            <Input
+              value={thumb}
+              placeholder="或直接输入图片地址"
+              onChange={e => setThumb(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="description" label="文章简介">
             <Input.TextArea rows={4} placeholder="输入文章简介..."/>
@@ -222,13 +243,24 @@ function EditorArticle(props) {
           </Form.Item>
           <Form.Item>
             <Space>
-              <Button type="dashed" onClick={() => setVisible(false)}>取消</Button>
-              <Button type="primary" htmlType="submit" icon={<CheckOutlined />}>直接发布</Button>
+              <Button
+                type="dashed"
+                onClick={() => setVisible(false)}
+              >
+                取消
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                icon={<CheckOutlined />}
+              >
+                直接发布
+              </Button>
             </Space>
           </Form.Item>
         </Form>
       </Drawer>
-    </div>
+    </Wrapper>
   )
 }
 

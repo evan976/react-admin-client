@@ -63,7 +63,6 @@ function UserInfo() {
         <Form.Item label="头像">
           <Upload
             listType="picture-card"
-            className="avatar-uploader"
             showUploadList={false}
             headers={{
               authorization: `Bearer ${token}`
