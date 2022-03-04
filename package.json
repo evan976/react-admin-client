@@ -1,64 +1,50 @@
 {
   "name": "react-admin-client",
   "version": "2.0.0",
-  "description": "🔒 Admin client for my personal blog, powered by @reactjs",
+  "description": "Admin client for my personal blog, powered by @reactjs",
   "private": true,
   "author": {
     "name": "Evan",
     "email": "wjh50940@163.com",
     "url": "https://evanone.site"
   },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@bytemd/plugin-gemoji": "^1.10.13",
     "@bytemd/plugin-gfm": "^1.10.13",
     "@bytemd/plugin-highlight-ssr": "^1.10.13",
     "@bytemd/react": "^1.10.13",
-    "@craco/craco": "^6.4.0",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
     "antd": "^4.16.13",
     "axios": "^0.24.0",
     "bytemd": "^1.10.13",
     "dayjs": "^1.10.7",
-    "echarts": "^5.2.2",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
-    "react-router-dom": "5.2.0",
-    "react-scripts": "4.0.3",
-    "redux": "^4.1.2",
-    "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.0",
+    "react-router-dom": "^6.2.2",
+    "react-top-loading-bar": "^2.1.0",
     "remark-gemoji": "^7.0.1",
-    "styled-components": "^5.3.3",
-    "swiper": "^7.3.1",
-    "web-vitals": "^1.0.1"
+    "styled-components": "^5.3.3"
   },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "less": "^4.1.2",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
   }
 }
