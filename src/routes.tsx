@@ -32,7 +32,7 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
     },
     {
       key: RouteKey.Dashboard,
-      name: '仪表盘',
+      name: '数据概览',
       path: '/dashboard',
       icon: <Icon.DashboardOutlined />
     },
