@@ -16,7 +16,7 @@ export const Container = styled.div`
     transition: background-color .3s;
   }
 
-  .trigger:hover, .link:hover, .notice:hover {
+  .trigger:hover, .link:hover, .github:hover {
     background-color: #f0f2f5;
   }
 
@@ -25,7 +25,7 @@ export const Container = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    .link, .notice {
+    .link, .github {
       padding: 0 16px;
       font-size: 16px;
       line-height: 64px;

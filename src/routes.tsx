@@ -4,21 +4,26 @@ import { generatePath } from 'react-router-dom'
 
 export enum RouteKey {
   Login,
+  Register,
   Dashboard,
   Category,
   Tag,
   Comment,
+  Advertisement,
   Article,
   ArticleList,
   ArticleCreate,
-  ArticleEdit
+  ArticleEdit,
+  Setting,
+  Profile,
+  SiteOption
 }
 
 export interface RouteConfig {
   key: RouteKey
-  name: string
   path: string
   subPath?: string
+  name?: string
   icon?: React.ReactElement
   pather?(...args: Array<any>): string
 }
@@ -27,8 +32,11 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
   [
     {
       key: RouteKey.Login,
-      name: '登录',
       path: '/login'
+    },
+    {
+      key: RouteKey.Register,
+      path: '/register'
     },
     {
       key: RouteKey.Dashboard,
@@ -46,44 +54,64 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
       key: RouteKey.Tag,
       name: '标签管理',
       path: '/tag',
-      icon: <Icon.FolderOpenOutlined />
+      icon: <Icon.TagOutlined />
     },
     {
       key: RouteKey.Comment,
       name: '评论管理',
       path: '/comment',
-      icon: <Icon.FolderOpenOutlined />
+      icon: <Icon.CommentOutlined />
+    },
+    {
+      key: RouteKey.Advertisement,
+      name: '广告管理',
+      path: '/advertisement',
+      icon: <Icon.PictureOutlined />
     },
     {
       key: RouteKey.Article,
       name: '文章管理',
       path: '/article',
-      icon: <Icon.FolderOpenOutlined />
+      icon: <Icon.FileTextOutlined />
     },
     {
       key: RouteKey.ArticleList,
       name: '文章列表',
       path: '/article/list',
-      subPath: 'list',
-      icon: <Icon.FolderOpenOutlined />
+      subPath: 'list'
     },
     {
       key: RouteKey.ArticleCreate,
       name: '发表文章',
       path: '/article/create',
-      subPath: 'create',
-      icon: <Icon.FolderOpenOutlined />
+      subPath: 'create'
     },
     {
       key: RouteKey.ArticleEdit,
       name: '编辑文章',
       path: '/article/edit/:id',
       subPath: 'edit/:id',
-      icon: <Icon.FolderOpenOutlined />,
       pather (id: string) {
         return generatePath(this.path, { id })
       }
-
+    },
+    {
+      key: RouteKey.Setting,
+      name: '系统设置',
+      path: '/setting',
+      icon: <Icon.SettingOutlined />
+    },
+    {
+      key: RouteKey.Profile,
+      name: '个人中心',
+      path: '/setting/profile',
+      subPath: 'profile'
+    },
+    {
+      key: RouteKey.SiteOption,
+      name: '站点配置',
+      path: '/setting/option',
+      subPath: 'option'
     }
   ].map((route) => [route.key, route])
 )

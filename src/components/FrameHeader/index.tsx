@@ -23,7 +23,7 @@ const FrameHeader: React.FC<Props> = props => {
 
   const headerMenu = React.useMemo(() => (
     <Menu onClick={handleHeaderMenuClick}>
-      <Menu.Item key='profile' icon={<Icon.UserOutlined />}>个人信息</Menu.Item>
+      <Menu.Item key='profile' icon={<Icon.UserOutlined />}>个人中心</Menu.Item>
       <Menu.Item key='logout' icon={<Icon.PoweroffOutlined />}>退出登录</Menu.Item>
     </Menu>
   ), [])
@@ -40,8 +40,8 @@ const FrameHeader: React.FC<Props> = props => {
           <div className='link'>
             <Icon.LinkOutlined />
           </div>
-          <div className='notice'>
-            <Icon.BellOutlined />
+          <div className='github'>
+            <Icon.GithubOutlined />
           </div>
           <Dropdown overlay={headerMenu} placement='bottomRight' arrow>
             <Avatar icon={<Icon.UserOutlined />} className='user' />

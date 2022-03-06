@@ -28,7 +28,7 @@ const FrameSider: React.FC<Props> = props => {
           !props.collapsed && (
             <div className='info' style={{marginLeft: 10}}>
               <div className='name' style={{fontSize: 16, fontWeight: 600}}>Evan</div>
-              <div>成都 @ 海妖科技</div>
+              <div>成都 @ undefined</div>
             </div>
           )
         }
@@ -42,23 +42,42 @@ const FrameSider: React.FC<Props> = props => {
         <Menu.Item key={rc(RouteKey.Dashboard).path} icon={rc(RouteKey.Dashboard).icon}>
           {rc(RouteKey.Dashboard).name}
         </Menu.Item>
+        <Menu.SubMenu
+          key={rc(RouteKey.Article).path}
+          icon={rc(RouteKey.Article).icon}
+          title={rc(RouteKey.Article).name}
+        >
+          <Menu.Item key={rc(RouteKey.ArticleList).path}>
+            {rc(RouteKey.ArticleList).name}
+          </Menu.Item>
+          <Menu.Item key={rc(RouteKey.ArticleCreate).path}>
+            {rc(RouteKey.ArticleCreate).name}
+          </Menu.Item>
+        </Menu.SubMenu>
         <Menu.Item key={rc(RouteKey.Category).path} icon={rc(RouteKey.Category).icon}>
           {rc(RouteKey.Category).name}
         </Menu.Item>
         <Menu.Item key={rc(RouteKey.Tag).path} icon={rc(RouteKey.Tag).icon}>
           {rc(RouteKey.Tag).name}
         </Menu.Item>
-        <Menu.SubMenu
-          key={rc(RouteKey.Article).path}
-          icon={rc(RouteKey.Article).icon}
-          title={rc(RouteKey.Article).name}
-        >
-          <Menu.Item key={rc(RouteKey.ArticleList).path}>{rc(RouteKey.ArticleList).name}</Menu.Item>
-          <Menu.Item key={rc(RouteKey.ArticleCreate).path}>{rc(RouteKey.ArticleCreate).name}</Menu.Item>
-        </Menu.SubMenu>
         <Menu.Item key={rc(RouteKey.Comment).path} icon={rc(RouteKey.Comment).icon}>
           {rc(RouteKey.Comment).name}
         </Menu.Item>
+        <Menu.Item key={rc(RouteKey.Advertisement).path} icon={rc(RouteKey.Advertisement).icon}>
+          {rc(RouteKey.Advertisement).name}
+        </Menu.Item>
+        <Menu.SubMenu
+          key={rc(RouteKey.Setting).path}
+          icon={rc(RouteKey.Setting).icon}
+          title={rc(RouteKey.Setting).name}
+        >
+          <Menu.Item key={rc(RouteKey.Profile).path}>
+            {rc(RouteKey.Profile).name}
+          </Menu.Item>
+          <Menu.Item key={rc(RouteKey.SiteOption).path}>
+            {rc(RouteKey.SiteOption).name}
+          </Menu.Item>
+        </Menu.SubMenu>
       </Menu>
     </Container>
   )

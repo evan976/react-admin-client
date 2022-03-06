@@ -13,7 +13,7 @@ const FrameLayout: React.FC = props => {
 
   const token = localStorage.getItem('token')
 
-  return token ? <Navigate to={rc(RouteKey.Login).path} /> : (
+  return !token ? <Navigate to={rc(RouteKey.Login).path} /> : (
     <Container>
       <Layout className='frame-layout'>
       <Layout.Sider
