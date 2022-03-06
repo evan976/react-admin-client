@@ -99,8 +99,7 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
       key: RouteKey.Setting,
       name: '系统设置',
       path: '/setting',
-      icon: <Icon.SettingOutlined />,
-      routes: true
+      icon: <Icon.SettingOutlined />
     },
     {
       key: RouteKey.Profile,
