@@ -1,16 +1,77 @@
 import * as React from 'react'
-// import * as mainApi from '@/api'
+import { Button, Form, Input, notification } from 'antd'
+import * as Icon from '@ant-design/icons'
+import * as mainApi from '@/api'
+import { Container } from './login.style'
+import bg from '@/assets/images/login-bg.png'
+import { RequestParams } from '@/utils/request'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage: React.FC = () => {
 
-  // React.useEffect(() => {
-  //   mainApi.user.login({ email: 'wjh50940@163.com', password: 'wjh@1231' }).then(res => {
-  //     console.log(res?.data?.token)
-  //     localStorage.setItem('token', res.data?.token as string)
-  //   })
-  // }, [])
+  const navigate = useNavigate()
+
+  const onFinish = async (values: RequestParams) => {
+    const result = await mainApi.user.login(values)
+    localStorage.setItem('token', result.data?.token as string)
+    notification.success({ message: '登录成功' })
+    navigate('/')
+  }
+
   return (
-    <div>Login</div>
+    <Container>
+      <div className='wrapper'>
+        <div className='login-bg'>
+          <img src={bg} alt='loginBg' style={{width: '100%'}} />
+        </div>
+        <div className='login-main'>
+          <div className='login-form'>
+            <div className='login-title'>请登录</div>
+            <Form
+              onFinish={onFinish}
+            >
+              <Form.Item
+                name='email'
+                rules={[
+                  { required: true, message: '请输入邮箱' },
+                  { pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '请输入正确格式的邮箱' }
+                ]}
+              >
+                <Input
+                  prefix={<Icon.UserOutlined />}
+                  placeholder='邮箱'
+                  autoComplete='off'
+                />
+              </Form.Item>
+              <Form.Item
+                name='password'
+                rules={[
+                  { required: true, message: '请输入密码' },
+                  { min: 8, max: 16, message: '密码长度必须为8-16位' }
+                ]}
+              >
+                <Input
+                  prefix={<Icon.LockOutlined />}
+                  type='password'
+                  placeholder='密码'
+                  autoComplete='off'
+                />
+              </Form.Item>
+              <Form.Item>
+                <Button type='primary' htmlType='submit' block>
+                  登录
+                </Button>
+              </Form.Item>
+            </Form>
+            <div className='register'>
+              <a>忘记密码</a>
+              <span className='line'></span>
+              <a>立即注册</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
   )
 }
 

@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Menu, Avatar, Dropdown } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import * as Icon from '@ant-design/icons'
+import { Menu, Avatar, Dropdown, Modal, notification } from 'antd'
 import { Container } from './index.style'
 
 type Props = {
@@ -10,14 +11,24 @@ type Props = {
 
 const FrameHeader: React.FC<Props> = props => {
 
+  const navigate = useNavigate()
+
   const handleHeaderMenuClick = React.useCallback(({ key }) => {
-    switch (key) {
-      case 'logout':
-        console.log('logout')
-        break
-      default:
-        console.log('other')
-        break
+    if (key === 'logout') {
+      Modal.confirm({
+        title: '提示',
+        icon: <Icon.ExclamationCircleOutlined />,
+        content: '确认退出登录吗？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          notification.success({ message: '退出登录成功' })
+          localStorage.removeItem('token')
+          navigate('/login')
+        }
+      })
+    } else {
+      navigate('/setting/profile')
     }
   }, [])
 

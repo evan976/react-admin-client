@@ -22,7 +22,7 @@ const FrameSider: React.FC<Props> = props => {
       </div>
       <div className='user-info'>
         <div className='avatar'>
-          <Avatar size={52} src='https://admin.evanone.site/img/avatar.adf3a350.png' />
+          <Avatar size={52} src='' />
         </div>
         {
           !props.collapsed && (
