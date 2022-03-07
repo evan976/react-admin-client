@@ -1,5 +1,11 @@
 import * as React from 'react'
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet
+} from 'react-router-dom'
 import { rc, RouteKey } from '@/routes'
 import FrameLayout from '@/layouts'
 import DashboardPage from '@/pages/Dashboard'
