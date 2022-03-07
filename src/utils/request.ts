@@ -1,3 +1,4 @@
+import { notification } from 'antd'
 import axios from 'axios'
 
 export interface RequestParams {
@@ -32,10 +33,14 @@ request.interceptors.response.use(
     return Promise.resolve(response.data)
   },
   error => {
-    if (error.response.status === 401) {
+    if (error.response.data.status === 401) {
       localStorage.removeItem('token')
     }
-    return Promise.reject(error.response?.data?.message)
+    notification.error({
+      message: 'Error',
+      description: error.response.data.message
+    })
+    return Promise.reject(error.response.data)
   }
 )
 
