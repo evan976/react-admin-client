@@ -1,4 +1,4 @@
 FROM nginx
-COPY dist/ /usr/share/nginx/html/
-  COPY host.nginx.conf /etc/nginx/conf.d/react-admin-client.conf
+COPY ./dist/ /usr/share/nginx/html/
+  COPY ./default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
