@@ -5,7 +5,7 @@ import * as mainApi from '@/api'
 import { Container } from './login.style'
 import bg from '@/assets/images/login-bg.png'
 import { RequestParams } from '@/utils/request'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LoginPage: React.FC = () => {
 
@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
                 ]}
               >
                 <Input
-                  prefix={<Icon.UserOutlined />}
+                  prefix={<Icon.MailOutlined />}
                   placeholder='邮箱'
                   autoComplete='off'
                 />
@@ -66,7 +66,7 @@ const LoginPage: React.FC = () => {
             <div className='register'>
               <a>忘记密码</a>
               <span className='line'></span>
-              <a>立即注册</a>
+              <Link to={'/register'}>立即注册</Link>
             </div>
           </div>
         </div>

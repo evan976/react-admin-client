@@ -8,7 +8,7 @@ import * as mainApi from '@/api'
 import { Article, ArticleList } from '@/types/article'
 import { RequestParams } from '@/utils/request'
 import SearchForm from './SearchForm'
-import { os, ps } from '@/enums'
+import { os, ps, ws } from '@/enums'
 import { dateFormat } from '@/utils/dateFormat'
 
 interface Result {
@@ -71,11 +71,7 @@ const ArticleList: React.FC = () => {
       dataIndex: 'state',
       render(_, article) {
         const _state = ps(article.state as number)
-        return (
-          <Space direction='vertical'>
-            <Badge color={_state.color} text={_state.name} />
-          </Space>
-        )
+        return <Badge color={_state.color} text={_state.name} />
       }
     },
     {
@@ -83,11 +79,15 @@ const ArticleList: React.FC = () => {
       dataIndex: 'origin',
       render(_, article) {
         const _origin = os(article.origin as number)
-        return (
-          <Space direction='vertical'>
-            <Tag color={_origin.color}>{_origin.name}</Tag>
-          </Space>
-        )
+        return <Tag color={_origin.color}>{_origin.name}</Tag>
+      }
+    },
+    {
+      title: '权重',
+      dataIndex: 'weight',
+      render(_, article) {
+        const _weight = ws(article.weight as number)
+        return <Tag color={_weight.color}>{_weight.name}</Tag>
       }
     },
     {

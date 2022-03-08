@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Button, Col, Form, FormInstance, Input, Row, Select } from 'antd'
 import * as Icon from '@ant-design/icons'
-import { OriginStates, publishStates } from '@/enums'
+import { originStates, publishStates } from '@/enums'
 
 type Props = {
   form: FormInstance<any>
@@ -39,7 +39,7 @@ const SearchForm: React.FC<Props> = props => {
             <Form.Item name='origin'>
               <Select onChange={props.submit} placeholder='文章来源查询'>
                 {
-                  OriginStates.map(item => (
+                  originStates.map(item => (
                     <Select.Option value={item.value} key={item.name}>
                       {item.name}
                     </Select.Option>
