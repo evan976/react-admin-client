@@ -96,8 +96,14 @@ const ArticleList: React.FC = () => {
       render(_, article) {
         return (
           <Space direction='vertical'>
-            <span>浏览数量：{article.meta?.views}</span>
-            <span>评论数量：{article.meta?.comments}</span>
+            <Space>
+              <span>浏览</span>
+              <Tag color='magenta'>{article.meta?.views}</Tag>
+            </Space>
+            <Space>
+              <span>评论</span>
+              <Tag color='cyan'>{article.meta?.comments}</Tag>
+            </Space>
           </Space>
         )
       }
@@ -108,8 +114,8 @@ const ArticleList: React.FC = () => {
       render(_, article) {
         return (
           <Space direction='vertical'>
-            <span>最新发布时间：{dateFormat(article.created_at)}</span>
-            <span>最后修改时间：{dateFormat(article.updated_at)}</span>
+            <span>发布时间: {dateFormat(article.created_at)}</span>
+            <span>更新时间: {dateFormat(article.updated_at)}</span>
           </Space>
         )
       },
@@ -128,7 +134,7 @@ const ArticleList: React.FC = () => {
   ]
 
   return (
-    <div>
+    <>
       <SearchForm form={form} submit={submit} reset={reset}  />
       <Space size={20} style={{marginBottom: 16}}>
         <Button
@@ -152,7 +158,7 @@ const ArticleList: React.FC = () => {
         }}
         {...tableProps}
       />
-    </div>
+    </>
   )
 }
 

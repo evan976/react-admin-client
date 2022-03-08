@@ -1,3 +1,4 @@
+import { BaseType } from '@/types'
 import type { Categorize } from './categorize'
 
 export type Meta = {
@@ -5,8 +6,7 @@ export type Meta = {
   comments?: number
 }
 
-export type Article = {
-  _id?: string
+export type Article = BaseType & {
   title?: string
   description?: string
   keywrods?: Array<string>
@@ -18,8 +18,6 @@ export type Article = {
   category?: Categorize
   tags?: Categorize[]
   meta?: Meta
-  created_at?: Date
-  updated_at?: Date
 }
 
 export type ArticleList = {
@@ -28,5 +26,4 @@ export type ArticleList = {
   page: number
   pageSize: number
   totalPage: number
-
 }
