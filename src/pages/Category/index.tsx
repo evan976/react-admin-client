@@ -8,7 +8,7 @@ import { Categorize } from '@/types/categorize'
 import { RequestParams } from '@/utils/request'
 import { TableResult } from '@/types'
 import { dateFormat } from '@/utils/dateFormat'
-import EditModal from './EditModal'
+import BaseEditForm from '@/components/BaseEditForm'
 
 const getTableData = async ({}, formData: RequestParams): Promise<TableResult<Categorize>> => {
   const res = await mainApi.category.getCategoryList(formData)
@@ -141,8 +141,7 @@ const Category: React.FC = () => {
           }
         }}
       />
-      <EditModal
-        form={form}
+      <Modal
         title={
           type === 'create'
             ? '新建分类'
@@ -154,7 +153,12 @@ const Category: React.FC = () => {
           setVisible(false)
           setType('create')
         }}
-      />
+        afterClose={() => form.resetFields()}
+        okText='确认'
+        cancelText='取消'
+      >
+        <BaseEditForm form={form} toolbar={false} />
+      </Modal>
     </>
   )
 }

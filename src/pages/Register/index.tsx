@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useTimeout } from 'ahooks'
 import { Button, Form, Input, notification } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { RequestParams } from '@/utils/request'
@@ -14,9 +13,7 @@ const Register: React.FC = () => {
   const onFinish = async (values: RequestParams) => {
     await mainApi.user.register(values)
     notification.success({ message: '注册成功' })
-    useTimeout(() => {
-      navigate('/login')
-    }, 3000)
+    navigate('/login')
   }
 
   return (

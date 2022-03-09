@@ -17,19 +17,6 @@ export type ResBaseList<T> = {
   message: string
   data: BaseList<T>
 }
-
-export type UserInfo = {
-  name?: string
-  email?: string
-  role?: string
-  avatar_url?: string
-  blog?: string
-} & BaseType
-
-export type Token = {
-  token: string
-}
-
 export interface TableResult<T> {
   total: number
   list: T[]

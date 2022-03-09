@@ -1,4 +1,4 @@
-import type { UserInfo, Token } from '@/types'
+import type { UserInfo, Token } from '@/types/user'
 import request, { RequestParams, Response } from '@/utils/request'
 
 export const user = {
