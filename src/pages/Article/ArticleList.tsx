@@ -5,7 +5,7 @@ import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
-import { Article, ArticleList } from '@/types/article'
+import { Article } from '@/types/article'
 import { RequestParams } from '@/utils/request'
 import SearchForm from './SearchForm'
 import { os, ps, ws } from '@/enums'
@@ -18,14 +18,13 @@ interface Result {
 
 const getTableData = async ({}, formData: RequestParams): Promise<Result> => {
   const res = await mainApi.article.getArticleList(formData)
-  return ({
+  return {
     total: res.data?.total as number,
     list: res.data?.data as Article[]
-  })
+  }
 }
 
 const ArticleList: React.FC = () => {
-
   const navigate = useNavigate()
   const [form] = Form.useForm()
 
@@ -45,20 +44,20 @@ const ArticleList: React.FC = () => {
     },
     {
       title: '归类',
-      dataIndex: 'updated_at',
+      dataIndex: 'summary',
       render(_, article) {
         return (
-          <Space direction='vertical'>
+          <Space direction="vertical">
             {
-              <Space size='small'>
-              <Icon.FolderOpenOutlined />
-              {article?.category?.name}
-            </Space>
+              <Space size="small">
+                <Icon.FolderOpenOutlined />
+                {article?.category?.name}
+              </Space>
             }
-            <Space size='small' wrap={true}>
+            <Space size="small" wrap={true}>
               {article?.tags?.map((tag) => (
-                <Tag icon={<Icon.TagOutlined />} key={tag._id}>
-                  {tag.name}
+                <Tag color={tag.color} icon={<Icon.TagOutlined />} key={tag.id}>
+                  {tag.label}
                 </Tag>
               ))}
             </Space>
@@ -68,9 +67,9 @@ const ArticleList: React.FC = () => {
     },
     {
       title: '状态',
-      dataIndex: 'state',
+      dataIndex: 'status',
       render(_, article) {
-        const _state = ps(article.state as number)
+        const _state = ps(article.status as number)
         return <Badge color={_state.color} text={_state.name} />
       }
     },
@@ -92,17 +91,21 @@ const ArticleList: React.FC = () => {
     },
     {
       title: '关注',
-      dataIndex: 'meta',
+      dataIndex: 'likes',
       render(_, article) {
         return (
-          <Space direction='vertical'>
+          <Space direction="vertical">
             <Space>
               <span>浏览</span>
-              <Tag color='magenta'>{article.meta?.views}</Tag>
+              <Tag color="magenta">{article.views}</Tag>
             </Space>
             <Space>
               <span>评论</span>
-              <Tag color='cyan'>{article.meta?.comments}</Tag>
+              <Tag color="cyan">{article.comments}</Tag>
+            </Space>
+            <Space>
+              <span>喜欢</span>
+              <Tag color="error">{article.likes}</Tag>
             </Space>
           </Space>
         )
@@ -110,23 +113,25 @@ const ArticleList: React.FC = () => {
     },
     {
       title: '时间',
-      dataIndex: 'created_at',
+      dataIndex: 'createdAt',
       render(_, article) {
         return (
-          <Space direction='vertical'>
-            <span>发布时间: {dateFormat(article.created_at)}</span>
-            <span>更新时间: {dateFormat(article.updated_at)}</span>
+          <Space direction="vertical">
+            <span>发布时间: {dateFormat(article.createdAt)}</span>
+            <span>更新时间: {dateFormat(article.updatedAt)}</span>
           </Space>
         )
-      },
+      }
     },
     {
       title: '操作',
       render(_, article) {
         return (
           <Space size={0}>
-            <Button type='link'>编辑</Button>
-            <Button type='link' danger>删除</Button>
+            <Button type="link">编辑</Button>
+            <Button type="link" danger>
+              删除
+            </Button>
           </Space>
         )
       }
@@ -135,22 +140,22 @@ const ArticleList: React.FC = () => {
 
   return (
     <>
-      <SearchForm form={form} submit={submit} reset={reset}  />
-      <Space size={20} style={{marginBottom: 16}}>
+      <SearchForm form={form} submit={submit} reset={reset} />
+      <Space size={20} style={{ marginBottom: 16 }}>
         <Button
-          type='primary'
+          type="primary"
           icon={<Icon.PlusOutlined />}
           onClick={() => navigate('/article/create')}
-        >发表文章</Button>
-        <Button
-          danger
-          icon={<Icon.DeleteOutlined />}
-          disabled={!selectedRowKeys.length}
-        >批量删除</Button>
+        >
+          发表文章
+        </Button>
+        <Button danger icon={<Icon.DeleteOutlined />} disabled={!selectedRowKeys.length}>
+          批量删除
+        </Button>
       </Space>
       <Table
         columns={columns}
-        rowKey='_id'
+        rowKey="id"
         rowSelection={{
           onChange: (selectedRowKeys: React.Key[]) => {
             setSelectedRowKeys(selectedRowKeys)

@@ -2,13 +2,13 @@ import type { UserInfo, Token } from '@/types/user'
 import request, { RequestParams, Response } from '@/utils/request'
 
 export const user = {
-  login (params: RequestParams): Promise<Response<Token>> {
-    return request.post('/users/login', params)
+  login(params: RequestParams): Promise<Response<Token>> {
+    return request.post('/auth/login', params)
   },
-  register (params: RequestParams): Promise<Response> {
+  register(params: RequestParams): Promise<Response> {
     return request.post('/users/register', params)
   },
-  getUserInfo (): Promise<Response<UserInfo>> {
+  getUserInfo(): Promise<Response<UserInfo>> {
     return request.get('/users')
   }
 }

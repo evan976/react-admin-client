@@ -23,4 +23,9 @@ export const GlobalStyle = createGlobalStyle`
   .ant-menu-sub.ant-menu-inline {
     background: #ffffff;
   }
+
+  .upload > .ant-upload {
+    width: 100%;
+    height: 128px;
+  }
 `

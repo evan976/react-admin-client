@@ -1,20 +1,20 @@
-import { Categorize } from '@/types/categorize'
+import { Category } from '@/types/category'
 import request, { RequestParams, Response } from '@/utils/request'
 
 export const tag = {
-  getTagList (query: RequestParams): Promise<Response<Categorize[]>> {
+  getTagList(query: RequestParams): Promise<Response<Category[]>> {
     return request.get('/tags', { params: query })
   },
-  getTagDetail (id: string): Promise<Response<Categorize>> {
+  getTagDetail(id: string): Promise<Response<Category>> {
     return request.get(`/tags/${id}`)
   },
-  createTag (body: Categorize): Promise<Response<Categorize>> {
+  createTag(body: Category): Promise<Response<Category>> {
     return request.post('/tags', body)
   },
-  updateTag (id: string, body: Categorize): Promise<Response<Categorize>> {
+  updateTag(id: string, body: Category): Promise<Response<Category>> {
     return request.put(`/tags/${id}`, body)
   },
-  removeTag (id: string): Promise<Response<void>> {
+  removeTag(id: string): Promise<Response<void>> {
     return request.delete(`/tags/${id}`)
-  }
+  },
 }

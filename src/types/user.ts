@@ -1,12 +1,11 @@
 import { BaseType } from '@/types'
 
-export type UserInfo = {
+export type UserInfo = BaseType & {
   name?: string
   email?: string
   role?: string
-  avatar_url?: string
-  blog?: string
-} & BaseType
+  avatar?: string
+}
 
 export type Token = {
   token: string

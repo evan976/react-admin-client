@@ -1,17 +1,24 @@
 export enum PublishState {
-  Published = 1,
+  Publish = 1,
   Draft = 0
 }
 
 export enum OriginState {
-  Original = 1,
-  Reprint = 0
+  Original = 0,
+  Reprint = 1,
+  Hybrid = 2
+}
+
+export enum CommentState {
+  Recycle = -1,
+  Reject = 0,
+  Pass = 1
 }
 
 export enum WeightSate {
   Large = 3,
   Medium = 2,
-  Samll = 1
+  Small = 1
 }
 
 export const publishStateMap = new Map(
@@ -22,11 +29,11 @@ export const publishStateMap = new Map(
       color: 'orange'
     },
     {
-      value: PublishState.Published,
+      value: PublishState.Publish,
       name: '已发布',
       color: 'green'
     }
-  ].map(item => [item.value, item])
+  ].map((item) => [item.value, item])
 )
 
 export const OriginStateMap = new Map(
@@ -40,28 +47,33 @@ export const OriginStateMap = new Map(
       value: OriginState.Original,
       name: '原创',
       color: 'success'
+    },
+    {
+      value: OriginState.Hybrid,
+      name: '混合',
+      color: 'warning'
     }
-  ].map(item => [item.value, item])
+  ].map((item) => [item.value, item])
 )
 
 export const WeightStateMap = new Map(
   [
     {
       value: WeightSate.Large,
-      name: '[3] 推荐',
+      name: '推荐',
       color: 'success'
     },
     {
       value: WeightSate.Medium,
-      name: '[2] 热门',
+      name: '热门',
       color: 'error'
     },
     {
-      value: WeightSate.Samll,
-      name: '[1] 无权重',
+      value: WeightSate.Small,
+      name: '无权重',
       color: 'default'
-    },
-  ].map(item => [item.value, item])
+    }
+  ].map((item) => [item.value, item])
 )
 
 export const ps = (state: PublishState) => {

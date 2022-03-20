@@ -7,14 +7,13 @@ import { getColor } from '@/utils/randomColor'
 import BaseEditForm from '@/components/BaseEditForm'
 
 const TagPage: React.FC = () => {
-
   const [form] = Form.useForm()
   const [type, setType] = useSafeState<'create' | 'edit'>('create')
 
   const { data, refresh } = useRequest(mainApi.tagService.getTagList)
 
   const handleSubmit = async () => {
-    const id = form.getFieldValue('_id')
+    const id = form.getFieldValue('id')
     const values = form.getFieldsValue()
     if (id) {
       await mainApi.tagService.updateTag(id, values)
@@ -48,14 +47,7 @@ const TagPage: React.FC = () => {
     <>
       <Row gutter={24}>
         <Col span={10}>
-          <Card
-            title={
-              type === 'create'
-                ? '新增标签'
-                : '编辑标签'
-            }
-            bordered={false}
-          >
+          <Card title={type === 'create' ? '新增标签' : '编辑标签'} bordered={false}>
             <BaseEditForm
               form={form}
               toolbar
@@ -71,21 +63,19 @@ const TagPage: React.FC = () => {
         <Col span={14}>
           <Card title={'标签列表'} bordered={false}>
             <Space size={'small'} wrap>
-              {
-                data?.data?.map(tag => (
-                  <Tag
-                    color={getColor()}
-                    key={tag._id}
-                    style={{cursor: 'pointer'}}
-                    onClick={() => {
-                      form.setFieldsValue(tag)
-                      setType('edit')
-                    }}
-                  >
-                    {tag.name}
-                  </Tag>
-                ))
-              }
+              {data?.data?.map((tag) => (
+                <Tag
+                  color={getColor()}
+                  key={tag.id}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    form.setFieldsValue(tag)
+                    setType('edit')
+                  }}
+                >
+                  {tag.label}
+                </Tag>
+              ))}
             </Space>
           </Card>
         </Col>

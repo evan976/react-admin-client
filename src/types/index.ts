@@ -1,10 +1,10 @@
 export type BaseType = {
-  _id?: string
-  created_at?: Date
-  updated_at?: Date
+  id?: string
+  createdAt?: Date
+  updatedAt?: Date
 }
 
-export type BaseList<T> = {
+export type List<T> = {
   data?: T[]
   total?: number
   page?: number
@@ -15,7 +15,7 @@ export type BaseList<T> = {
 export type ResBaseList<T> = {
   code: number
   message: string
-  data: BaseList<T>
+  data: List<T>
 }
 export interface TableResult<T> {
   total: number
