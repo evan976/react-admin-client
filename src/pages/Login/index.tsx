@@ -4,14 +4,14 @@ import * as Icon from '@ant-design/icons'
 import * as mainApi from '@/api'
 import { Container } from './login.style'
 import bg from '@/assets/images/login-bg.png'
-import { RequestParams } from '@/utils/request'
 import { Link, useNavigate } from 'react-router-dom'
+import { LoginDTO } from '@/api/user'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
 
-  const onFinish = async (values: RequestParams) => {
-    const result = await mainApi.user.login(values)
+  const onFinish = async (values: LoginDTO) => {
+    const result = await mainApi.userService.login(values)
     localStorage.setItem('token', result.data?.token as string)
     notification.success({ message: '登录成功' })
     navigate('/')

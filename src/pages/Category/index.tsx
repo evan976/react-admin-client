@@ -11,7 +11,7 @@ import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
 
 const getTableData = async ({}, formData: RequestParams): Promise<TableResult<Category>> => {
-  const res = await mainApi.category.getCategoryList(formData)
+  const res = await mainApi.categoryService.findAll(formData)
   return {
     total: res.data?.total as number,
     list: res.data?.data as Category[]
@@ -23,6 +23,7 @@ const Category: React.FC = () => {
   const [type, setType] = useSafeState<'create' | 'edit'>('create')
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
+  const [background, setBackground] = useSafeState<string>('')
 
   const { tableProps, refresh } = useAntdTable(getTableData)
 
@@ -94,12 +95,12 @@ const Category: React.FC = () => {
 
   const handleSubmit = async () => {
     const id = form.getFieldValue('id')
-    const values = form.getFieldsValue()
+    const values = { ...form.getFieldsValue(), background }
     if (id) {
-      await mainApi.category.updateCategory(id, values)
+      await mainApi.categoryService.update(id, values)
       notification.success({ message: '修改分类成功' })
     } else {
-      await mainApi.category.createCategory(values)
+      await mainApi.categoryService.create(values)
       notification.success({ message: '新增分类成功' })
     }
     setVisible(false)
@@ -108,19 +109,24 @@ const Category: React.FC = () => {
 
   const fetchCategoryDetail = async (id: string) => {
     setVisible(true)
-    const result = await mainApi.category.getCategoryDetail(id)
+    const result = await mainApi.categoryService.findOne(id)
     form.setFieldsValue(result.data as Category)
+    setBackground(result.data.background)
     setType('edit')
   }
 
-  const removeCategory = (id: string) => {
-    console.log(id)
+  const removeCategory = async (id: string) => {
+    await mainApi.categoryService.remove(id)
   }
 
   return (
     <>
       <Space size={20} style={{ marginBottom: 16 }}>
-        <Button type="primary" icon={<Icon.PlusOutlined />} onClick={() => setVisible(true)}>
+        <Button type="primary" icon={<Icon.PlusOutlined />} onClick={() => {
+          setVisible(true)
+          form.resetFields()
+          setBackground('')
+        }}>
           创建分类
         </Button>
         <Button danger icon={<Icon.DeleteOutlined />} disabled={!selectedRowKeys.length}>
@@ -149,7 +155,11 @@ const Category: React.FC = () => {
         okText="确认"
         cancelText="取消"
       >
-        <EditModal form={form} />
+        <EditModal
+          value={background}
+          setValue={(v) => setBackground(v)}
+          form={form}
+        />
       </Modal>
     </>
   )

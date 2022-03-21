@@ -1,8 +1,21 @@
-import type { ArticleList } from '@/types/article'
-import request, { RequestParams, Response } from '@/utils/request'
+import request from '@/service'
+import { List } from '@/types'
+import { Article } from '@/types/article'
+import { Methods, PathEnum, QueryParams } from './types'
 
-export const article = {
-  getArticleList(query: RequestParams): Promise<Response<ArticleList>> {
-    return request.get('/posts', { params: query })
+
+class ArticleService {
+
+  findAll(data: QueryParams) {
+    return request<QueryParams, List<Article>>({
+      url: PathEnum.Post,
+      method: Methods.GET,
+      data,
+      interceptors: {
+        responseInterceptor: (res) => res
+      }
+    })
   }
 }
+
+export default new ArticleService()

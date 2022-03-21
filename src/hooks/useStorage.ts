@@ -1,11 +1,8 @@
 import * as React from 'react'
 
-export type Response<T> = [
-  T,
-  React.Dispatch<React.SetStateAction<T>>
-]
+export type Response<T> = [T, React.Dispatch<React.SetStateAction<T>>]
 
-function useStorage<T> (key: string, initialValue: any): Response<T> {
+function useStorage<T>(key: string, initialValue: any): Response<T> {
   const [state, setState] = React.useState(() => {
     const storageValue = localStorage.getItem(key)
     if (storageValue) {

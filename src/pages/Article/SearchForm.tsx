@@ -23,7 +23,7 @@ const SearchForm: React.FC<Props> = props => {
             </Form.Item>
           </Col>
           <Col span={4}>
-            <Form.Item name='state'>
+            <Form.Item name='status'>
               <Select onChange={props.submit} placeholder='文章状态查询'>
                 {
                   publishStates.map(item => (

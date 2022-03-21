@@ -4,11 +4,14 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 type Props = {
   form: FormInstance<any>
+  value: string
+  setValue: (value: string) => void
 }
 
 const EditForm: React.FC<Props> = (props) => {
-  const [imageUrl, setImageUrl] = React.useState<string>('')
   const [loading, setLoading] = React.useState<boolean>(false)
+
+  const token = localStorage.getItem('token')
 
   const uploadButton = (
     <div>
@@ -24,12 +27,14 @@ const EditForm: React.FC<Props> = (props) => {
     }
     if (info.file.status === 'error') {
       setLoading(false)
+      console.log(info.file)
       notification.error({ message: '上传失败' })
       return
     }
     if (info.file.status === 'done') {
-      console.log(info.file)
+      props.setValue(info.file.response.data.url)
       setLoading(false)
+      notification.success({ message: '上传成功' })
     }
   }
 
@@ -44,21 +49,24 @@ const EditForm: React.FC<Props> = (props) => {
       <Form.Item name="description" label="描述">
         <Input.TextArea rows={2} placeholder="描述" />
       </Form.Item>
-      <Form.Item label="图标">
+      <Form.Item name="icon" label="图标">
         <Input placeholder="图标" autoComplete="off" />
       </Form.Item>
       <Form.Item label="背景图">
         <Upload
-          name="avatar"
+          name="file"
           listType="picture-card"
           className="upload"
           showUploadList={false}
+          headers={{
+            authorization: `Bearer ${token}`
+          }}
           action={`${import.meta.env.VITE_API_URL}/config/upload`}
           onChange={handleChange}
           style={{}}
         >
-          {imageUrl ? (
-            <img src={imageUrl} alt="avatar" style={{ width: '100%', height: '100%' }} />
+          {props.value ? (
+            <img src={props.value} alt="avatar" style={{ width: '100%', height: '100%' }} />
           ) : (
             uploadButton
           )}
@@ -66,8 +74,8 @@ const EditForm: React.FC<Props> = (props) => {
         <Input
           placeholder="或直接输入图片地址"
           autoComplete="off"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          value={props.value}
+          onChange={(e) => props.setValue(e.target.value)}
         />
       </Form.Item>
     </Form>

@@ -17,7 +17,7 @@ interface Result {
 }
 
 const getTableData = async ({}, formData: RequestParams): Promise<Result> => {
-  const res = await mainApi.article.getArticleList(formData)
+  const res = await mainApi.articleService.findAll(formData)
   return {
     total: res.data?.total as number,
     list: res.data?.data as Article[]

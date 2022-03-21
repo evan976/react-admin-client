@@ -35,6 +35,7 @@ request.interceptors.response.use(
   error => {
     if (error.response.data.status === 401) {
       localStorage.removeItem('token')
+      window.location.reload()
     }
     notification.error({
       message: 'Error',

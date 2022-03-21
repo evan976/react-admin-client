@@ -1,11 +1,11 @@
-import { user } from './user'
-import { article } from './article'
-import { category } from './category'
+import userService from './user'
+import articleService from './article'
+import categoryService from './category'
 import { tag as tagService } from './tag'
 
 export {
-  user,
-  article,
-  category,
+  userService,
+  articleService,
+  categoryService,
   tagService
 }
