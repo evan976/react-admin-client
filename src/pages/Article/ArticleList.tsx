@@ -6,17 +6,17 @@ import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
 import { Article } from '@/types/article'
-import { RequestParams } from '@/utils/request'
 import SearchForm from './SearchForm'
 import { os, ps, ws } from '@/enums'
 import { dateFormat } from '@/utils/dateFormat'
+import { QueryParams } from '@/api/types'
 
 interface Result {
   total: number
   list: Article[]
 }
 
-const getTableData = async ({}, formData: RequestParams): Promise<Result> => {
+const getTableData = async ({}, formData: QueryParams): Promise<Result> => {
   const res = await mainApi.articleService.findAll(formData)
   return {
     total: res.data?.total as number,

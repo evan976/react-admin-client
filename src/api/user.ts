@@ -1,7 +1,8 @@
 import request from '@/service'
+import { List } from '@/types'
 import { Token, UserInfo } from '@/types/user'
 import { AxiosRequestConfig } from 'axios'
-import { Methods, PathEnum } from './types'
+import { Methods, PathEnum, QueryParams } from './types'
 
 export interface LoginDTO {
   name: string
@@ -9,7 +10,6 @@ export interface LoginDTO {
 }
 
 class UserService {
-
   private token: string | null
   constructor() {
     this.token = localStorage.getItem('token')
@@ -34,7 +34,18 @@ class UserService {
     })
   }
 
-  getUserInfo() {
+  findAll(data: QueryParams) {
+    return request<QueryParams, List<UserInfo>>({
+      url: PathEnum.User,
+      method: Methods.GET,
+      data,
+      interceptors: {
+        responseInterceptor: (res) => res
+      }
+    })
+  }
+
+  findOne() {
     return request<any, UserInfo>({
       url: PathEnum.User,
       method: Methods.GET,

@@ -9,32 +9,31 @@ type Props = {
   collapsed: boolean
 }
 
-const FrameSider: React.FC<Props> = props => {
-
+const FrameSider: React.FC<Props> = (props) => {
   const navigate = useNavigate()
   const location = useLocation()
 
   return (
     <Container>
-      <div className='logo'>
-        <SvgIcon symbolId='logo' width='32px' height='32px' />
-        {!props.collapsed && <span className='logo-title'>ADMIN SYSTEM</span>}
+      <div className="logo">
+        <SvgIcon symbolId="logo" width="32px" height="32px" />
+        {!props.collapsed && <span className="logo-title">ADMIN SYSTEM</span>}
       </div>
-      <div className='user-info'>
-        <div className='avatar'>
-          <Avatar size={52} src='' />
+      <div className="user-info">
+        <div className="avatar">
+          <Avatar size={52} src="" />
         </div>
-        {
-          !props.collapsed && (
-            <div className='info' style={{marginLeft: 10}}>
-              <div className='name' style={{fontSize: 16, fontWeight: 600}}>Evan</div>
-              <div>成都 @ undefined</div>
+        {!props.collapsed && (
+          <div className="info" style={{ marginLeft: 10 }}>
+            <div className="name" style={{ fontSize: 16, fontWeight: 600 }}>
+              Evan
             </div>
-          )
-        }
+            <div>成都 @ undefined</div>
+          </div>
+        )}
       </div>
       <Menu
-        mode='inline'
+        mode="inline"
         defaultSelectedKeys={[rc(RouteKey.Dashboard).path]}
         onClick={(e) => navigate(e.key)}
         selectedKeys={[location.pathname]}
@@ -47,9 +46,7 @@ const FrameSider: React.FC<Props> = props => {
           icon={rc(RouteKey.Article).icon}
           title={rc(RouteKey.Article).name}
         >
-          <Menu.Item key={rc(RouteKey.ArticleList).path}>
-            {rc(RouteKey.ArticleList).name}
-          </Menu.Item>
+          <Menu.Item key={rc(RouteKey.ArticleList).path}>{rc(RouteKey.ArticleList).name}</Menu.Item>
           <Menu.Item key={rc(RouteKey.ArticleCreate).path}>
             {rc(RouteKey.ArticleCreate).name}
           </Menu.Item>
@@ -71,12 +68,8 @@ const FrameSider: React.FC<Props> = props => {
           icon={rc(RouteKey.Setting).icon}
           title={rc(RouteKey.Setting).name}
         >
-          <Menu.Item key={rc(RouteKey.Profile).path}>
-            {rc(RouteKey.Profile).name}
-          </Menu.Item>
-          <Menu.Item key={rc(RouteKey.SiteOption).path}>
-            {rc(RouteKey.SiteOption).name}
-          </Menu.Item>
+          <Menu.Item key={rc(RouteKey.Profile).path}>{rc(RouteKey.Profile).name}</Menu.Item>
+          <Menu.Item key={rc(RouteKey.SiteOption).path}>{rc(RouteKey.SiteOption).name}</Menu.Item>
         </Menu.SubMenu>
       </Menu>
     </Container>

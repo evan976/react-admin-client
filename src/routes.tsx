@@ -10,6 +10,7 @@ export enum RouteKey {
   Tag,
   Comment,
   Advertisement,
+  User,
   Article,
   ArticleList,
   ArticleCreate,
@@ -69,6 +70,12 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
       icon: <Icon.PictureOutlined />
     },
     {
+      key: RouteKey.User,
+      name: '用户管理',
+      path: '/user',
+      icon: <Icon.UserOutlined />
+    },
+    {
       key: RouteKey.Article,
       name: '文章管理',
       path: '/article',
@@ -91,7 +98,7 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
       name: '编辑文章',
       path: '/article/edit/:id',
       subPath: 'edit/:id',
-      pather (id: string) {
+      pather(id: string) {
         return generatePath(this.path, { id })
       }
     },
@@ -121,7 +128,7 @@ export const rc = (routeKey: RouteKey): RouteConfig => {
 }
 
 export const rcByPath = (routePath: string) => {
-  return Array.from(routeMap.values()).find(route => route.path === routePath)
+  return Array.from(routeMap.values()).find((route) => route.path === routePath)
 }
 
 export const isRoute = (routePath: string, routeKey: RouteKey) => {

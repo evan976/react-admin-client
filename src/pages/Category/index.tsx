@@ -5,12 +5,12 @@ import { useAntdTable, useSafeState } from 'ahooks'
 import { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
 import { Category } from '@/types/category'
-import { RequestParams } from '@/utils/request'
 import { TableResult } from '@/types'
 import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
+import { QueryParams } from '@/api/types'
 
-const getTableData = async ({}, formData: RequestParams): Promise<TableResult<Category>> => {
+const getTableData = async ({}, formData: QueryParams): Promise<TableResult<Category>> => {
   const res = await mainApi.categoryService.findAll(formData)
   return {
     total: res.data?.total as number,
@@ -122,11 +122,15 @@ const Category: React.FC = () => {
   return (
     <>
       <Space size={20} style={{ marginBottom: 16 }}>
-        <Button type="primary" icon={<Icon.PlusOutlined />} onClick={() => {
-          setVisible(true)
-          form.resetFields()
-          setBackground('')
-        }}>
+        <Button
+          type="primary"
+          icon={<Icon.PlusOutlined />}
+          onClick={() => {
+            setVisible(true)
+            form.resetFields()
+            setBackground('')
+          }}
+        >
           创建分类
         </Button>
         <Button danger icon={<Icon.DeleteOutlined />} disabled={!selectedRowKeys.length}>
@@ -155,11 +159,7 @@ const Category: React.FC = () => {
         okText="确认"
         cancelText="取消"
       >
-        <EditModal
-          value={background}
-          setValue={(v) => setBackground(v)}
-          form={form}
-        />
+        <EditModal value={background} setValue={(v) => setBackground(v)} form={form} />
       </Modal>
     </>
   )
