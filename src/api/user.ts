@@ -55,6 +55,18 @@ class UserService {
       }
     })
   }
+
+  updatePassword(id: string, data: QueryParams) {
+    return request<QueryParams, UserInfo>({
+      url: `${PathEnum.User}/${id}`,
+      method: Methods.PATCH,
+      data,
+      interceptors: {
+        requestInterceptor: (config) => this.setToken(config),
+        responseInterceptor: (res) => res
+      }
+    })
+  }
 }
 
 export default new UserService()
