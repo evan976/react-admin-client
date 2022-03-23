@@ -35,9 +35,7 @@ const UserList: React.FC = () => {
     {
       title: '头像',
       dataIndex: 'avatar',
-      render: (_, user) => (
-        <img src={user.avatar} alt="avatar" style={{ width: '32px', height: '32px' }} />
-      )
+      render: (_, user) => <img src={user.avatar} alt="avatar" style={{ width: '48px' }} />
     },
     {
       title: '邮箱',
