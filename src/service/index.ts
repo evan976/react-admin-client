@@ -28,7 +28,7 @@ const request = new Request({
           break
 
         case 401:
-          localStorage.removeItem('token')
+          sessionStorage.removeItem('token')
           notification.error({
             message: error.response.data.message,
           })

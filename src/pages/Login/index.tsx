@@ -3,8 +3,8 @@ import { Button, Form, Input, notification } from 'antd'
 import * as Icon from '@ant-design/icons'
 import * as mainApi from '@/api'
 import { Container } from './login.style'
-import bg from '@/assets/images/login-bg.png'
-import { Link, useNavigate } from 'react-router-dom'
+import bg from '@/assets/images/bg.png'
+import { useNavigate } from 'react-router-dom'
 import { LoginDTO } from '@/api/user'
 
 const LoginPage: React.FC = () => {
@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
 
   const onFinish = async (values: LoginDTO) => {
     const result = await mainApi.userService.login(values)
-    localStorage.setItem('token', result.data?.token as string)
+    sessionStorage.setItem('token', result.data?.token as string)
     notification.success({ message: '登录成功' })
     navigate('/')
   }
@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
             <div className="login-title">请登录</div>
             <Form onFinish={onFinish}>
               <Form.Item name="name" rules={[{ required: true, message: '请输入用户名' }]}>
-                <Input prefix={<Icon.MailOutlined />} placeholder="用户名" autoComplete="off" />
+                <Input prefix={<Icon.UserOutlined />} placeholder="用户名" autoComplete="off" />
               </Form.Item>
               <Form.Item
                 name="password"
@@ -50,11 +50,6 @@ const LoginPage: React.FC = () => {
                 </Button>
               </Form.Item>
             </Form>
-            <div className="register">
-              <a>忘记密码</a>
-              <span className="line"></span>
-              <Link to={'/register'}>立即注册</Link>
-            </div>
           </div>
         </div>
       </div>

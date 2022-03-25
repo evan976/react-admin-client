@@ -12,7 +12,7 @@ export interface LoginDTO {
 class UserService {
   private token: string | null
   constructor() {
-    this.token = localStorage.getItem('token')
+    this.token = sessionStorage.getItem('token')
   }
 
   private setToken(config: AxiosRequestConfig) {

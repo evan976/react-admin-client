@@ -8,7 +8,6 @@ import TagPage from '@/pages/Tag'
 import ArticlePage from '@/pages/Article'
 import CommentPage from '@/pages/Comment'
 import LoginPage from '@/pages/Login'
-import RegisterPage from '@/pages/Register'
 import AdvertisementPage from './pages/Advertisement'
 import UserPage from '@/pages/User'
 import SettingPage from '@/pages/Setting'
@@ -21,7 +20,6 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path={rc(RouteKey.Login).path} element={<LoginPage />} />
-          <Route path={rc(RouteKey.Register).path} element={<RegisterPage />} />
           <Route
             path="/"
             element={

@@ -6,7 +6,7 @@ import { Methods, PathEnum, QueryParams } from './types'
 class TagService {
   private token: string | null
   constructor() {
-    this.token = localStorage.getItem('token')
+    this.token = sessionStorage.getItem('token')
   }
 
   private setToken(config: AxiosRequestConfig) {

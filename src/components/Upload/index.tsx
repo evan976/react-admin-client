@@ -14,7 +14,7 @@ const CustomUpload: React.FC<Props> = (props) => {
   const [token, setToken] = useSafeState<string>('')
 
   React.useEffect(() => {
-    setToken(localStorage.getItem('token') as string)
+    setToken(sessionStorage.getItem('token') as string)
   }, [])
 
   const uploadButton = (

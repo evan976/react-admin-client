@@ -4,7 +4,6 @@ import { generatePath } from 'react-router-dom'
 
 export enum RouteKey {
   Login,
-  Register,
   Dashboard,
   Category,
   Tag,
@@ -34,10 +33,6 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
     {
       key: RouteKey.Login,
       path: '/login'
-    },
-    {
-      key: RouteKey.Register,
-      path: '/register'
     },
     {
       key: RouteKey.Dashboard,

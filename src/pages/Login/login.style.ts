@@ -47,7 +47,7 @@ export const Container = styled.div`
         font-size: 32px;
         font-weight: 400;
         text-align: center;
-        line-height: 48px;
+        line-height: 20px;
       }
 
       .register {

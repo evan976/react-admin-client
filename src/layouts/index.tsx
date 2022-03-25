@@ -11,7 +11,7 @@ const FrameLayout: React.FC = props => {
 
   const [collapsed, setCollapsed] = React.useState<boolean>(false)
 
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
 
   return !token ? <Navigate to={rc(RouteKey.Login).path} /> : (
     <Container>

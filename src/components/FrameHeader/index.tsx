@@ -23,7 +23,7 @@ const FrameHeader: React.FC<Props> = props => {
         cancelText: '取消',
         onOk: () => {
           notification.success({ message: '退出登录成功' })
-          localStorage.removeItem('token')
+          sessionStorage.removeItem('token')
           navigate('/login')
         }
       })
