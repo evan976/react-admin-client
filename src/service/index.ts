@@ -16,7 +16,14 @@ const request = new Request({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 1000 * 60 * 5,
   interceptors: {
-    requestInterceptor: (config) => config,
+    requestInterceptor: (config) => {
+      const token = sessionStorage.getItem('token')
+      if (token) {
+        config.headers = config.headers || {}
+        config.headers['Authorization'] = `Bearer ${token}`
+      }
+      return config
+    },
     responseInterceptor: (response) => response,
     responseInterceptorCatch: (error) => {
       switch (error.response.data.code) {
@@ -30,7 +37,7 @@ const request = new Request({
         case 401:
           sessionStorage.removeItem('token')
           notification.error({
-            message: error.response.data.message,
+            message: error.response.data.message
           })
           window.location.reload()
           break
