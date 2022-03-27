@@ -17,11 +17,11 @@ const request = new Request({
   timeout: 1000 * 60 * 5,
   interceptors: {
     requestInterceptor: (config) => {
-      const token = sessionStorage.getItem('token')
-      if (token) {
-        config.headers = config.headers || {}
-        config.headers['Authorization'] = `Bearer ${token}`
-      }
+      // const token = sessionStorage.getItem('token')
+      // if (token) {
+      //   config.headers = config.headers || {}
+      //   config.headers['Authorization'] = `Bearer ${token}`
+      // }
       return config
     },
     responseInterceptor: (response) => response,
