@@ -5,7 +5,7 @@ import { Editor } from '@bytemd/react'
 import gfm from '@bytemd/plugin-gfm'
 import gemoji from '@bytemd/plugin-gemoji'
 import highlight from '@bytemd/plugin-highlight-ssr'
-import zhHans from 'bytemd/lib/locales/zh_Hans.json'
+import zhHans from 'bytemd/locales/zh_Hans.json'
 import 'bytemd/dist/index.css'
 import 'highlight.js/styles/vs.css'
 import './markdown.css'
@@ -14,7 +14,7 @@ import PublishOption from './PublishOption'
 const plugins = [
   gfm(),
   gemoji(),
-  highlight()
+  highlight({})
 ]
 
 const ArticleEdit: React.FC = () => {
