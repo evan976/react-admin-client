@@ -8,7 +8,8 @@ export enum PathEnum {
   Post = '/posts',
   Category = '/categories',
   Tag = '/tags',
-  Config = '/config'
+  Config = '/config',
+  Wallpaper = '/wallpapers'
 }
 
 export enum Methods {

@@ -1,16 +1,22 @@
 import * as React from 'react'
 import { Button, Col, Form, notification, Row, Space, Table, Tag } from 'antd'
 import * as mainApi from '@/api'
-import { QueryParams } from '@/api/types'
 import { TableResult } from '@/types'
 import { UserInfo } from '@/types/user'
 import { useAntdTable, useSafeState } from 'ahooks'
 import { ColumnsType } from 'antd/lib/table'
 import { dateFormat } from '@/utils/dateFormat'
 import UpdatePasswordModal from './UpdatePasswordModal'
+import CreateUserModal from './createUserModal'
 
-const getTableData = async ({}, formData: QueryParams): Promise<TableResult<UserInfo>> => {
-  const res = await mainApi.userService.findAll(formData)
+const getTableData = async (
+  { current, pageSize }: Record<string, string | number>
+): Promise<TableResult<UserInfo>> => {
+  const query = {
+    page: current,
+    pageSize
+  }
+  const res = await mainApi.userService.findAll(query)
   return {
     total: res.data?.total as number,
     list: res.data?.data as UserInfo[]
@@ -19,9 +25,11 @@ const getTableData = async ({}, formData: QueryParams): Promise<TableResult<User
 
 const UserList: React.FC = () => {
   const [passwordForm] = Form.useForm()
+  const [userForm] = Form.useForm()
   const [id, setId] = useSafeState<string>('')
   const [showPasswordModal, setShowPasswordModal] = useSafeState<boolean>(false)
-  const { tableProps } = useAntdTable(getTableData, { defaultPageSize: 12 })
+  const [showCreateUserModal, setShowCreateUserModal] = useSafeState<boolean>(false)
+  const { tableProps, refresh } = useAntdTable(getTableData, { defaultPageSize: 12 })
 
   const columns: ColumnsType<UserInfo> = [
     {
@@ -90,14 +98,27 @@ const UserList: React.FC = () => {
     notification.success({ message: '修改密码成功' })
   }
 
+  const createUser = async () => {
+    const values = userForm.getFieldsValue()
+    await mainApi.userService.create(values)
+    setShowCreateUserModal(false)
+    notification.success({ message: '添加用户成功' })
+    refresh()
+  }
+
   return (
     <>
       <Row gutter={24} style={{ marginBottom: '16px' }}>
         <Col span={2}>
-          <Button type="primary">添加用户</Button>
+          <Button type="primary" onClick={() => setShowCreateUserModal(true)}>添加用户</Button>
         </Col>
       </Row>
       <Table rowKey="id" columns={columns} {...tableProps} />
+      <CreateUserModal
+        form={userForm}
+        visible={showCreateUserModal}
+        onOk={createUser}
+        onCancel={() => setShowCreateUserModal(false)} />
       <UpdatePasswordModal
         visible={showPasswordModal}
         form={passwordForm}

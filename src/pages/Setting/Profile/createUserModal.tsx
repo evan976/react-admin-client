@@ -10,7 +10,7 @@ type Props = {
 
 const createUserModal: React.FC<Props> = (props) => {
   const layout = {
-    labelCol: { span: 3 },
+    labelCol: { span: 4 },
     wrapperCol: { span: 24 }
   }
 
@@ -30,6 +30,9 @@ const createUserModal: React.FC<Props> = (props) => {
       <Form form={props.form} {...layout}>
         <Form.Item name="name" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
           <Input placeholder="请输入用户名" type="text" />
+        </Form.Item>
+        <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }]}>
+          <Input placeholder="请输入邮箱" type="email" />
         </Form.Item>
         <Form.Item name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}>
           <Input placeholder="请输入密码" type="password" />

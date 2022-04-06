@@ -3,6 +3,11 @@ export enum PublishState {
   Draft = 0
 }
 
+export enum OnlineState {
+  Online = 1,
+  Offline = 0
+}
+
 export enum OriginState {
   Original = 0,
   Reprint = 1,
@@ -32,6 +37,21 @@ export const publishStateMap = new Map(
       value: PublishState.Publish,
       name: '已发布',
       color: 'green'
+    }
+  ].map((item) => [item.value, item])
+)
+
+export const onlineStateMap = new Map(
+  [
+    {
+      value: OnlineState.Online,
+      name: '上线',
+      color: 'green'
+    },
+    {
+      value: OnlineState.Offline,
+      name: '下线',
+      color: 'orange'
     }
   ].map((item) => [item.value, item])
 )
@@ -80,6 +100,10 @@ export const ps = (state: PublishState) => {
   return publishStateMap.get(state)!
 }
 
+export const oos = (state: OnlineState) => {
+  return onlineStateMap.get(state)!
+}
+
 export const os = (state: OriginState) => {
   return OriginStateMap.get(state)!
 }
@@ -89,6 +113,8 @@ export const ws = (state: WeightSate) => {
 }
 
 export const publishStates = Array.from<ReturnType<typeof ps>>(publishStateMap.values())
+
+export const onlineStates = Array.from<ReturnType<typeof oos>>(onlineStateMap.values())
 
 export const originStates = Array.from<ReturnType<typeof os>>(OriginStateMap.values())
 

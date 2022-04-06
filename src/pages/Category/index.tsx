@@ -8,10 +8,15 @@ import { Category } from '@/types/category'
 import { TableResult } from '@/types'
 import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
-import { QueryParams } from '@/api/types'
 
-const getTableData = async ({}, formData: QueryParams): Promise<TableResult<Category>> => {
-  const res = await mainApi.categoryService.findAll(formData)
+const getTableData = async (
+  { current, pageSize }: Record<string, string | number>
+): Promise<TableResult<Category>> => {
+  const query = {
+    page: current,
+    pageSize
+  }
+  const res = await mainApi.categoryService.findAll(query)
   return {
     total: res.data?.total as number,
     list: res.data?.data as Category[]
@@ -80,8 +85,6 @@ const Category: React.FC = () => {
                 centered: true,
                 onOk: () => {
                   removeCategory(category.id!)
-                  notification.success({ message: '删除分类成功' })
-                  refresh()
                 }
               })
             }}
@@ -117,6 +120,8 @@ const Category: React.FC = () => {
 
   const removeCategory = async (id: string) => {
     await mainApi.categoryService.remove(id)
+    notification.success({ message: '删除分类成功' })
+    refresh()
   }
 
   return (
@@ -133,7 +138,11 @@ const Category: React.FC = () => {
         >
           创建分类
         </Button>
-        <Button danger icon={<Icon.DeleteOutlined />} disabled={!selectedRowKeys.length}>
+        <Button
+          danger
+          icon={<Icon.DeleteOutlined />}
+          disabled={!selectedRowKeys.length}
+        >
           批量删除
         </Button>
       </Space>
@@ -159,7 +168,11 @@ const Category: React.FC = () => {
         okText="确认"
         cancelText="取消"
       >
-        <EditModal value={background} setValue={(v) => setBackground(v)} form={form} />
+        <EditModal
+          form={form}
+          value={background}
+          setValue={(v) => setBackground(v)}
+        />
       </Modal>
     </>
   )

@@ -9,15 +9,16 @@ import { Article } from '@/types/article'
 import SearchForm from './SearchForm'
 import { os, ps, ws } from '@/enums'
 import { dateFormat } from '@/utils/dateFormat'
-import { QueryParams } from '@/api/types'
+import { TableResult } from '@/types'
 
-interface Result {
-  total: number
-  list: Article[]
-}
-
-const getTableData = async ({}, formData: QueryParams): Promise<Result> => {
-  const res = await mainApi.articleService.findAll(formData)
+const getTableData = async (
+  { current, pageSize }: Record<string, string | number>
+): Promise<TableResult<Article>> => {
+  const query = {
+    page: current,
+    pageSize
+  }
+  const res = await mainApi.articleService.findAll(query)
   return {
     total: res.data?.total as number,
     list: res.data?.data as Article[]

@@ -9,6 +9,12 @@ export interface LoginDTO {
   password: string
 }
 
+export interface RegisterDTO {
+  name: string
+  email: string
+  password: string
+}
+
 class UserService {
   private token: string | null
   constructor() {
@@ -28,6 +34,17 @@ class UserService {
       url: PathEnum.Login,
       data,
       method: Methods.POST,
+      interceptors: {
+        responseInterceptor: (res) => res
+      }
+    })
+  }
+
+  create(data: RegisterDTO) {
+    return request<RegisterDTO, any>({
+      url: PathEnum.User,
+      method: 'POST',
+      data,
       interceptors: {
         responseInterceptor: (res) => res
       }
