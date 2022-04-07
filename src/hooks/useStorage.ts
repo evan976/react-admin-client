@@ -4,7 +4,7 @@ export type Response<T> = [T, React.Dispatch<React.SetStateAction<T>>]
 
 function useStorage<T>(key: string, initialValue: any): Response<T> {
   const [state, setState] = React.useState(() => {
-    const storageValue = localStorage.getItem(key)
+    const storageValue = sessionStorage.getItem(key)
     if (storageValue) {
       return JSON.parse(storageValue)
     } else {
@@ -13,7 +13,7 @@ function useStorage<T>(key: string, initialValue: any): Response<T> {
   })
 
   React.useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state))
+    sessionStorage.setItem(key, JSON.stringify(state))
   }, [key, state])
 
   return [state, setState]

@@ -3,26 +3,13 @@ import { useAntdTable, useSafeState } from 'ahooks'
 import { Button, Form, Modal, notification, Space, Table, Tag, Typography } from 'antd'
 import * as Icon from '@ant-design/icons'
 import * as mainApi from '@/api'
-import { Wallpaper } from '@/types/wallpaper'
-import { TableResult } from '@/types'
-import { ColumnsType } from 'antd/lib/table'
+import type { Wallpaper } from '@/types/wallpaper'
+import type { ColumnsType } from 'antd/lib/table'
 import { dateFormat } from '@/utils/dateFormat'
+import useTableData from '@/hooks/useTableData'
+import { wallpaperService } from '@/api'
 import { oos, ws } from '@/enums'
 import EditModal from './EditModal'
-
-const getTableData = async (
-  { current, pageSize }: Record<string, string | number>
-): Promise<TableResult<Wallpaper>> => {
-  const query = {
-    page: current,
-    pageSize
-  }
-  const res = await mainApi.wallpaperService.findAll(query)
-  return {
-    total: res.data?.total as number,
-    list: res.data?.data as Wallpaper[]
-  }
-}
 
 const AdvertisementPage: React.FC = () => {
 
@@ -31,6 +18,7 @@ const AdvertisementPage: React.FC = () => {
   const [url, setUrl] = useSafeState<string>('')
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
+  const [getTableData] = useTableData<Wallpaper>(wallpaperService)
 
   const { tableProps, refresh } = useAntdTable(getTableData)
 

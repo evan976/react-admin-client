@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import * as Icon from '@ant-design/icons'
 import { Menu, Avatar, Dropdown, Modal, notification } from 'antd'
 import { Container } from './index.style'
+import { useSessionStorageState } from 'ahooks'
+import { UserInfo } from '@/types/user'
 
 type Props = {
   collapsed: boolean
@@ -12,6 +14,8 @@ type Props = {
 const FrameHeader: React.FC<Props> = props => {
 
   const navigate = useNavigate()
+
+  const [user] = useSessionStorageState<UserInfo>('user')
 
   const handleHeaderMenuClick = React.useCallback(({ key }) => {
     if (key === 'logout') {
@@ -55,7 +59,7 @@ const FrameHeader: React.FC<Props> = props => {
             <Icon.GithubOutlined />
           </div>
           <Dropdown overlay={headerMenu} placement='bottomRight' arrow>
-            <Avatar icon={<Icon.UserOutlined />} className='user' />
+            <Avatar src={user?.avatar} className='user' />
           </Dropdown>
         </div>
     </Container>

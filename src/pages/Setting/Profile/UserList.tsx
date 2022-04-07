@@ -1,27 +1,14 @@
 import * as React from 'react'
 import { Button, Col, Form, notification, Row, Space, Table, Tag } from 'antd'
 import * as mainApi from '@/api'
-import { TableResult } from '@/types'
-import { UserInfo } from '@/types/user'
+import type { UserInfo } from '@/types/user'
+import type { ColumnsType } from 'antd/lib/table'
 import { useAntdTable, useSafeState } from 'ahooks'
-import { ColumnsType } from 'antd/lib/table'
 import { dateFormat } from '@/utils/dateFormat'
 import UpdatePasswordModal from './UpdatePasswordModal'
 import CreateUserModal from './createUserModal'
-
-const getTableData = async (
-  { current, pageSize }: Record<string, string | number>
-): Promise<TableResult<UserInfo>> => {
-  const query = {
-    page: current,
-    pageSize
-  }
-  const res = await mainApi.userService.findAll(query)
-  return {
-    total: res.data?.total as number,
-    list: res.data?.data as UserInfo[]
-  }
-}
+import useTableData from '@/hooks/useTableData'
+import { userService } from '@/api'
 
 const UserList: React.FC = () => {
   const [passwordForm] = Form.useForm()
@@ -29,7 +16,9 @@ const UserList: React.FC = () => {
   const [id, setId] = useSafeState<string>('')
   const [showPasswordModal, setShowPasswordModal] = useSafeState<boolean>(false)
   const [showCreateUserModal, setShowCreateUserModal] = useSafeState<boolean>(false)
-  const { tableProps, refresh } = useAntdTable(getTableData, { defaultPageSize: 12 })
+
+  const [getTableData] = useTableData<UserInfo>(userService)
+  const { tableProps, refresh } = useAntdTable(getTableData)
 
   const columns: ColumnsType<UserInfo> = [
     {

@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
             <div className="login-title">请登录</div>
             <Form onFinish={onFinish}>
               <Form.Item name="name" rules={[{ required: true, message: '请输入用户名' }]}>
-                <Input prefix={<Icon.UserOutlined />} placeholder="用户名" autoComplete="off" />
+                <Input size="large" prefix={<Icon.UserOutlined />} placeholder="用户名" autoComplete="off" />
               </Form.Item>
               <Form.Item
                 name="password"
@@ -38,6 +38,7 @@ const LoginPage: React.FC = () => {
                 ]}
               >
                 <Input
+                  size="large"
                   prefix={<Icon.LockOutlined />}
                   type="password"
                   placeholder="密码"
@@ -45,7 +46,7 @@ const LoginPage: React.FC = () => {
                 />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit" block>
+                <Button size="large" type="primary" htmlType="submit" block>
                   登录
                 </Button>
               </Form.Item>

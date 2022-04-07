@@ -5,23 +5,10 @@ import { useAntdTable, useSafeState } from 'ahooks'
 import { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
 import { Category } from '@/types/category'
-import { TableResult } from '@/types'
 import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
-
-const getTableData = async (
-  { current, pageSize }: Record<string, string | number>
-): Promise<TableResult<Category>> => {
-  const query = {
-    page: current,
-    pageSize
-  }
-  const res = await mainApi.categoryService.findAll(query)
-  return {
-    total: res.data?.total as number,
-    list: res.data?.data as Category[]
-  }
-}
+import useTableData from '@/hooks/useTableData'
+import { categoryService } from '@/api'
 
 const Category: React.FC = () => {
   const [form] = Form.useForm<Category>()
@@ -29,6 +16,7 @@ const Category: React.FC = () => {
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
   const [background, setBackground] = useSafeState<string>('')
+  const [getTableData] = useTableData<Category>(categoryService)
 
   const { tableProps, refresh } = useAntdTable(getTableData)
 

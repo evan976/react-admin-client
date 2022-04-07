@@ -4,32 +4,19 @@ import { Badge, Button, Form, Space, Table, Tag } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
-import * as mainApi from '@/api'
+import useTableData from '@/hooks/useTableData'
 import { Article } from '@/types/article'
 import SearchForm from './SearchForm'
 import { os, ps, ws } from '@/enums'
+import { articleService } from '@/api'
 import { dateFormat } from '@/utils/dateFormat'
-import { TableResult } from '@/types'
-
-const getTableData = async (
-  { current, pageSize }: Record<string, string | number>
-): Promise<TableResult<Article>> => {
-  const query = {
-    page: current,
-    pageSize
-  }
-  const res = await mainApi.articleService.findAll(query)
-  return {
-    total: res.data?.total as number,
-    list: res.data?.data as Article[]
-  }
-}
 
 const ArticleList: React.FC = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
 
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
+  const [getTableData] = useTableData<Article>(articleService)
 
   const { tableProps, search } = useAntdTable(getTableData, {
     defaultPageSize: 12,

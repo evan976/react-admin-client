@@ -2,8 +2,11 @@ import * as React from 'react'
 import { Avatar, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { rc, RouteKey } from '@/routes'
+import * as mainApi from '@/api'
 import SvgIcon from '@/plugins/SvgIcon'
 import { Container } from './index.style'
+import { useRequest, useSessionStorageState } from 'ahooks'
+import { UserInfo } from '@/types/user'
 
 type Props = {
   collapsed: boolean
@@ -13,6 +16,15 @@ const FrameSider: React.FC<Props> = (props) => {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const { data } = useRequest(mainApi.userService.fetchAdmin)
+
+  const [user, setUser] = useSessionStorageState<UserInfo>('user')
+
+
+  React.useEffect(() => {
+    setUser(data?.data)
+  }, [data?.data])
+
   return (
     <Container>
       <div className="logo">
@@ -21,14 +33,14 @@ const FrameSider: React.FC<Props> = (props) => {
       </div>
       <div className="user-info">
         <div className="avatar">
-          <Avatar size={52} src="" />
+          <Avatar size={52} src={user?.avatar} />
         </div>
         {!props.collapsed && (
           <div className="info" style={{ marginLeft: 10 }}>
             <div className="name" style={{ fontSize: 16, fontWeight: 600 }}>
-              Evan
+              { user?.name }
             </div>
-            <div>成都 @ undefined</div>
+            <div>{ user?.role === 'admin' ? '管理员' : '普通用户'}</div>
           </div>
         )}
       </div>

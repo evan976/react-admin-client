@@ -73,6 +73,16 @@ class UserService {
     })
   }
 
+  fetchAdmin() {
+    return request<any, UserInfo>({
+      url: `${PathEnum.User}/admin`,
+      method: Methods.GET,
+      interceptors: {
+        responseInterceptor: (res) => res
+      }
+    })
+  }
+
   updatePassword(id: string, data: QueryParams) {
     return request<QueryParams, UserInfo>({
       url: `${PathEnum.User}/${id}`,
