@@ -12,7 +12,7 @@ type Props = {
   collapsed: boolean
 }
 
-const FrameSider: React.FC<Props> = (props) => {
+const AwesomeSider: React.FC<Props> = (props) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -88,4 +88,4 @@ const FrameSider: React.FC<Props> = (props) => {
   )
 }
 
-export default FrameSider
+export default AwesomeSider

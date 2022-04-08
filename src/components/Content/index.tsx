@@ -4,7 +4,7 @@ import { Breadcrumb } from 'antd'
 import { rc, RouteKey, routeMap } from '@/routes'
 import { Container } from './content.style'
 
-const FrameContent: React.FC = props => {
+const AwesomeContent: React.FC = props => {
 
   const location = useLocation()
 
@@ -33,4 +33,4 @@ const FrameContent: React.FC = props => {
   )
 }
 
-export default FrameContent
+export default AwesomeContent

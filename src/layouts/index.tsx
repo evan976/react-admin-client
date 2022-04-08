@@ -2,12 +2,12 @@ import * as React from 'react'
 import { Layout } from 'antd'
 import { Navigate } from 'react-router-dom'
 import { rc, RouteKey } from '@/routes'
-import FrameHeader from '@/components/FrameHeader'
-import FrameSider from '@/components/FrameSider'
-import FrameContent from '@/components/FrameContent'
+import AwesomeHeader from '@/components/Header'
+import AwesomeSider from '@/components/Sider'
+import AwesomeContent from '@/components/Content'
 import { Container } from './index.style'
 
-const FrameLayout: React.FC = props => {
+const AwesomeLayout: React.FC = props => {
 
   const [collapsed, setCollapsed] = React.useState<boolean>(false)
 
@@ -23,19 +23,19 @@ const FrameLayout: React.FC = props => {
         collapsible
         collapsed={collapsed}
       >
-        <FrameSider collapsed={collapsed} />
+        <AwesomeSider collapsed={collapsed} />
       </Layout.Sider>
       <Layout>
         <Layout.Header className='frame-header'>
-          <FrameHeader
+          <AwesomeHeader
             collapsed={collapsed}
             setCollapsed={() => setCollapsed(!collapsed)}
           />
         </Layout.Header>
         <Layout.Content>
-          <FrameContent>
+          <AwesomeContent>
             {props.children}
-          </FrameContent>
+          </AwesomeContent>
         </Layout.Content>
       </Layout>
     </Layout>
@@ -43,4 +43,4 @@ const FrameLayout: React.FC = props => {
   )
 }
 
-export default FrameLayout
+export default AwesomeLayout

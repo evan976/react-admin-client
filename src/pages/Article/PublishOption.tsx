@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Icon from '@ant-design/icons'
 import { Button, Col, Drawer, Form, FormInstance, Input, Row, Select, Space } from 'antd'
 import { useRequest } from 'ahooks'
-import CustomUpload from '@/components/Upload'
+import AwesomeUpload from '@/components/Upload'
 import * as mainApi from '@/api'
 import { originStates, publishStates, weightStates } from '@/enums'
 
@@ -130,7 +130,7 @@ const PublishOption: React.FC<Props> = (props) => {
           </Col>
         </Row>
         <Form.Item label="缩略图">
-          <CustomUpload
+          <AwesomeUpload
             value={props.thumb}
             setValue={props.setThumb}
           />

@@ -2,10 +2,10 @@ import * as React from 'react'
 
 // import { Container } from './styles'
 
-const FrameFooter: React.FC = () => {
+const AwesomeFooter: React.FC = () => {
   return (
     <div>Footer</div>
   )
 }
 
-export default FrameFooter
+export default AwesomeFooter

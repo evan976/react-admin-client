@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import { rc, RouteKey } from '@/routes'
-import FrameLayout from '@/layouts'
+import AwesomeLayout from '@/layouts'
 import DashboardPage from '@/pages/Dashboard'
 import CategoryPage from '@/pages/Category'
 import TagPage from '@/pages/Tag'
@@ -23,9 +23,9 @@ const App: React.FC = () => {
           <Route
             path="/"
             element={
-              <FrameLayout>
+              <AwesomeLayout>
                 <Outlet />
-              </FrameLayout>
+              </AwesomeLayout>
             }
           >
             <Route index element={<Navigate to={rc(RouteKey.Dashboard).path} replace />} />

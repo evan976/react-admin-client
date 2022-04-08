@@ -8,7 +8,7 @@ type Props = {
   setValue: (value: string) => void
 }
 
-const CustomUpload: React.FC<Props> = (props) => {
+const AwesomeUpload: React.FC<Props> = (props) => {
   const [loading, setLoading] = useSafeState<boolean>(false)
 
   const [token, setToken] = useSafeState<string>('')
@@ -72,4 +72,4 @@ const CustomUpload: React.FC<Props> = (props) => {
   )
 }
 
-export default CustomUpload
+export default AwesomeUpload

@@ -11,7 +11,7 @@ type Props = {
   setCollapsed: () => void
 }
 
-const FrameHeader: React.FC<Props> = props => {
+const AwesomeHeader: React.FC<Props> = props => {
 
   const navigate = useNavigate()
 
@@ -66,4 +66,4 @@ const FrameHeader: React.FC<Props> = props => {
   )
 }
 
-export default FrameHeader
+export default AwesomeHeader

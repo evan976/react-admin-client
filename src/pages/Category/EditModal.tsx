@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Form, FormInstance, Input } from 'antd'
-import CustomUpload from '@/components/Upload'
+import AwesomeUpload from '@/components/Upload'
 
 type Props = {
   form: FormInstance<any>
@@ -28,7 +28,7 @@ const EditForm: React.FC<Props> = (props) => {
         <Input placeholder="图标" autoComplete="off" />
       </Form.Item>
       <Form.Item label="背景图">
-        <CustomUpload value={props.value} setValue={props.setValue} />
+        <AwesomeUpload value={props.value} setValue={props.setValue} />
       </Form.Item>
     </Form>
   )
