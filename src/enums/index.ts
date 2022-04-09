@@ -76,6 +76,26 @@ export const OriginStateMap = new Map(
   ].map((item) => [item.value, item])
 )
 
+export const CommentStateMap = new Map(
+  [
+    {
+      value: CommentState.Recycle,
+      name: '回收站',
+      color: 'error'
+    },
+    {
+      value: CommentState.Reject,
+      name: '待审核',
+      color: 'warning'
+    },
+    {
+      value: CommentState.Pass,
+      name: '审核通过',
+      color: 'success'
+    }
+  ].map((item) => [item.value, item])
+)
+
 export const WeightStateMap = new Map(
   [
     {
@@ -108,6 +128,10 @@ export const os = (state: OriginState) => {
   return OriginStateMap.get(state)!
 }
 
+export const cs = (state: CommentState) => {
+  return CommentStateMap.get(state)!
+}
+
 export const ws = (state: WeightSate) => {
   return WeightStateMap.get(state)!
 }
@@ -117,5 +141,7 @@ export const publishStates = Array.from<ReturnType<typeof ps>>(publishStateMap.v
 export const onlineStates = Array.from<ReturnType<typeof oos>>(onlineStateMap.values())
 
 export const originStates = Array.from<ReturnType<typeof os>>(OriginStateMap.values())
+
+export const commentStates = Array.from<ReturnType<typeof cs>>(CommentStateMap.values())
 
 export const weightStates = Array.from<ReturnType<typeof ws>>(WeightStateMap.values())

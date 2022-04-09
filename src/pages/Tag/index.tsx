@@ -77,7 +77,7 @@ const TagPage: React.FC = () => {
                     setType('edit')
                   }}
                 >
-                  {tag.label}
+                  {tag.name}
                 </Tag>
               ))}
             </Space>

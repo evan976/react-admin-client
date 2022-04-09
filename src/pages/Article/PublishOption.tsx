@@ -5,14 +5,19 @@ import { useRequest } from 'ahooks'
 import AwesomeUpload from '@/components/Upload'
 import * as mainApi from '@/api'
 import { originStates, publishStates, weightStates } from '@/enums'
+import { Tag as ITag } from '@/types/tag'
 
 type Props = {
   visible: boolean
   setVisible: (v: boolean) => void
   thumb: string
   setThumb: (thumb: string) => void
+  tags: Array<string>
+  setTags: (value: Array<string>) => void
+  category: string
+  setCategory: (value: string) => void
   form: FormInstance<any>
-  onFinish: () => void
+  onFinish: (values: any) => void
 }
 
 const PublishOption: React.FC<Props> = (props) => {
@@ -20,6 +25,11 @@ const PublishOption: React.FC<Props> = (props) => {
   const { data: tags } = useRequest(mainApi.tagService.findAll)
   const { data: categories } = useRequest(mainApi.categoryService.findAll)
 
+  const handleClick = (tag: ITag, checked: boolean) => {
+    const id = tag.id!
+    const ids = checked ? [...props.tags, id] : props.tags.filter((t) => t !== id)
+    props.setTags(ids)
+  }
 
   return (
     <Drawer
@@ -34,7 +44,6 @@ const PublishOption: React.FC<Props> = (props) => {
         onFinish={props.onFinish}
       >
         <Form.Item
-          name="category"
           label="分类"
           rules={[
             {
@@ -43,35 +52,46 @@ const PublishOption: React.FC<Props> = (props) => {
             }
           ]}
         >
-          <Select placeholder="选择分类">
+          <Space wrap={true} size={[12, 12]}>
             {
-              categories?.data.data?.map(category => (
-                <Select.Option
-                  key={category.id}
-                  value={category.id}
-                >
-                  {category.name}
-                </Select.Option>
-              ))
+              categories?.data.data?.map((category) => {
+                const isChecked = props.category === category.id
+                return (
+                  <Button
+                    key={category.id}
+                    size="small"
+                    type={isChecked ? 'primary' : 'default'}
+                    icon={isChecked ? <Icon.CheckCircleOutlined /> : <Icon.TagOutlined />}
+                    onClick={() => props.setCategory(category.id!)}
+                  >
+                    {category.name}
+                  </Button>
+                )
+              })
             }
-          </Select>
+          </Space>
         </Form.Item>
         <Form.Item
-          name="tags"
           label="标签"
         >
-          <Select placeholder="选择标签">
+          <Space wrap={true} size={[12, 12]}>
             {
-              tags?.data?.map(tag => (
-                <Select.Option
-                  key={tag.id}
-                  value={tag.id}
-                >
-                  {tag.label}
-                </Select.Option>
-              ))
+              tags?.data.map((tag) => {
+                const isChecked = props.tags.includes(tag.id!)
+                return (
+                  <Button
+                    key={tag.id}
+                    size="small"
+                    type={isChecked ? 'primary' : 'default'}
+                    icon={isChecked ? <Icon.CheckCircleOutlined /> : <Icon.TagOutlined />}
+                    onClick={() => handleClick(tag, !isChecked)}
+                  >
+                    {tag.name}
+                  </Button>
+                )
+              })
             }
-          </Select>
+          </Space>
         </Form.Item>
         <Row gutter={16}>
           <Col span={8}>
@@ -135,7 +155,7 @@ const PublishOption: React.FC<Props> = (props) => {
             setValue={props.setThumb}
           />
         </Form.Item>
-        <Form.Item name="description" label="文章简介">
+        <Form.Item name="summary" label="文章简介">
           <Input.TextArea rows={4} placeholder="输入文章简介..." />
         </Form.Item>
         <Form.Item>

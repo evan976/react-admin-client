@@ -28,17 +28,17 @@ const EditForm: React.FC<Prop> = (props) => {
 
   return (
     <Form {...layout} form={props.form}>
-      <Form.Item name="value" label="value" rules={[{ required: true, message: '请输入value' }]}>
-        <Input placeholder="value" autoComplete="off" />
+      <Form.Item name="name" label="名称" rules={[{ required: true, message: '请输入标签名称' }]}>
+        <Input placeholder="标签名称" autoComplete="off" />
       </Form.Item>
-      <Form.Item name="label" label="label" rules={[{ required: true, message: '请输入label' }]}>
-        <Input placeholder="label" autoComplete="off" />
+      <Form.Item name="slug" label="别名" rules={[{ required: true, message: '请输入标签别名' }]}>
+        <Input placeholder="标签别名" autoComplete="off" />
       </Form.Item>
       <Form.Item name="color" label="颜色">
-        <Input placeholder="颜色" autoComplete="off" />
+        <Input placeholder="标签颜色" autoComplete="off" />
       </Form.Item>
       <Form.Item name="icon" label="图标">
-        <Input placeholder="图标" autoComplete="off" />
+        <Input placeholder="标签图标" autoComplete="off" />
       </Form.Item>
       <Form.Item label="背景图">
         <AwesomeUpload value={props.value} setValue={props.setValue} />

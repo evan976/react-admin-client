@@ -9,7 +9,8 @@ export enum PathEnum {
   Category = '/categories',
   Tag = '/tags',
   Config = '/config',
-  Wallpaper = '/wallpapers'
+  Wallpaper = '/wallpapers',
+  Comment = '/comments'
 }
 
 export enum Methods {

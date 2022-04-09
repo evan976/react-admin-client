@@ -13,15 +13,12 @@ import { dateFormat } from '@/utils/dateFormat'
 
 const ArticleList: React.FC = () => {
   const navigate = useNavigate()
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<Article>()
 
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
   const [getTableData] = useTableData<Article>(articleService)
 
-  const { tableProps, search } = useAntdTable(getTableData, {
-    defaultPageSize: 12,
-    form
-  })
+  const { tableProps, search } = useAntdTable(getTableData, { form })
 
   const { submit, reset } = search
 
@@ -45,7 +42,7 @@ const ArticleList: React.FC = () => {
             <Space size="small" wrap={true}>
               {article?.tags?.map((tag) => (
                 <Tag color={tag.color} icon={<Icon.TagOutlined />} key={tag.id}>
-                  {tag.label}
+                  {tag.name}
                 </Tag>
               ))}
             </Space>
@@ -116,7 +113,12 @@ const ArticleList: React.FC = () => {
       render(_, article) {
         return (
           <Space size={0}>
-            <Button type="link">编辑</Button>
+            <Button
+              type="link"
+              onClick={() => {
+                navigate(`/article/edit/${article.id}`)
+              }}
+            >编辑</Button>
             <Button type="link" danger>
               删除
             </Button>

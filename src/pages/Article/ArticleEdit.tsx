@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, notification } from 'antd'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSafeState } from 'ahooks'
-
 import { Editor } from '@bytemd/react'
 import gfm from '@bytemd/plugin-gfm'
 import gemoji from '@bytemd/plugin-gemoji'
 import highlight from '@bytemd/plugin-highlight-ssr'
 import zhHans from 'bytemd/locales/zh_Hans.json'
+import * as mainApi from '@/api'
 import 'bytemd/dist/index.min.css'
 import 'highlight.js/styles/vs.css'
 import PublishOption from './PublishOption'
 import { Wrapper } from './styles/markdown'
+import { Article } from '@/types/article'
 
 const plugins = [
   gfm(),
@@ -18,24 +20,49 @@ const plugins = [
   highlight({})
 ]
 
-
 const ArticleEdit: React.FC = () => {
-  const [form] = Form.useForm()
 
-  const [visible, setVislble] = useSafeState<boolean>(false)
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const [form] = Form.useForm<Article>()
+  const [visible, setVisible] = useSafeState<boolean>(false)
   const [title, setTitle] = useSafeState<string>('')
   const [thumb, setThumb] = useSafeState<string>('')
   const [content, setContent] = useSafeState<string>('')
+  const [tags, setTags] = useSafeState<string[]>([])
+  const [category, setCategory] = useSafeState<string>('')
 
-  const onFinish = () => {
-    const values = form.getFieldsValue()
-    const posts = { ...values, title, content, thumb }
-    console.log(posts)
+  const onFinish = async (values: any) => {
+    const posts = { ...values, title, content, thumb, tags, category }
+
+    if (!id) {
+      await mainApi.articleService.create(posts)
+      notification.success({ message: '文章发表成功' })
+    } else {
+      await mainApi.articleService.update(id, posts)
+      notification.success({ message: '文章修改成功' })
+    }
+    setVisible(false)
+    navigate('/article/list')
   }
+
+  React.useEffect(() => {
+    if (id) {
+      (async () => {
+        const { data } = await mainApi.articleService.findOne(id)
+        form.setFieldsValue(data)
+        setTitle(data.title as string)
+        setThumb(data.thumb as string)
+        setContent(data.content as string)
+        setTags(data.tags?.map(v => v.id) as Array<string>)
+        setCategory(data.category?.id as string)
+      })()
+    }
+  }, [])
 
   return (
     <Wrapper>
-      <Form>
+      <Form form={form}>
         <Form.Item label="文章标题">
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </Form.Item>
@@ -50,16 +77,20 @@ const ArticleEdit: React.FC = () => {
         <Form.Item>
           <Button
             type='primary'
-            onClick={() => setVislble(true)}
-            style={{ float: 'right' }}
+            onClick={() => setVisible(true)}
+            style={{ position: 'fixed', right: 24, bottom: 50 }}
           >确定</Button>
         </Form.Item>
       </Form>
       <PublishOption
         visible={visible}
-        setVisible={setVislble}
+        setVisible={setVisible}
         thumb={thumb}
         setThumb={(t) => setThumb(t)}
+        tags={tags}
+        setTags={(t) => setTags(t)}
+        category={category}
+        setCategory={(c) => setCategory(c)}
         form={form}
         onFinish={onFinish}
       />
