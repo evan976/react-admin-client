@@ -1,22 +1,8 @@
 import request from '@/service'
 import { Tag } from '@/types/tag'
-import { AxiosRequestConfig } from 'axios'
 import { Methods, PathEnum, QueryParams } from './types'
 
 class TagService {
-  private token: string | null
-  constructor() {
-    this.token = sessionStorage.getItem('token')
-  }
-
-  private setToken(config: AxiosRequestConfig) {
-    if (this.token) {
-      config.headers = config.headers || {}
-      config.headers['Authorization'] = `Bearer ${this.token}`
-    }
-    return config
-  }
-
   findAll(data: QueryParams = {}) {
     return request<QueryParams, Tag[]>({
       url: PathEnum.Tag,
@@ -44,7 +30,7 @@ class TagService {
       method: Methods.POST,
       data,
       interceptors: {
-        requestInterceptor: (config) => this.setToken(config),
+
         responseInterceptor: (res) => res
       }
     })
@@ -56,7 +42,6 @@ class TagService {
       method: Methods.PUT,
       data,
       interceptors: {
-        requestInterceptor: (config) => this.setToken(config),
         responseInterceptor: (res) => res
       }
     })
@@ -67,7 +52,6 @@ class TagService {
       url: `${PathEnum.Tag}/${id}`,
       method: Methods.DELETE,
       interceptors: {
-        requestInterceptor: (config) => this.setToken(config),
         responseInterceptor: (res) => res
       }
     })

@@ -6,12 +6,13 @@ import AwesomeHeader from '@/components/Header'
 import AwesomeSider from '@/components/Sider'
 import AwesomeContent from '@/components/Content'
 import { Container } from './index.style'
+import { useSelector } from 'react-redux'
 
 const AwesomeLayout: React.FC = props => {
 
   const [collapsed, setCollapsed] = React.useState<boolean>(false)
 
-  const token = sessionStorage.getItem('token')
+  const { token } = useSelector(state => state.account)
 
   return !token ? <Navigate to={rc(RouteKey.Login).path} /> : (
     <Container>

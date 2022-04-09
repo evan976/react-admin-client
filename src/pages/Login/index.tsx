@@ -3,17 +3,20 @@ import { Button, Form, Input, notification } from 'antd'
 import * as Icon from '@ant-design/icons'
 import * as mainApi from '@/api'
 import { Container } from './login.style'
-import bg from '@/assets/images/bg.png'
 import { useNavigate } from 'react-router-dom'
 import { LoginDTO } from '@/api/user'
+import SvgIcon from '@/plugins/SvgIcon'
+import store from '@/store'
+import { accountApi, setToken } from '@/store/features/acountSlice'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
 
   const onFinish = async (values: LoginDTO) => {
     const result = await mainApi.userService.login(values)
-    sessionStorage.setItem('token', result.data?.token as string)
-    notification.success({ message: '登录成功' })
+    store.dispatch(setToken(result.data?.token))
+    accountApi.refreshUserInfo()
+    notification.success({ message: '欢迎回来 👏' })
     navigate('/')
   }
 
@@ -21,7 +24,7 @@ const LoginPage: React.FC = () => {
     <Container>
       <div className="wrapper">
         <div className="login-bg">
-          <img src={bg} alt="loginBg" style={{ width: '100%' }} />
+          <SvgIcon symbolId='code' width='400px' height='400px' />
         </div>
         <div className="login-main">
           <div className="login-form">

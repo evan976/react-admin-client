@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   .bytemd {
-    height: calc(100vh - 58px);
+    height: calc(100vh - 288px);
   }
   .markdown-body h1,
   .markdown-body h2 {

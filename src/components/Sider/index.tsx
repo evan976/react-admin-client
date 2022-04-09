@@ -2,11 +2,9 @@ import * as React from 'react'
 import { Avatar, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { rc, RouteKey } from '@/routes'
-import * as mainApi from '@/api'
 import SvgIcon from '@/plugins/SvgIcon'
 import { Container } from './index.style'
-import { useRequest, useSessionStorageState } from 'ahooks'
-import { UserInfo } from '@/types/user'
+import { useSelector } from 'react-redux'
 
 type Props = {
   collapsed: boolean
@@ -16,14 +14,7 @@ const AwesomeSider: React.FC<Props> = (props) => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const { data } = useRequest(mainApi.userService.fetchAdmin)
-
-  const [user, setUser] = useSessionStorageState<UserInfo>('user')
-
-
-  React.useEffect(() => {
-    setUser(data?.data)
-  }, [data?.data])
+  const { user } = useSelector(state => state.account)
 
   return (
     <Container>

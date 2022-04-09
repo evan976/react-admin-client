@@ -60,6 +60,17 @@ const ArticleEdit: React.FC = () => {
     }
   }, [])
 
+  React.useEffect(() => {
+    if (!id) {
+      form.resetFields()
+      setTitle('')
+      setThumb('')
+      setContent('')
+      setCategory('')
+      setTags([])
+    }
+  }, [id])
+
   return (
     <Wrapper>
       <Form form={form}>
@@ -78,7 +89,7 @@ const ArticleEdit: React.FC = () => {
           <Button
             type='primary'
             onClick={() => setVisible(true)}
-            style={{ position: 'fixed', right: 24, bottom: 50 }}
+            style={{ position: 'fixed', right: 40, bottom: 50 }}
           >确定</Button>
         </Form.Item>
       </Form>

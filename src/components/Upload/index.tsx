@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useSafeState } from 'ahooks'
+import { useSelector } from 'react-redux'
 import { Input, notification, Upload } from 'antd'
 import * as Icon from '@ant-design/icons'
 
@@ -9,13 +10,8 @@ type Props = {
 }
 
 const AwesomeUpload: React.FC<Props> = (props) => {
+  const { token } = useSelector(state => state.account)
   const [loading, setLoading] = useSafeState<boolean>(false)
-
-  const [token, setToken] = useSafeState<string>('')
-
-  React.useEffect(() => {
-    setToken(sessionStorage.getItem('token') as string)
-  }, [])
 
   const uploadButton = (
     <div>

@@ -1,22 +1,9 @@
 import request from '@/service'
 import { List } from '@/types'
 import { Category } from '@/types/category'
-import { AxiosRequestConfig } from 'axios'
 import { Methods, PathEnum, QueryParams } from './types'
 
 class CategoryService {
-  private token: string | null
-  constructor() {
-    this.token = sessionStorage.getItem('token')
-  }
-
-  private setToken(config: AxiosRequestConfig) {
-    if (this.token) {
-      config.headers = config.headers || {}
-      config.headers['Authorization'] = `Bearer ${this.token}`
-    }
-    return config
-  }
 
   findAll(data: QueryParams) {
     return request<QueryParams, List<Category>>({
@@ -45,7 +32,6 @@ class CategoryService {
       method: Methods.POST,
       data,
       interceptors: {
-        requestInterceptor: (config) => this.setToken(config),
         responseInterceptor: (res) => res
       }
     })
@@ -57,7 +43,6 @@ class CategoryService {
       method: Methods.PUT,
       data,
       interceptors: {
-        requestInterceptor: (config) => this.setToken(config),
         responseInterceptor: (res) => res
       }
     })
@@ -68,7 +53,6 @@ class CategoryService {
       url: `${PathEnum.Category}/${id}`,
       method: Methods.DELETE,
       interceptors: {
-        requestInterceptor: (config) => this.setToken(config),
         responseInterceptor: (res) => res
       }
     })

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import * as Icon from '@ant-design/icons'
 import { Menu, Avatar, Dropdown, Modal, notification } from 'antd'
 import { Container } from './index.style'
-import { useSessionStorageState } from 'ahooks'
-import { UserInfo } from '@/types/user'
+import { logout } from '@/store/features/acountSlice'
 
 type Props = {
   collapsed: boolean
@@ -14,8 +14,9 @@ type Props = {
 const AwesomeHeader: React.FC<Props> = props => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const [user] = useSessionStorageState<UserInfo>('user')
+  const { user } = useSelector(state => state.account)
 
   const handleHeaderMenuClick = React.useCallback(({ key }) => {
     if (key === 'logout') {
@@ -27,8 +28,7 @@ const AwesomeHeader: React.FC<Props> = props => {
         cancelText: '取消',
         onOk: () => {
           notification.success({ message: '退出登录成功' })
-          sessionStorage.removeItem('token')
-          navigate('/login')
+          dispatch(logout())
         }
       })
     } else {

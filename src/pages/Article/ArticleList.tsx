@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Badge, Button, Form, Space, Table, Tag } from 'antd'
+import { Badge, Button, Form, Modal, notification, Space, Table, Tag } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
+import * as mainApi from '@/api'
 import useTableData from '@/hooks/useTableData'
 import { Article } from '@/types/article'
 import SearchForm from './SearchForm'
@@ -18,9 +19,15 @@ const ArticleList: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
   const [getTableData] = useTableData<Article>(articleService)
 
-  const { tableProps, search } = useAntdTable(getTableData, { form })
+  const { tableProps, search, refresh } = useAntdTable(getTableData, { form })
 
   const { submit, reset } = search
+
+  const removeArticle = async (id: string) => {
+    await mainApi.articleService.remove(id)
+    notification.success({ message: '删除文章成功' })
+    refresh()
+  }
 
   const columns: ColumnsType<Article> = [
     {
@@ -119,7 +126,22 @@ const ArticleList: React.FC = () => {
                 navigate(`/article/edit/${article.id}`)
               }}
             >编辑</Button>
-            <Button type="link" danger>
+            <Button
+              type="link"
+              danger
+              onClick={() => {
+                Modal.confirm({
+                  title: '此操作将永久删除该文章，是否继续？',
+                  icon: <Icon.QuestionCircleOutlined />,
+                  okText: '确认',
+                  cancelText: '取消',
+                  centered: true,
+                  onOk: () => {
+                    removeArticle(article.id!)
+                  }
+                })
+              }}
+            >
               删除
             </Button>
           </Space>

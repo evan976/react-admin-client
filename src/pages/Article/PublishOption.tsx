@@ -61,7 +61,7 @@ const PublishOption: React.FC<Props> = (props) => {
                     key={category.id}
                     size="small"
                     type={isChecked ? 'primary' : 'default'}
-                    icon={isChecked ? <Icon.CheckCircleOutlined /> : <Icon.TagOutlined />}
+                    icon={isChecked ? <Icon.CheckCircleOutlined /> : <Icon.FolderOutlined />}
                     onClick={() => props.setCategory(category.id!)}
                   >
                     {category.name}

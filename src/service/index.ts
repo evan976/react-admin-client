@@ -1,6 +1,8 @@
 import { notification } from 'antd'
 import Request from './request/index'
 import type { RequestConfig } from './request/types'
+import { accountApi, logout } from '@/store/features/acountSlice'
+import store from '@/store'
 
 export interface CustomRequestConfig<T> extends RequestConfig {
   data?: T
@@ -17,7 +19,7 @@ const request = new Request({
   timeout: 1000 * 60 * 5,
   interceptors: {
     requestInterceptor: (config) => {
-      const token = sessionStorage.getItem('token')
+      const token = accountApi.getToken()
       if (token) {
         config.headers = config.headers || {}
         config.headers['Authorization'] = `Bearer ${token}`
@@ -35,7 +37,7 @@ const request = new Request({
           break
 
         case 401:
-          sessionStorage.removeItem('token')
+          store.dispatch(logout())
           notification.error({
             message: error.response.data.message
           })

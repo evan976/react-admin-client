@@ -1,6 +1,19 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import App from '@/App'
+import { Provider } from 'react-redux'
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 import 'virtual:svg-icons-register'
+import store from '@/store'
+import App from '@/App'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const persistor = persistStore(store)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>,
+  document.getElementById('root')
+)
