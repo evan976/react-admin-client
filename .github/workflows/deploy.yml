@@ -8,10 +8,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2.2.1
-      - run: pnpm install
-      - run: pnpm build
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 6.32.4
+
+      - name: Install & Build
+        run: |
+          pnpm install
+          pnpm build
         env:
           CI: true
 
