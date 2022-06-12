@@ -31,6 +31,10 @@ export const Container = styled.div`
       line-height: 64px;
       cursor: pointer;
       transition: background-color .3s;
+
+      a {
+        color: #000000;
+      }
     }
 
     .user {

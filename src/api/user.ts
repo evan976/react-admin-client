@@ -78,6 +78,27 @@ class UserService {
       }
     })
   }
+
+  update(id: string, data: QueryParams) {
+    return request<QueryParams, UserInfo>({
+      url: `${PathEnum.User}/${id}`,
+      method: Methods.PUT,
+      data,
+      interceptors: {
+        responseInterceptor: (res) => res
+      }
+    })
+  }
+
+  remove(id: string) {
+    return request<any, UserInfo>({
+      url: `${PathEnum.User}/${id}`,
+      method: Methods.DELETE,
+      interceptors: {
+        responseInterceptor: (res) => res
+      }
+    })
+  }
 }
 
 export default new UserService()

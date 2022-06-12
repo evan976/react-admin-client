@@ -46,7 +46,7 @@ const accountApi: Account = {
     return new Promise<UserInfo>((resolve, reject) => {
       mainApi.userService.fetchAdmin()
         .then(res => {
-          console.log(res.data)
+          console.log('refreshUserInfo', res)
           store.dispatch(updateUserInfo(res.data))
           resolve(res.data)
         })

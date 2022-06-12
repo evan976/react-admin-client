@@ -5,6 +5,9 @@ export type UserInfo = BaseType & {
   email?: string
   role?: string
   avatar?: string
+  siteUrl?: string
+  position?: string
+  address?: string
 }
 
 export type Token = {

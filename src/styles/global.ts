@@ -28,4 +28,9 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 128px;
   }
+
+  .avatar-upload > .ant-upload {
+    width: 128px;
+    height: 128px;
+  }
 `

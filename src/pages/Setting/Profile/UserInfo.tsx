@@ -1,28 +1,33 @@
 import * as React from 'react'
+import { useSelector } from 'react-redux'
 import * as Icon from '@ant-design/icons'
 import profile from '@/assets/images/profile-bg.png'
-import logo from '@/assets/images/profile.png'
 import { Container } from '../styles/profile.style'
 
 const UserInfo: React.FC = () => {
+
+  const { user } = useSelector(state => state.account)
+
   return (
     <Container>
       <img src={profile} />
       <div className="user-info">
-        <img src={logo} alt="avatar" />
-        <span className="name">admin</span>
+        <img src={user.avatar} alt="avatar" />
+        <span className="name">{user.name}</span>
         <div className="other">
           <div>
             <Icon.EnvironmentOutlined />
-            <span className="item">成都</span>
+            <span className="item">{user.address}</span>
           </div>
           <div className="job">
             <Icon.HomeOutlined />
-            <span className="item">前端工程师</span>
+            <span className="item">{user.position}</span>
           </div>
           <div>
             <Icon.UserOutlined />
-            <span className="item">管理员</span>
+            <span className="item">
+              {user.role === 'admin' ? '管理员' : '普通用户'}
+            </span>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import categoryService from './category'
 import tagService from './tag'
 import wallpaperService from './wallpaper'
 import commentService from './comment'
+import configService from './config'
 
 export {
   userService,
@@ -11,5 +12,6 @@ export {
   categoryService,
   tagService,
   wallpaperService,
-  commentService
+  commentService,
+  configService
 }

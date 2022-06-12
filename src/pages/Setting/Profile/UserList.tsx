@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Button, Col, Form, notification, Row, Space, Table, Tag } from 'antd'
+import { Button, Col, Form, Modal, notification, Row, Space, Table, Tag } from 'antd'
+import * as Icon from '@ant-design/icons'
 import * as mainApi from '@/api'
 import type { UserInfo } from '@/types/user'
 import type { ColumnsType } from 'antd/lib/table'
@@ -9,13 +10,18 @@ import UpdatePasswordModal from './UpdatePasswordModal'
 import CreateUserModal from './createUserModal'
 import useTableData from '@/hooks/useTableData'
 import { userService } from '@/api'
+import EditUserInfoModal from './EditUserInfoModal'
+import { accountApi } from '@/store/features/acountSlice'
 
 const UserList: React.FC = () => {
   const [passwordForm] = Form.useForm()
   const [userForm] = Form.useForm()
+  const [editForm] = Form.useForm()
   const [id, setId] = useSafeState<string>('')
+  const [avatar, setAvatar] = useSafeState<string>('')
   const [showPasswordModal, setShowPasswordModal] = useSafeState<boolean>(false)
   const [showCreateUserModal, setShowCreateUserModal] = useSafeState<boolean>(false)
+  const [showEditUserModal, setShowEditUserModal] = useSafeState<boolean>(false)
 
   const [getTableData] = useTableData<UserInfo>(userService)
   const { tableProps, refresh } = useAntdTable(getTableData)
@@ -57,7 +63,17 @@ const UserList: React.FC = () => {
       render(_, user) {
         return (
           <Space size={0}>
-            <Button type="link">编辑</Button>
+            <Button
+              type="link"
+              onClick={() => {
+                editForm.setFieldsValue(user)
+                setId(user.id!)
+                setAvatar(user.avatar!)
+                setShowEditUserModal(true)
+              }}
+            >
+              编辑
+            </Button>
             <Button
               type="link"
               onClick={() => {
@@ -67,7 +83,22 @@ const UserList: React.FC = () => {
             >
               修改密码
             </Button>
-            <Button type="link" danger>
+            <Button
+              type="link"
+              danger
+              onClick={() => {
+                Modal.confirm({
+                  title: '此操作将永久删除该用户，是否继续？',
+                  icon: <Icon.QuestionCircleOutlined />,
+                  okText: '确认',
+                  cancelText: '取消',
+                  centered: true,
+                  onOk: () => {
+                    removeUser(user.id!)
+                  }
+                })
+              }}
+            >
               删除
             </Button>
           </Space>
@@ -95,6 +126,21 @@ const UserList: React.FC = () => {
     refresh()
   }
 
+  const editUser = async () => {
+    const values = { ...editForm.getFieldsValue(), avatar }
+    await mainApi.userService.update(id, values)
+    await accountApi.refreshUserInfo()
+    setShowEditUserModal(false)
+    notification.success({ message: '修改用户信息成功' })
+    refresh()
+  }
+
+  const removeUser = async (id: string) => {
+    await mainApi.userService.remove(id)
+    notification.success({ message: '删除用户成功' })
+    refresh()
+  }
+
   return (
     <>
       <Row gutter={24} style={{ marginBottom: '16px' }}>
@@ -113,6 +159,14 @@ const UserList: React.FC = () => {
         form={passwordForm}
         onOk={handleSubmit}
         onCancel={() => setShowPasswordModal(false)}
+      />
+      <EditUserInfoModal
+        visible={showEditUserModal}
+        avatar={avatar}
+        setAvatar={setAvatar}
+        form={editForm}
+        onOk={editUser}
+        onCancel={() => setShowEditUserModal(false)}
       />
     </>
   )

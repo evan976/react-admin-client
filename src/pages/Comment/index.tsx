@@ -1,6 +1,19 @@
 import * as React from 'react'
-import { useAntdTable } from 'ahooks'
-import { Button, Modal, Space, Table, Tag, Typography, Image, Avatar, Form } from 'antd'
+import { useAntdTable, useSafeState } from 'ahooks'
+import {
+  Button,
+  Modal,
+  Space,
+  Table,
+  Tag,
+  Typography,
+  Image,
+  Avatar,
+  Form,
+  notification,
+  Input,
+} from 'antd'
+import { useSelector } from 'react-redux'
 import * as Icon from '@ant-design/icons'
 import useTableData from '@/hooks/useTableData'
 import SearchForm from './SearchForm'
@@ -9,14 +22,47 @@ import { commentService } from '@/api'
 import type { ColumnsType } from 'antd/lib/table'
 import { dateFormat } from '@/utils/dateFormat'
 import { cs, ws } from '@/enums'
+import * as mainApi from '@/api'
 
 const CommentPage: React.FC = () => {
   const [form] = Form.useForm<Comment>()
   const [getTableData] = useTableData<Comment>(commentService)
+  const [visible, setVisible] = useSafeState<boolean>(false)
+  const [respondent, setRespondent] = useSafeState<Comment>()
+  const [content, setContent] = useSafeState<string>('')
+  const { user } = useSelector(state => state.account)
 
-  const { tableProps, search } = useAntdTable(getTableData, { form })
+  const { tableProps, search, refresh } = useAntdTable(getTableData, { form })
 
   const { submit, reset } = search
+
+  const updateCommentStatus = async (id: string, status: number) => {
+    await mainApi.commentService.update(id, {
+      status
+    })
+    notification.success({ message: '操作成功' })
+    refresh()
+  }
+
+  const removeComment = async (id: string) => {
+    await mainApi.commentService.remove(id)
+    notification.success({ message: '删除评论成功' })
+    refresh()
+  }
+
+  const replyComment = async () => {
+    await mainApi.commentService.create({
+      parentId: respondent?.parentId,
+      name: user.name,
+      email: user.email,
+      site: user.siteUrl,
+      content,
+      replyUserName: respondent?.name,
+      replyUserEmail: respondent?.email
+    })
+    setVisible(false)
+    refresh()
+  }
 
   const columns: ColumnsType<Comment> = [
     {
@@ -36,6 +82,9 @@ const CommentPage: React.FC = () => {
       title: 'POST_ID',
       width: 80,
       dataIndex: 'postId',
+      render: (_, comment) => (
+        <Tag color='orange'>{comment.postId ?? 'null'}</Tag>
+      )
     },
     {
       title: '内容',
@@ -67,7 +116,7 @@ const CommentPage: React.FC = () => {
                 href={comment.site}
                 target="_blank"
               >
-                {comment.site}
+                {comment.site || 'null'}
               </Typography.Link>
             </Space>
           </Space>
@@ -102,16 +151,20 @@ const CommentPage: React.FC = () => {
         return (
           <Space direction="vertical">
             <Space>
-              <Icon.ClockCircleOutlined />
-              {dateFormat(comment.updatedAt)}
+              <Icon.GlobalOutlined />
+              {comment.ip}
             </Space>
             <Space>
-              <Icon.ClockCircleOutlined />
-              {dateFormat(comment.updatedAt)}
+              <Icon.HomeOutlined />
+              {comment.address}
             </Space>
             <Space>
-              <Icon.ClockCircleOutlined />
-              {dateFormat(comment.updatedAt)}
+              <Icon.DesktopOutlined />
+              {comment.os}
+            </Space>
+            <Space>
+              <Icon.ChromeOutlined />
+              {comment.browser}
             </Space>
             <Space>
               <Icon.ClockCircleOutlined />
@@ -126,40 +179,63 @@ const CommentPage: React.FC = () => {
       render(_, comment) {
         return (
           <Space direction="vertical">
-            <Space>
-              <Button
-                type="link"
-                onClick={() => {console.log()}}
-              >
-                评论详情
-              </Button>
-            </Space>
-            <Space>
-              <Button
-                type="link"
-                onClick={() => {console.log()}}
-              >
-                回复
-              </Button>
-            </Space>
+            {
+              comment.status !== -1 && (
+                <Button
+                  type="link"
+                  onClick={() => {
+                    updateCommentStatus(comment.id!, comment.status === 0 ? 1 : 0)
+                  }}
+                >
+                  {comment.status === 0 ? '审核通过' : '退为待审核'}
+                </Button>
+              )
+            }
             <Button
               type="link"
-              onClick={() => {console.log()}}
+              onClick={() => {
+                setVisible(true)
+                let pid = comment.parentId
+                if (comment.parentId === null) {
+                  pid = Number(comment.id)
+                }
+                setRespondent({
+                  ...comment,
+                  parentId: pid,
+                })
+              }}
             >
-              回收站
+              回复
+            </Button>
+            <Button
+              type="link"
+              onClick={() => {
+                Modal.confirm({
+                  title: `确定将该评论移${comment.status === -1 ? '出' : '入'}回收站？`,
+                  icon: <Icon.QuestionCircleOutlined />,
+                  okText: '确认',
+                  cancelText: '取消',
+                  centered: true,
+                  onOk: () => {
+                    updateCommentStatus(comment.id!, comment.status === -1 ? 0 : -1)
+                  }
+                })
+              }}
+            >
+              {comment.status === -1 ? '移出回收站' : '移入回收站'}
             </Button>
             <Button
               type="link"
               danger
               onClick={() => {
                 Modal.confirm({
-                  title: '此操作将永久删除该广告，是否继续？',
+                  title: '此操作将永久删除该评论，是否继续？',
                   icon: <Icon.QuestionCircleOutlined />,
                   okText: '确认',
                   cancelText: '取消',
                   centered: true,
                   onOk: () => {
-                    console.log()
+                    removeComment(comment.id!)
                   }
                 })
               }}
@@ -180,6 +256,25 @@ const CommentPage: React.FC = () => {
         columns={columns}
         {...tableProps}
       />
+      <Modal
+        title='回复评论'
+        visible={visible}
+        onOk={replyComment}
+        onCancel={() => {
+          setVisible(false)
+        }}
+        afterClose={() => setContent('')}
+        okText="确认"
+        cancelText="取消"
+      >
+        <Input.TextArea
+          rows={4}
+          placeholder='回复内容'
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+        />
+      </Modal>
     </div>
   )
 }

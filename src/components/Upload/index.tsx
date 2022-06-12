@@ -1,12 +1,15 @@
 import * as React from 'react'
 import { useSafeState } from 'ahooks'
 import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 import { Input, notification, Upload } from 'antd'
 import * as Icon from '@ant-design/icons'
 
 type Props = {
   value: string
   setValue: (value: string) => void
+  className?: string
+  style?: React.CSSProperties
 }
 
 const AwesomeUpload: React.FC<Props> = (props) => {
@@ -43,14 +46,14 @@ const AwesomeUpload: React.FC<Props> = (props) => {
       <Upload
         name="file"
         listType="picture-card"
-        className="upload"
+        className={classNames('upload', props.className)}
         showUploadList={false}
         headers={{
           authorization: `Bearer ${token}`
         }}
         action={`${import.meta.env.VITE_API_URL}/config/upload`}
         onChange={handleChange}
-        style={{}}
+        style={props.style}
       >
         {props.value ? (
           <img src={props.value} style={{ width: '100%', height: '100%' }} />

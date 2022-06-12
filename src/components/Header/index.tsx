@@ -5,11 +5,25 @@ import * as Icon from '@ant-design/icons'
 import { Menu, Avatar, Dropdown, Modal, notification } from 'antd'
 import { Container } from './index.style'
 import { logout } from '@/store/features/acountSlice'
+import { ItemType } from 'antd/lib/menu/hooks/useItems'
 
 type Props = {
   collapsed: boolean
   setCollapsed: () => void
 }
+
+const menuItems: ItemType[] = [
+  {
+    key: 'profile',
+    icon: <Icon.UserOutlined />,
+    label: '用户信息'
+  },
+  {
+    key: 'logout',
+    icon: <Icon.LogoutOutlined />,
+    label: '退出登录'
+  }
+]
 
 const AwesomeHeader: React.FC<Props> = props => {
 
@@ -37,10 +51,7 @@ const AwesomeHeader: React.FC<Props> = props => {
   }, [])
 
   const headerMenu = React.useMemo(() => (
-    <Menu onClick={handleHeaderMenuClick}>
-      <Menu.Item key='profile' icon={<Icon.UserOutlined />}>个人中心</Menu.Item>
-      <Menu.Item key='logout' icon={<Icon.PoweroffOutlined />}>退出登录</Menu.Item>
-    </Menu>
+    <Menu items={menuItems} onClick={handleHeaderMenuClick} />
   ), [])
 
   return (
@@ -53,10 +64,10 @@ const AwesomeHeader: React.FC<Props> = props => {
         </div>
         <div className='right'>
           <div className='link'>
-            <Icon.LinkOutlined />
+            <a href={user.siteUrl} target='_blank'><Icon.LinkOutlined /></a>
           </div>
           <div className='github'>
-            <Icon.GithubOutlined />
+            <a href="https://github.com/wujihua118" target='_blank'><Icon.GithubOutlined /></a>
           </div>
           <Dropdown overlay={headerMenu} placement='bottomRight' arrow>
             <Avatar src={user?.avatar} className='user' />

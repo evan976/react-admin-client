@@ -13,4 +13,10 @@ export type Comment = BaseType & {
   userAgent?: string
   status?: number
   weight?: number
+  address?: string
+  browser?: string
+  ip?: string
+  os?: string
+  replyUserName?: string
+  replyUserEmail?: string
 }
