@@ -5,7 +5,7 @@ import { useRequest } from 'ahooks'
 import AwesomeUpload from '@/components/Upload'
 import * as mainApi from '@/api'
 import { originStates, publishStates, weightStates } from '@/enums'
-import { Tag as ITag } from '@/types/tag'
+import { Tag as ITag } from '@/types'
 
 type Props = {
   visible: boolean
