@@ -56,6 +56,7 @@ const CommentPage: React.FC = () => {
       name: user.name,
       email: user.email,
       site: user.siteUrl,
+      avatar: user.avatar,
       content,
       replyUserName: respondent?.name,
       replyUserEmail: respondent?.email
