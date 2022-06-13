@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/wujihua118/react-admin-client/compare/v2.0.0...v2.0.1) (2022-06-13)
+
+
+### Bug Fixes
+
+* fix ts type definitions ([ff3093a](https://github.com/wujihua118/react-admin-client/commit/ff3093a6f70a175fbc6a019c21e3cf2871698fd6))
+
 # 2.0.0 (2022-06-12)
 
 
