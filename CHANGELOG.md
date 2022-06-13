@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/wujihua118/react-admin-client/compare/v2.0.1...v2.0.2) (2022-06-13)
+
+
+### Bug Fixes
+
+* admin avatar ([51c95a0](https://github.com/wujihua118/react-admin-client/commit/51c95a04845b5ad275891be89e9ca50d90b31bfa))
+
 ## [2.0.1](https://github.com/wujihua118/react-admin-client/compare/v2.0.0...v2.0.1) (2022-06-13)
 
 
