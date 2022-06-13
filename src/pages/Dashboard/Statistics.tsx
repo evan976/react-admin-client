@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Card, Col, Row, Typography } from 'antd'
-import { SiteData } from '@/types/config'
+import type { SiteData } from '@/types'
 import data from '@/assets/images/data.png'
 import data2 from '@/assets/images/data2.png'
 import data3 from '@/assets/images/data3.png'

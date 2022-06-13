@@ -6,7 +6,7 @@ import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
 import useTableData from '@/hooks/useTableData'
-import { Article } from '@/types/article'
+import type { Article } from '@/types'
 import SearchForm from './SearchForm'
 import { os, ps, ws } from '@/enums'
 import { articleService } from '@/api'
@@ -47,7 +47,7 @@ const ArticleList: React.FC = () => {
               </Space>
             }
             <Space size="small" wrap={true}>
-              {article?.tags?.map((tag) => (
+              {article.tags?.map((tag) => (
                 <Tag color={tag.color} icon={<Icon.TagOutlined />} key={tag.id}>
                   {tag.name}
                 </Tag>

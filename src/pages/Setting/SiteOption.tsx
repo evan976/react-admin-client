@@ -29,9 +29,9 @@ const SiteOption: React.FC = () => {
   const getSiteOption = async () => {
     const { data } = await mainApi.configService.fetchSiteConfig()
     form.setFieldsValue(data)
-    setLogo(data.logo!)
-    setFavicon(data.favicon!)
-    setDescription(data.description!)
+    setLogo(data.logo)
+    setFavicon(data.favicon)
+    setDescription(data.description)
   }
 
   const handleSubmit = async () => {

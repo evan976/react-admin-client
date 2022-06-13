@@ -9,7 +9,6 @@ import ArticlePage from '@/pages/Article'
 import CommentPage from '@/pages/Comment'
 import LoginPage from '@/pages/Login'
 import AdvertisementPage from './pages/Advertisement'
-import UserPage from '@/pages/User'
 import SettingPage from '@/pages/Setting'
 import { GlobalStyle } from '@/styles/global'
 
@@ -34,7 +33,6 @@ const App: React.FC = () => {
             <Route path={rc(RouteKey.Tag).path} element={<TagPage />} />
             <Route path={rc(RouteKey.Comment).path} element={<CommentPage />} />
             <Route path={rc(RouteKey.Advertisement).path} element={<AdvertisementPage />} />
-            <Route path={rc(RouteKey.User).path} element={<UserPage />} />
             <Route path={`${rc(RouteKey.Article).path}/*`} element={<ArticlePage />} />
             <Route path={`${rc(RouteKey.Setting).path}/*`} element={<SettingPage />} />
           </Route>

@@ -1,8 +1,8 @@
-import LocaleTime from '@/components/LocaleTime'
-import { Article } from '@/types/article'
+import * as React from 'react'
 import { Table, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import * as React from 'react'
+import type { Article } from '@/types'
+import LocaleTime from '@/components/LocaleTime'
 
 const LatestArticle: React.FC<{ data: Article[] }> = ({ data }) => {
 

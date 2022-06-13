@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { UserInfo } from '@/types/user'
 import store from '@/store'
 import * as mainApi from '@/api'
+import { UserInfo } from '@/types'
 
 export interface AccountState {
   token: string
@@ -30,7 +30,7 @@ export const accountSlice = createSlice({
     },
     logout: (state) => {
       state.token = ''
-      state.user = {}
+      state.user = {} as UserInfo
     }
   }
 })
@@ -46,7 +46,6 @@ const accountApi: Account = {
     return new Promise<UserInfo>((resolve, reject) => {
       mainApi.userService.fetchAdmin()
         .then(res => {
-          console.log('refreshUserInfo', res)
           store.dispatch(updateUserInfo(res.data))
           resolve(res.data)
         })

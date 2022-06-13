@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux'
 import * as Icon from '@ant-design/icons'
 import useTableData from '@/hooks/useTableData'
 import SearchForm from './SearchForm'
-import type { Comment } from '@/types/comment'
+import type { IComment } from '@/types'
 import { commentService } from '@/api'
 import type { ColumnsType } from 'antd/lib/table'
 import { dateFormat } from '@/utils/dateFormat'
@@ -25,10 +25,10 @@ import { cs, ws } from '@/enums'
 import * as mainApi from '@/api'
 
 const CommentPage: React.FC = () => {
-  const [form] = Form.useForm<Comment>()
-  const [getTableData] = useTableData<Comment>(commentService)
+  const [form] = Form.useForm<IComment>()
+  const [getTableData] = useTableData<IComment>(commentService)
   const [visible, setVisible] = useSafeState<boolean>(false)
-  const [respondent, setRespondent] = useSafeState<Comment>()
+  const [respondent, setRespondent] = useSafeState<IComment>()
   const [content, setContent] = useSafeState<string>('')
   const { user } = useSelector(state => state.account)
 
@@ -64,7 +64,7 @@ const CommentPage: React.FC = () => {
     refresh()
   }
 
-  const columns: ColumnsType<Comment> = [
+  const columns: ColumnsType<IComment> = [
     {
       title: 'ID',
       width: 80,

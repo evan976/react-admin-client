@@ -3,14 +3,14 @@ import { Button, Table, Space, Form, Modal, notification } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import { ColumnsType } from 'antd/lib/table'
+import type { Category } from '@/types'
 import * as mainApi from '@/api'
-import { Category } from '@/types/category'
 import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
 import useTableData from '@/hooks/useTableData'
 import { categoryService } from '@/api'
 
-const Category: React.FC = () => {
+const CategoryPage: React.FC = () => {
   const [form] = Form.useForm<Category>()
   const [type, setType] = useSafeState<'create' | 'edit'>('create')
   const [visible, setVisible] = useSafeState<boolean>(false)
@@ -101,7 +101,7 @@ const Category: React.FC = () => {
   const fetchCategoryDetail = async (id: string) => {
     setVisible(true)
     const result = await mainApi.categoryService.findOne(id)
-    form.setFieldsValue(result.data as Category)
+    form.setFieldsValue(result.data)
     setBackground(result.data.background)
     setType('edit')
   }
@@ -166,4 +166,4 @@ const Category: React.FC = () => {
   )
 }
 
-export default Category
+export default CategoryPage

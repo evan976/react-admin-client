@@ -1,12 +1,11 @@
 import request from '@/service'
-import { List } from '@/types'
-import { Wallpaper } from '@/types/wallpaper'
-import { Methods, PathEnum } from './types'
+import { List, Wallpaper } from '@/types'
+import { Methods, Paths } from '@/enums'
 
 class WallpaperService {
-  findAll(data: Record<string, string | number>) {
+  findAll(data: Record<string, string | number> = {}) {
     return request<Record<string, string | number>, List<Wallpaper>>({
-      url: PathEnum.Wallpaper,
+      url: Paths.Wallpaper,
       method: Methods.GET,
       data,
       interceptors: {
@@ -17,7 +16,7 @@ class WallpaperService {
 
   findOne(id: string) {
     return request<string, Wallpaper>({
-      url: `${PathEnum.Wallpaper}/${id}`,
+      url: `${Paths.Wallpaper}/${id}`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -25,9 +24,9 @@ class WallpaperService {
     })
   }
 
-  create(data: Wallpaper) {
-    return request<Wallpaper, Wallpaper>({
-      url: PathEnum.Wallpaper,
+  create(data: Partial<Wallpaper>) {
+    return request<Partial<Wallpaper>, Wallpaper>({
+      url: Paths.Wallpaper,
       method: Methods.POST,
       data,
       interceptors: {
@@ -36,9 +35,9 @@ class WallpaperService {
     })
   }
 
-  update(id: string, data: Wallpaper) {
-    return request<Wallpaper, Wallpaper>({
-      url: `${PathEnum.Wallpaper}/${id}`,
+  update(id: string, data: Partial<Wallpaper>) {
+    return request<Partial<Wallpaper>, Wallpaper>({
+      url: `${Paths.Wallpaper}/${id}`,
       method: Methods.PUT,
       data,
       interceptors: {
@@ -49,7 +48,7 @@ class WallpaperService {
 
   remove(id: string) {
     return request<string, Wallpaper>({
-      url: `${PathEnum.Wallpaper}/${id}`,
+      url: `${Paths.Wallpaper}/${id}`,
       method: Methods.DELETE,
       interceptors: {
         responseInterceptor: (res) => res

@@ -26,6 +26,25 @@ export enum WeightSate {
   Small = 1
 }
 
+export enum Paths {
+  Login = '/auth/login',
+  User = '/users',
+  Post = '/posts',
+  Category = '/categories',
+  Tag = '/tags',
+  Config = '/config',
+  Wallpaper = '/wallpapers',
+  Comment = '/comments'
+}
+
+export enum Methods {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE'
+}
+
 export const publishStateMap = new Map(
   [
     {

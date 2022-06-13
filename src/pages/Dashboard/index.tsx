@@ -1,14 +1,12 @@
 import * as React from 'react'
+import { Col, Row } from 'antd'
 import * as mainApi from '@/api'
 import { useReactive } from 'ahooks'
-import { SiteData } from '@/types/config'
+import type { Article, SiteData, IComment } from '@/types'
 import Statistics from './Statistics'
 import { DashboardPage } from './style'
 import LatestArticle from './LatestArticle'
 import LatestComment from './LatestComment'
-import { Col, Row } from 'antd'
-import { Article } from '@/types/article'
-import { Comment } from '@/types/comment'
 
 const Dashboard: React.FC = () => {
 
@@ -20,7 +18,7 @@ const Dashboard: React.FC = () => {
   })
 
   const [lastestArticle, setLastestArticle] = React.useState<Article[]>([])
-  const [lastestComment, setLastestComment] = React.useState<Comment[]>([])
+  const [lastestComment, setLastestComment] = React.useState<IComment[]>([])
 
   const getSiteData = async () => {
     const { data } = await mainApi.configService.fetchSiteData()

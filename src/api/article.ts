@@ -1,14 +1,12 @@
 import request from '@/service'
-import { List } from '@/types'
-import { Article } from '@/types/article'
-import { Methods, PathEnum } from './types'
-
+import { Article, List } from '@/types'
+import { Methods, Paths } from '@/enums'
 
 class ArticleService {
 
-  findAll(data: Record<string, string | number>) {
+  findAll(data: Record<string, string | number> = {}) {
     return request<Record<string, string | number>, List<Article>>({
-      url: PathEnum.Post,
+      url: Paths.Post,
       method: Methods.GET,
       data,
       interceptors: {
@@ -19,7 +17,7 @@ class ArticleService {
 
   findOne(id: string) {
     return request<string, Article>({
-      url: `${PathEnum.Post}/${id}`,
+      url: `${Paths.Post}/${id}`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -27,9 +25,9 @@ class ArticleService {
     })
   }
 
-  create(data: Article) {
-    return request<Article, Article>({
-      url: PathEnum.Post,
+  create(data: Partial<Article>) {
+    return request<Partial<Article>, Article>({
+      url: Paths.Post,
       method: Methods.POST,
       data,
       interceptors: {
@@ -38,9 +36,9 @@ class ArticleService {
     })
   }
 
-  update(id: string, data: Article) {
-    return request<Article, Article>({
-      url: `${PathEnum.Post}/${id}`,
+  update(id: string, data: Partial<Article>) {
+    return request<Partial<Article>, Article>({
+      url: `${Paths.Post}/${id}`,
       method: Methods.PUT,
       data,
       interceptors: {
@@ -51,7 +49,7 @@ class ArticleService {
 
   remove(id: string) {
     return request<string, Article>({
-      url: `${PathEnum.Post}/${id}`,
+      url: `${Paths.Post}/${id}`,
       method: Methods.DELETE,
       interceptors: {
         responseInterceptor: (res) => res

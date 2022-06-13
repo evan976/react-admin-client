@@ -12,7 +12,7 @@ import 'bytemd/dist/index.min.css'
 import 'highlight.js/styles/vs.css'
 import PublishOption from './PublishOption'
 import { Wrapper } from './styles/markdown'
-import { Article } from '@/types/article'
+import { Article } from '@/types'
 
 const plugins = [
   gfm(),
@@ -51,11 +51,11 @@ const ArticleEdit: React.FC = () => {
       (async () => {
         const { data } = await mainApi.articleService.findOne(id)
         form.setFieldsValue(data)
-        setTitle(data.title as string)
-        setThumb(data.thumb as string)
-        setContent(data.content as string)
+        setTitle(data.title)
+        setThumb(data.thumb)
+        setContent(data.content)
         setTags(data.tags?.map(v => v.id) as Array<string>)
-        setCategory(data.category?.id as string)
+        setCategory(data.category?.id)
       })()
     }
   }, [])

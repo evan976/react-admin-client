@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { Table, Tag, Typography } from 'antd'
-import { Comment } from '@/types/comment'
+import { IComment } from '@/types'
 import { ColumnsType } from 'antd/lib/table'
 import LocaleTime from '@/components/LocaleTime'
 import { useSelector } from 'react-redux'
 
-const LatestComment: React.FC<{ data: Comment[] }> = ({ data }) => {
+const LatestComment: React.FC<{ data: IComment[] }> = ({ data }) => {
 
   const { user } = useSelector(state => state.account)
 
-  const columns: ColumnsType<Comment> = [
+  const columns: ColumnsType<IComment> = [
     {
       title: 'ID',
       dataIndex: 'id',

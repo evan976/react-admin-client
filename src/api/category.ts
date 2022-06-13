@@ -1,13 +1,12 @@
 import request from '@/service'
-import { List } from '@/types'
-import { Category } from '@/types/category'
-import { Methods, PathEnum, QueryParams } from './types'
+import { Category, List } from '@/types'
+import { Methods, Paths } from '@/enums'
 
 class CategoryService {
 
-  findAll(data: QueryParams) {
-    return request<QueryParams, List<Category>>({
-      url: PathEnum.Category,
+  findAll(data: Record<string, string | number> = {}) {
+    return request<Record<string, string | number>, List<Category>>({
+      url: Paths.Category,
       method: Methods.GET,
       data,
       interceptors: {
@@ -18,7 +17,7 @@ class CategoryService {
 
   findOne(id: string) {
     return request<string, Category>({
-      url: `${PathEnum.Category}/${id}`,
+      url: `${Paths.Category}/${id}`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -26,9 +25,9 @@ class CategoryService {
     })
   }
 
-  create(data: Category) {
-    return request<Category, Category>({
-      url: PathEnum.Category,
+  create(data: Partial<Category>) {
+    return request<Partial<Category>, Category>({
+      url: Paths.Category,
       method: Methods.POST,
       data,
       interceptors: {
@@ -37,9 +36,9 @@ class CategoryService {
     })
   }
 
-  update(id: string, data: Category) {
-    return request<Category, Category>({
-      url: `${PathEnum.Category}/${id}`,
+  update(id: string, data: Partial<Category>) {
+    return request<Partial<Category>, Category>({
+      url: `${Paths.Category}/${id}`,
       method: Methods.PUT,
       data,
       interceptors: {
@@ -50,7 +49,7 @@ class CategoryService {
 
   remove(id: string) {
     return request<string, Category>({
-      url: `${PathEnum.Category}/${id}`,
+      url: `${Paths.Category}/${id}`,
       method: Methods.DELETE,
       interceptors: {
         responseInterceptor: (res) => res

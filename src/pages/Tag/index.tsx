@@ -73,7 +73,7 @@ const TagPage: React.FC = () => {
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     form.setFieldsValue(tag)
-                    setBackground(tag.background as string)
+                    setBackground(tag.background)
                     setType('edit')
                   }}
                 >

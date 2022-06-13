@@ -1,11 +1,11 @@
 import request from '@/service'
-import { Config, SiteData } from '@/types/config'
-import { Methods, PathEnum } from './types'
+import { Methods, Paths } from '@/enums'
+import { Config, SiteData } from '@/types'
 
 class ConfigService {
   fetchSiteData() {
     return request<any, SiteData>({
-      url: `${PathEnum.Config}/site/data`,
+      url: `${Paths.Config}/site/data`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -15,7 +15,7 @@ class ConfigService {
 
   fetchSiteConfig() {
     return request<any, Config>({
-      url: `${PathEnum.Config}/option`,
+      url: `${Paths.Config}/option`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -23,9 +23,9 @@ class ConfigService {
     })
   }
 
-  updateSiteConfig(data: Config) {
-    return request<any, Config>({
-      url: `${PathEnum.Config}/option`,
+  updateSiteConfig(data: Partial<Config>) {
+    return request<Partial<Config>, Config>({
+      url: `${Paths.Config}/option`,
       method: Methods.PUT,
       data,
       interceptors: {

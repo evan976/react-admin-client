@@ -1,11 +1,11 @@
 import request from '@/service'
-import { Tag } from '@/types/tag'
-import { Methods, PathEnum, QueryParams } from './types'
+import { Methods, Paths } from '@/enums'
+import { Tag } from '@/types'
 
 class TagService {
-  findAll(data: QueryParams = {}) {
-    return request<QueryParams, Tag[]>({
-      url: PathEnum.Tag,
+  findAll(data: Record<string, string | number> = {}) {
+    return request<Record<string, string | number>, Tag[]>({
+      url: Paths.Tag,
       method: Methods.GET,
       data,
       interceptors: {
@@ -16,7 +16,7 @@ class TagService {
 
   findOne(id: string) {
     return request<string, Tag>({
-      url: `${PathEnum.Tag}/${id}`,
+      url: `${Paths.Tag}/${id}`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -24,9 +24,9 @@ class TagService {
     })
   }
 
-  create(data: Tag) {
-    return request<Tag, Tag>({
-      url: PathEnum.Tag,
+  create(data: Partial<Tag>) {
+    return request<Partial<Tag>, Tag>({
+      url: Paths.Tag,
       method: Methods.POST,
       data,
       interceptors: {
@@ -36,9 +36,9 @@ class TagService {
     })
   }
 
-  update(id: string, data: Tag) {
-    return request<Tag, Tag>({
-      url: `${PathEnum.Tag}/${id}`,
+  update(id: string, data: Partial<Tag>) {
+    return request<Partial<Tag>, Tag>({
+      url: `${Paths.Tag}/${id}`,
       method: Methods.PUT,
       data,
       interceptors: {
@@ -49,7 +49,7 @@ class TagService {
 
   remove(id: string) {
     return request<string, Tag>({
-      url: `${PathEnum.Tag}/${id}`,
+      url: `${Paths.Tag}/${id}`,
       method: Methods.DELETE,
       interceptors: {
         responseInterceptor: (res) => res

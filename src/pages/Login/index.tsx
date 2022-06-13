@@ -4,15 +4,15 @@ import * as Icon from '@ant-design/icons'
 import * as mainApi from '@/api'
 import { Container } from './login.style'
 import { useNavigate } from 'react-router-dom'
-import { LoginDTO } from '@/api/user'
 import SvgIcon from '@/plugins/SvgIcon'
 import store from '@/store'
 import { accountApi, setToken } from '@/store/features/acountSlice'
+import { UserInfo } from '@/types'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
 
-  const onFinish = async (values: LoginDTO) => {
+  const onFinish = async (values: Pick<UserInfo, 'name' | 'password'>) => {
     const result = await mainApi.userService.login(values)
     store.dispatch(setToken(result.data?.token))
     accountApi.refreshUserInfo()

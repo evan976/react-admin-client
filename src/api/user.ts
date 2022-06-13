@@ -1,23 +1,11 @@
 import request from '@/service'
-import { List } from '@/types'
-import { Token, UserInfo } from '@/types/user'
-import { Methods, PathEnum, QueryParams } from './types'
-
-export interface LoginDTO {
-  name: string
-  password: string
-}
-
-export interface RegisterDTO {
-  name: string
-  email: string
-  password: string
-}
+import { List, Token, UserInfo } from '@/types'
+import { Methods, Paths } from '@/enums'
 
 class UserService {
-  login(data: LoginDTO) {
-    return request<LoginDTO, Token>({
-      url: PathEnum.Login,
+  login(data: Pick<UserInfo, 'name' | 'password'>) {
+    return request<Pick<UserInfo, 'name' | 'password'>, Token>({
+      url: Paths.Login,
       data,
       method: Methods.POST,
       interceptors: {
@@ -26,9 +14,9 @@ class UserService {
     })
   }
 
-  create(data: RegisterDTO) {
-    return request<RegisterDTO, any>({
-      url: PathEnum.User,
+  create(data: Pick<UserInfo, 'name' | 'email' | 'password'>) {
+    return request<Pick<UserInfo, 'name' | 'email' | 'password'>, UserInfo>({
+      url: Paths.User,
       method: 'POST',
       data,
       interceptors: {
@@ -37,9 +25,9 @@ class UserService {
     })
   }
 
-  findAll(data: QueryParams) {
-    return request<QueryParams, List<UserInfo>>({
-      url: PathEnum.User,
+  findAll(data: Record<string, string | number> = {}) {
+    return request<Record<string, string | number>, List<UserInfo>>({
+      url: Paths.User,
       method: Methods.GET,
       data,
       interceptors: {
@@ -50,7 +38,7 @@ class UserService {
 
   findOne() {
     return request<any, UserInfo>({
-      url: PathEnum.User,
+      url: Paths.User,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -60,7 +48,7 @@ class UserService {
 
   fetchAdmin() {
     return request<any, UserInfo>({
-      url: `${PathEnum.User}/admin`,
+      url: `${Paths.User}/admin`,
       method: Methods.GET,
       interceptors: {
         responseInterceptor: (res) => res
@@ -68,9 +56,9 @@ class UserService {
     })
   }
 
-  updatePassword(id: string, data: QueryParams) {
-    return request<QueryParams, UserInfo>({
-      url: `${PathEnum.User}/${id}`,
+  updatePassword(id: string, data: Pick<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>) {
+    return request<Pick<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>, UserInfo>({
+      url: `${Paths.User}/${id}`,
       method: Methods.PATCH,
       data,
       interceptors: {
@@ -79,9 +67,9 @@ class UserService {
     })
   }
 
-  update(id: string, data: QueryParams) {
-    return request<QueryParams, UserInfo>({
-      url: `${PathEnum.User}/${id}`,
+  update(id: string, data: Partial<Omit<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>>) {
+    return request<Partial<Omit<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>>, UserInfo>({
+      url: `${Paths.User}/${id}`,
       method: Methods.PUT,
       data,
       interceptors: {
@@ -92,7 +80,7 @@ class UserService {
 
   remove(id: string) {
     return request<any, UserInfo>({
-      url: `${PathEnum.User}/${id}`,
+      url: `${Paths.User}/${id}`,
       method: Methods.DELETE,
       interceptors: {
         responseInterceptor: (res) => res
