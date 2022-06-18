@@ -52,6 +52,7 @@ const CommentPage: React.FC = () => {
 
   const replyComment = async () => {
     await mainApi.commentService.create({
+      postId: respondent?.postId,
       parentId: respondent?.parentId,
       name: user.name,
       email: user.email,
