@@ -1,6 +1,6 @@
 {
   "name": "react-admin-client",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Admin client for my personal blog, powered by @reactjs",
   "private": true,
   "author": {
