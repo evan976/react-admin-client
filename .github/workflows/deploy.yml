@@ -31,4 +31,4 @@ jobs:
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          TARGET: /usr/local/src/react-admin
+          TARGET: /usr/local/src/admin
