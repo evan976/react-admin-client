@@ -47,8 +47,8 @@ const CategoryPage: React.FC = () => {
       render(_, category) {
         return (
           <Space direction="vertical">
-            <span>发布时间: {dateFormat(category.createdAt)}</span>
-            <span>更新时间: {dateFormat(category.updatedAt)}</span>
+            <span>发布时间: {dateFormat(category.created_at)}</span>
+            <span>更新时间: {dateFormat(category.updated_at)}</span>
           </Space>
         )
       }
@@ -100,9 +100,9 @@ const CategoryPage: React.FC = () => {
 
   const fetchCategoryDetail = async (id: string) => {
     setVisible(true)
-    const result = await mainApi.categoryService.findOne(id)
-    form.setFieldsValue(result.data)
-    setBackground(result.data.background)
+    const { result } = await mainApi.categoryService.findOne(id)
+    form.setFieldsValue(result)
+    setBackground(result.background)
     setType('edit')
   }
 
@@ -146,7 +146,7 @@ const CategoryPage: React.FC = () => {
       />
       <Modal
         title={type === 'create' ? '新建分类' : '编辑分类'}
-        visible={visible}
+        open={visible}
         onOk={handleSubmit}
         onCancel={() => {
           setVisible(false)

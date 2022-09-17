@@ -19,7 +19,7 @@ const Statistics: React.FC<{ siteData: SiteData }> = ({ siteData }) => {
           >
             <div className='statistic'>
               <Typography.Title level={5}>文章总量</Typography.Title>
-              <Typography.Text>{siteData.post}</Typography.Text>
+              <Typography.Text>{siteData.article}</Typography.Text>
             </div>
             <img src={data} />
           </Card>

@@ -49,13 +49,13 @@ const ArticleEdit: React.FC = () => {
   React.useEffect(() => {
     if (id) {
       (async () => {
-        const { data } = await mainApi.articleService.findOne(id)
-        form.setFieldsValue(data)
-        setTitle(data.title)
-        setThumb(data.thumb)
-        setContent(data.content)
-        setTags(data.tags?.map(v => v.id) as Array<string>)
-        setCategory(data.category?.id)
+        const { result } = await mainApi.articleService.findOne(id)
+        form.setFieldsValue(result)
+        setTitle(result.title)
+        setThumb(result.thumb)
+        setContent(result.content)
+        setTags(result.tags?.map(v => v.id) as Array<string>)
+        setCategory(result.category?.id)
       })()
     }
   }, [])

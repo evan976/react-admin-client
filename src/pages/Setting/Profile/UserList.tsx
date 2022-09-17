@@ -56,7 +56,7 @@ const UserList: React.FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      render: (_, user) => <div>{dateFormat(user.createdAt)}</div>
+      render: (_, user) => <div>{dateFormat(user.created_at)}</div>
     },
     {
       title: '操作',

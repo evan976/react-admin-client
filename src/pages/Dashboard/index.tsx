@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
   const siteData = useReactive<SiteData>({
     category: 0,
     comment: 0,
-    post: 0,
+    article: 0,
     tag: 0
   })
 
@@ -21,20 +21,20 @@ const Dashboard: React.FC = () => {
   const [lastestComment, setLastestComment] = React.useState<IComment[]>([])
 
   const getSiteData = async () => {
-    const { data } = await mainApi.configService.fetchSiteData()
-    siteData.category = data.category
-    siteData.comment = data.comment
-    siteData.post = data.post
-    siteData.tag = data.tag
+    const { result } = await mainApi.configService.fetchSiteData()
+    siteData.category = result.category
+    siteData.comment = result.comment
+    siteData.article = result.article
+    siteData.tag = result.tag
   }
 
   const getLatestData = async () => {
     const [article, comment] = await Promise.all([
-      mainApi.articleService.findAll({ page: 1, pageSize: 5 }),
-      mainApi.commentService.findAll({ page: 1, pageSize: 8 })
+      mainApi.articleService.findAll({ page_size: 5 }),
+      mainApi.commentService.findAll({ page_size: 5 })
     ])
-    setLastestArticle(article.data.data || [])
-    setLastestComment(comment.data.data || [])
+    setLastestArticle(article.result.data || [])
+    setLastestComment(comment.result.data || [])
   }
 
 

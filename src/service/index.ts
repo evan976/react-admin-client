@@ -11,7 +11,7 @@ export interface CustomRequestConfig<T> extends RequestConfig {
 export interface Response<T> {
   code: number
   message: string
-  data: T
+  result: T
 }
 
 const request = new Request({

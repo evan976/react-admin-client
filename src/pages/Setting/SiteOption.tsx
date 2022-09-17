@@ -27,11 +27,11 @@ const SiteOption: React.FC = () => {
   const [description, setDescription] = React.useState('')
 
   const getSiteOption = async () => {
-    const { data } = await mainApi.configService.fetchSiteConfig()
-    form.setFieldsValue(data)
-    setLogo(data.logo)
-    setFavicon(data.favicon)
-    setDescription(data.description)
+    const { result } = await mainApi.configService.fetchSiteConfig()
+    form.setFieldsValue(result)
+    setLogo(result.logo)
+    setFavicon(result.favicon)
+    setDescription(result.description)
   }
 
   const handleSubmit = async () => {
@@ -92,7 +92,7 @@ const SiteOption: React.FC = () => {
         </Col>
         <Col span={12}>
           <Typography.Text>前端站点描述（about 页面）</Typography.Text>
-          <div style={{marginTop: 10}}>
+          <div style={{ marginTop: 10 }}>
             <Editor
               value={description}
               locale={zhHans}
@@ -102,7 +102,7 @@ const SiteOption: React.FC = () => {
           </div>
           <Button
             type='primary'
-            style={{marginTop: 10}}
+            style={{ marginTop: 10 }}
             onClick={handleSubmit}
           >保存</Button>
         </Col>

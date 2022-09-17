@@ -44,10 +44,11 @@ const accountApi: Account = {
   refreshUserInfo(): Promise<UserInfo> {
     if (!this.isLogin()) return Promise.reject('not fount token')
     return new Promise<UserInfo>((resolve, reject) => {
-      mainApi.userService.fetchAdmin()
-        .then(res => {
-          store.dispatch(updateUserInfo(res.data))
-          resolve(res.data)
+      mainApi.userService
+        .fetchAdmin()
+        .then((res) => {
+          store.dispatch(updateUserInfo(res.result))
+          resolve(res.result)
         })
         .catch(reject)
     })

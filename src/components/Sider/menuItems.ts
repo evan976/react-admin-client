@@ -38,11 +38,6 @@ export const menuItems: ItemType[] = [
     label: rc(RouteKey.Comment).name
   },
   {
-    key: rc(RouteKey.Advertisement).path,
-    icon: rc(RouteKey.Advertisement).icon,
-    label: rc(RouteKey.Advertisement).name
-  },
-  {
     key: rc(RouteKey.Setting).path,
     icon: rc(RouteKey.Setting).icon,
     label: rc(RouteKey.Setting).name,

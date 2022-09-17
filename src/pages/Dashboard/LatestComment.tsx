@@ -29,7 +29,7 @@ const LatestComment: React.FC<{ data: IComment[] }> = ({ data }) => {
       title: '评论时间',
       dataIndex: 'createdAt',
       render: (_, comment) => (
-        <LocaleTime date={comment.createdAt!} />
+        <LocaleTime date={comment.created_at!} />
       )
     },
   ]

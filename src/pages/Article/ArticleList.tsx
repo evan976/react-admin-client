@@ -74,14 +74,6 @@ const ArticleList: React.FC = () => {
       }
     },
     {
-      title: '权重',
-      dataIndex: 'weight',
-      render(_, article) {
-        const _weight = ws(article.weight as number)
-        return <Tag color={_weight.color}>{_weight.name}</Tag>
-      }
-    },
-    {
       title: '关注',
       dataIndex: 'likes',
       render(_, article) {
@@ -109,8 +101,8 @@ const ArticleList: React.FC = () => {
       render(_, article) {
         return (
           <Space direction="vertical">
-            <span>发布时间: {dateFormat(article.createdAt)}</span>
-            <span>更新时间: {dateFormat(article.updatedAt)}</span>
+            <span>发布时间: {dateFormat(article.created_at)}</span>
+            <span>更新时间: {dateFormat(article.created_at)}</span>
           </Space>
         )
       }

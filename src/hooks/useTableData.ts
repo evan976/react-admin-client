@@ -1,19 +1,19 @@
 import { TableResult } from '@/types'
 
-function useTableData<T = any> (service: any) {
+function useTableData<T = any>(service: any) {
   const getTableData = async (
-    { current, pageSize }: Record<string, number>,
+    { current, page_size }: Record<string, number>,
     rest: Record<string, string | number>
   ): Promise<TableResult<T>> => {
     const query = {
       page: current,
-      pageSize,
+      page_size,
       ...rest
     }
     const res = await service?.findAll(query)
     return {
-      total: res.data?.total as number,
-      list: res.data?.data as T[]
+      total: res.result?.total as number,
+      list: res.result?.data as T[]
     }
   }
 
