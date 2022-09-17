@@ -7,7 +7,7 @@ import type { Category } from '@/types'
 import * as mainApi from '@/api'
 import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import { categoryService } from '@/api'
 
 const CategoryPage: React.FC = () => {
@@ -16,7 +16,7 @@ const CategoryPage: React.FC = () => {
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
   const [background, setBackground] = useSafeState<string>('')
-  const [getTableData] = useTableData<Category>(categoryService)
+  const [getTableData] = usePagination<Category>(categoryService)
 
   const { tableProps, refresh } = useAntdTable(getTableData)
 

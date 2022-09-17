@@ -15,7 +15,7 @@ import {
 } from 'antd'
 import { useSelector } from 'react-redux'
 import * as Icon from '@ant-design/icons'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import SearchForm from './SearchForm'
 import type { IComment } from '@/types'
 import { commentService } from '@/api'
@@ -26,7 +26,7 @@ import * as mainApi from '@/api'
 
 const CommentPage: React.FC = () => {
   const [form] = Form.useForm<IComment>()
-  const [getTableData] = useTableData<IComment>(commentService)
+  const [getTableData] = usePagination<IComment>(commentService)
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [respondent, setRespondent] = useSafeState<IComment>()
   const [content, setContent] = useSafeState<string>('')

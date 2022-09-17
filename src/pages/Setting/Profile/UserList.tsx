@@ -8,7 +8,7 @@ import type { UserInfo } from '@/types'
 import { dateFormat } from '@/utils/dateFormat'
 import UpdatePasswordModal from './UpdatePasswordModal'
 import CreateUserModal from './createUserModal'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import { userService } from '@/api'
 import EditUserInfoModal from './EditUserInfoModal'
 import { accountApi } from '@/store/features/acountSlice'
@@ -23,7 +23,7 @@ const UserList: React.FC = () => {
   const [showCreateUserModal, setShowCreateUserModal] = useSafeState<boolean>(false)
   const [showEditUserModal, setShowEditUserModal] = useSafeState<boolean>(false)
 
-  const [getTableData] = useTableData<UserInfo>(userService)
+  const [getTableData] = usePagination<UserInfo>(userService)
   const { tableProps, refresh } = useAntdTable(getTableData)
 
   const columns: ColumnsType<UserInfo> = [

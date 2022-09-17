@@ -5,10 +5,10 @@ import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import type { Article } from '@/types'
 import SearchForm from './SearchForm'
-import { os, ps, ws } from '@/enums'
+import { os, ps } from '@/enums'
 import { articleService } from '@/api'
 import { dateFormat } from '@/utils/dateFormat'
 
@@ -17,7 +17,7 @@ const ArticleList: React.FC = () => {
   const [form] = Form.useForm<Article>()
 
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
-  const [getTableData] = useTableData<Article>(articleService)
+  const [getTableData] = usePagination<Article>(articleService)
 
   const { tableProps, search, refresh } = useAntdTable(getTableData, { form })
 
