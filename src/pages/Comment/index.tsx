@@ -14,6 +14,7 @@ import {
   Input,
 } from 'antd'
 import { useSelector } from 'react-redux'
+import { Viewer } from '@bytemd/react'
 import * as Icon from '@ant-design/icons'
 import usePagination from '@/hooks/usePagination'
 import SearchForm from './SearchForm'
@@ -56,11 +57,13 @@ const CommentPage: React.FC = () => {
       parent_id: respondent?.parent_id,
       name: user.name,
       email: user.email,
-      site: user.siteUrl,
+      site: user.site_url,
       avatar: user.avatar,
       content,
-      replyUserName: respondent?.name,
-      replyUserEmail: respondent?.email
+      reply_user_name: respondent?.name,
+      reply_user_email: respondent?.email,
+      reply_user_site: respondent?.site,
+      status: 1
     })
     setVisible(false)
     refresh()
@@ -75,15 +78,15 @@ const CommentPage: React.FC = () => {
     {
       title: 'PID',
       width: 80,
-      dataIndex: 'parentId',
+      dataIndex: 'parent_id',
       render: (_, comment) => (
         <Tag color='geekblue'>{comment.parent_id ?? 'null'}</Tag>
       )
     },
     {
-      title: 'POST_ID',
+      title: 'ARTICLE_ID',
       width: 80,
-      dataIndex: 'postId',
+      dataIndex: 'article_id',
       render: (_, comment) => (
         <Tag color='orange'>{comment.article_id ?? 'null'}</Tag>
       )
@@ -92,6 +95,9 @@ const CommentPage: React.FC = () => {
       title: '内容',
       width: 220,
       dataIndex: 'content',
+      render: (_, comment) => (
+        <Viewer value={comment.content} />
+      )
     },
     {
       title: '个人信息',
@@ -146,7 +152,7 @@ const CommentPage: React.FC = () => {
             </Space>
             <Space>
               <Icon.HomeOutlined />
-              {comment.address}
+              {comment.address || '未知'}
             </Space>
             <Space>
               <Icon.DesktopOutlined />
@@ -158,7 +164,7 @@ const CommentPage: React.FC = () => {
             </Space>
             <Space>
               <Icon.ClockCircleOutlined />
-              {dateFormat(comment.updated_at)}
+              {dateFormat(comment.updated_at * 1000)}
             </Space>
           </Space>
         )

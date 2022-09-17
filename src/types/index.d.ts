@@ -1,7 +1,7 @@
 type BaseType = {
   id: string
-  created_at: Date
-  updated_at: Date
+  created_at: number
+  updated_at: number
 }
 
 type List<T> = {
@@ -64,15 +64,15 @@ type IComment = BaseType & {
   site: string
   avatar: string
   content: string
-  html: string
-  url: string
   status: number
   address: string
   browser: string
   ip: string
   os: string
-  replyUserName: string
-  replyUserEmail: string
+  reply_user_email: string
+  reply_user_name: string
+  reply_user_site: string
+  replys: Array<IComment>
 }
 
 type Config = BaseType & {
@@ -82,11 +82,11 @@ type Config = BaseType & {
   description: string
   copyright: string
   icp: string
-  icpUrl: string
+  icp_url: string
   keywords: string[]
   logo: string
   favicon: string
-  siteUrl: string
+  site_url: string
 }
 
 export type SiteData = {
@@ -99,25 +99,16 @@ export type SiteData = {
 type UserInfo = BaseType & {
   name: string
   password: string
-  newPassword: string
-  relNewPassword: string
+  new_password: string
+  rel_new_password: string
   email: string
   role: string
   avatar: string
-  siteUrl: string
+  site_url: string
   position: string
   address: string
 }
 
 export type Token = {
   token: string
-}
-
-type Wallpaper = BaseType & {
-  name: string
-  description: string
-  url: string
-  link: string
-  status: number
-  weight: number
 }

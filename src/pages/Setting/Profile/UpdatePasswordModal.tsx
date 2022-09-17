@@ -37,14 +37,14 @@ const UpdatePasswordModal: React.FC<Props> = (props) => {
           <Input placeholder="请输入原密码" type="password" />
         </Form.Item>
         <Form.Item
-          name="newPassword"
+          name="new_password"
           label="新密码"
           rules={[{ required: true, message: '请输入新密码' }]}
         >
           <Input placeholder="请输入新密码" type="password" />
         </Form.Item>
         <Form.Item
-          name="relNewPassword"
+          name="rel_new_password"
           label="确认密码"
           rules={[{ required: true, message: '请输入确认密码' }]}
         >

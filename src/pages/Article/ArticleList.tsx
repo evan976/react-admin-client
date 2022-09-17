@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Badge, Button, Form, Modal, notification, Space, Table, Tag } from 'antd'
+import { Badge, Button, Form, Modal, notification, Space, Table, Tag, Typography } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
@@ -80,16 +80,16 @@ const ArticleList: React.FC = () => {
         return (
           <Space direction="vertical">
             <Space>
-              <span>浏览</span>
-              <Tag color="magenta">{article.views}</Tag>
+              <Icon.EyeOutlined />
+              <Typography.Text type="success">{article.views}</Typography.Text>
             </Space>
             <Space>
-              <span>评论</span>
-              <Tag color="cyan">{article.comments}</Tag>
+              <Icon.CommentOutlined />
+              <Typography.Text type="warning">{article.comments}</Typography.Text>
             </Space>
             <Space>
-              <span>喜欢</span>
-              <Tag color="error">{article.likes}</Tag>
+              <Icon.HeartOutlined />
+              <Typography.Text type="danger">{article.likes}</Typography.Text>
             </Space>
           </Space>
         )
@@ -101,8 +101,8 @@ const ArticleList: React.FC = () => {
       render(_, article) {
         return (
           <Space direction="vertical">
-            <span>发布时间: {dateFormat(article.created_at)}</span>
-            <span>更新时间: {dateFormat(article.created_at)}</span>
+            <span>发布时间: {dateFormat(article.created_at * 1000)}</span>
+            <span>更新时间: {dateFormat(article.updated_at * 1000)}</span>
           </Space>
         )
       }

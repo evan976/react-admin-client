@@ -39,7 +39,7 @@ const CategoryPage: React.FC = () => {
     {
       title: '文章数',
       width: 120,
-      dataIndex: 'postCount'
+      dataIndex: 'article_count'
     },
     {
       title: '时间',
@@ -47,8 +47,8 @@ const CategoryPage: React.FC = () => {
       render(_, category) {
         return (
           <Space direction="vertical">
-            <span>发布时间: {dateFormat(category.created_at)}</span>
-            <span>更新时间: {dateFormat(category.updated_at)}</span>
+            <span>发布时间: {dateFormat(category.created_at * 1000)}</span>
+            <span>更新时间: {dateFormat(category.updated_at * 1000)}</span>
           </Space>
         )
       }

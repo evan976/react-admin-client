@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Table, Tag, Typography } from 'antd'
+import { Viewer } from '@bytemd/react'
 import { IComment } from '@/types'
 import { ColumnsType } from 'antd/lib/table'
 import LocaleTime from '@/components/LocaleTime'
@@ -17,6 +18,9 @@ const LatestComment: React.FC<{ data: IComment[] }> = ({ data }) => {
     {
       title: '内容',
       dataIndex: 'content',
+      render: (_, comment) => (
+        <Viewer value={comment.content} />
+      )
     },
     {
       title: '作者',
@@ -27,9 +31,10 @@ const LatestComment: React.FC<{ data: IComment[] }> = ({ data }) => {
     },
     {
       title: '评论时间',
+      width: 180,
       dataIndex: 'createdAt',
       render: (_, comment) => (
-        <LocaleTime date={comment.created_at!} />
+        <LocaleTime date={comment.created_at * 1000} />
       )
     },
   ]

@@ -19,7 +19,7 @@ const LatestArticle: React.FC<{ data: Article[] }> = ({ data }) => {
       title: '发布时间',
       dataIndex: 'createdAt',
       render: (_, article) => (
-        <LocaleTime date={article.created_at!} form={false} />
+        <LocaleTime date={article.created_at * 1000} form={false} />
       )
     },
   ]

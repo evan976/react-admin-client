@@ -30,12 +30,11 @@ const AwesomeUpload: React.FC<Props> = (props) => {
     }
     if (info.file.status === 'error') {
       setLoading(false)
-      console.log(info.file)
       notification.error({ message: '上传失败' })
       return
     }
     if (info.file.status === 'done') {
-      props.setValue(info.file.response.data.url)
+      props.setValue(info.file.response.result.url)
       setLoading(false)
       notification.success({ message: '上传成功' })
     }

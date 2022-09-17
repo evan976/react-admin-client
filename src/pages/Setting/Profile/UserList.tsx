@@ -56,7 +56,7 @@ const UserList: React.FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      render: (_, user) => <div>{dateFormat(user.created_at)}</div>
+      render: (_, user) => <div>{dateFormat(user.created_at * 1000)}</div>
     },
     {
       title: '操作',
@@ -109,7 +109,7 @@ const UserList: React.FC = () => {
 
   const handleSubmit = async () => {
     const values = passwordForm.getFieldsValue()
-    if (values.newPassword !== values.relNewPassword) {
+    if (values.new_password !== values.rel_new_password) {
       notification.error({ message: '两次输入密码不一致' })
       return false
     }
