@@ -3,12 +3,13 @@ import Request from './request/index'
 import type { RequestConfig } from './request/types'
 import { accountApi, logout } from '@/store/features/acountSlice'
 import store from '@/store'
+import { AxiosResponse } from 'axios'
 
 export interface CustomRequestConfig<T> extends RequestConfig {
   data?: T
 }
 
-export interface Response<T> {
+export interface Response<T> extends AxiosResponse<any, any> {
   code: number
   message: string
   result: T

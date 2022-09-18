@@ -56,8 +56,11 @@ class UserService {
     })
   }
 
-  updatePassword(id: string, data: Pick<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>) {
-    return request<Pick<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>, UserInfo>({
+  updatePassword(
+    id: string,
+    data: Pick<UserInfo, 'password' | 'new_password' | 'rel_new_password'>
+  ) {
+    return request<Pick<UserInfo, 'password' | 'new_password' | 'rel_new_password'>, UserInfo>({
       url: `${Paths.User}/${id}`,
       method: Methods.PATCH,
       data,
@@ -67,8 +70,14 @@ class UserService {
     })
   }
 
-  update(id: string, data: Partial<Omit<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>>) {
-    return request<Partial<Omit<UserInfo, 'password' | 'newPassword' | 'relNewPassword'>>, UserInfo>({
+  update(
+    id: string,
+    data: Partial<Omit<UserInfo, 'password' | 'new_password' | 'rel_new_password'>>
+  ) {
+    return request<
+      Partial<Omit<UserInfo, 'password' | 'new_password' | 'rel_new_password'>>,
+      UserInfo
+    >({
       url: `${Paths.User}/${id}`,
       method: Methods.PUT,
       data,

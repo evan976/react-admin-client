@@ -1,24 +1,27 @@
 name: Release
+
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
+
 jobs:
-  release:
-    name: Release
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Setup
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install
-        run: yarn
-      - name: Release
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npx semantic-release
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          # body:
+          draft: false
+          prerelease: false
