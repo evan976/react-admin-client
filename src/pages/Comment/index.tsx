@@ -14,19 +14,20 @@ import {
   Input,
 } from 'antd'
 import { useSelector } from 'react-redux'
+import { Viewer } from '@bytemd/react'
 import * as Icon from '@ant-design/icons'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import SearchForm from './SearchForm'
 import type { IComment } from '@/types'
 import { commentService } from '@/api'
 import type { ColumnsType } from 'antd/lib/table'
 import { dateFormat } from '@/utils/dateFormat'
-import { cs, ws } from '@/enums'
+import { cs } from '@/enums'
 import * as mainApi from '@/api'
 
 const CommentPage: React.FC = () => {
   const [form] = Form.useForm<IComment>()
-  const [getTableData] = useTableData<IComment>(commentService)
+  const [getTableData] = usePagination<IComment>(commentService)
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [respondent, setRespondent] = useSafeState<IComment>()
   const [content, setContent] = useSafeState<string>('')
@@ -52,15 +53,17 @@ const CommentPage: React.FC = () => {
 
   const replyComment = async () => {
     await mainApi.commentService.create({
-      postId: respondent?.postId,
-      parentId: respondent?.parentId,
+      article_id: respondent?.article_id,
+      parent_id: respondent?.parent_id,
       name: user.name,
       email: user.email,
-      site: user.siteUrl,
+      site: user.site_url,
       avatar: user.avatar,
       content,
-      replyUserName: respondent?.name,
-      replyUserEmail: respondent?.email
+      reply_user_name: respondent?.name,
+      reply_user_email: respondent?.email,
+      reply_user_site: respondent?.site,
+      status: 1
     })
     setVisible(false)
     refresh()
@@ -75,23 +78,26 @@ const CommentPage: React.FC = () => {
     {
       title: 'PID',
       width: 80,
-      dataIndex: 'parentId',
+      dataIndex: 'parent_id',
       render: (_, comment) => (
-        <Tag color='geekblue'>{comment.parentId ?? 'null'}</Tag>
+        <Tag color='geekblue'>{comment.parent_id ?? 'null'}</Tag>
       )
     },
     {
-      title: 'POST_ID',
+      title: 'ARTICLE_ID',
       width: 80,
-      dataIndex: 'postId',
+      dataIndex: 'article_id',
       render: (_, comment) => (
-        <Tag color='orange'>{comment.postId ?? 'null'}</Tag>
+        <Tag color='orange'>{comment.article_id ?? 'null'}</Tag>
       )
     },
     {
       title: '内容',
       width: 220,
       dataIndex: 'content',
+      render: (_, comment) => (
+        <Viewer value={comment.content} />
+      )
     },
     {
       title: '个人信息',
@@ -131,19 +137,7 @@ const CommentPage: React.FC = () => {
       dataIndex: 'weight',
       render: (_, comment) => {
         const _status = cs(comment.status as number)
-        const _weight = ws(comment.weight as number)
-        return (
-          <Space direction="vertical">
-            <Space>
-              <span>状态</span>
-              <Tag color={_status.color}>{_status.name}</Tag>
-            </Space>
-            <Space>
-              <span>权重</span>
-              <Tag color={_weight.color}>{_weight.name}</Tag>
-            </Space>
-          </Space>
-        )
+        return <Tag color={_status.color}>{_status.name}</Tag>
       }
     },
     {
@@ -158,7 +152,7 @@ const CommentPage: React.FC = () => {
             </Space>
             <Space>
               <Icon.HomeOutlined />
-              {comment.address}
+              {comment.address || '未知'}
             </Space>
             <Space>
               <Icon.DesktopOutlined />
@@ -170,7 +164,7 @@ const CommentPage: React.FC = () => {
             </Space>
             <Space>
               <Icon.ClockCircleOutlined />
-              {dateFormat(comment.updatedAt)}
+              {dateFormat(comment.updated_at * 1000)}
             </Space>
           </Space>
         )
@@ -197,13 +191,13 @@ const CommentPage: React.FC = () => {
               type="link"
               onClick={() => {
                 setVisible(true)
-                let pid = comment.parentId
-                if (comment.parentId === null) {
+                let pid = comment.parent_id
+                if (comment.parent_id === null) {
                   pid = Number(comment.id)
                 }
                 setRespondent({
                   ...comment,
-                  parentId: pid,
+                  parent_id: pid,
                 })
               }}
             >

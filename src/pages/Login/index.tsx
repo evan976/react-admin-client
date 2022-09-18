@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
 
   const onFinish = async (values: Pick<UserInfo, 'name' | 'password'>) => {
     const result = await mainApi.userService.login(values)
-    store.dispatch(setToken(result.data?.token))
+    store.dispatch(setToken(result.result?.token))
     accountApi.refreshUserInfo()
     notification.success({ message: '欢迎回来 👏' })
     navigate('/')

@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Badge, Button, Form, Modal, notification, Space, Table, Tag } from 'antd'
+import { Badge, Button, Form, Modal, notification, Space, Table, Tag, Typography } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useAntdTable, useSafeState } from 'ahooks'
 import type { ColumnsType } from 'antd/lib/table'
 import * as mainApi from '@/api'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import type { Article } from '@/types'
 import SearchForm from './SearchForm'
-import { os, ps, ws } from '@/enums'
+import { os, ps } from '@/enums'
 import { articleService } from '@/api'
 import { dateFormat } from '@/utils/dateFormat'
 
@@ -17,7 +17,7 @@ const ArticleList: React.FC = () => {
   const [form] = Form.useForm<Article>()
 
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
-  const [getTableData] = useTableData<Article>(articleService)
+  const [getTableData] = usePagination<Article>(articleService)
 
   const { tableProps, search, refresh } = useAntdTable(getTableData, { form })
 
@@ -74,30 +74,22 @@ const ArticleList: React.FC = () => {
       }
     },
     {
-      title: '权重',
-      dataIndex: 'weight',
-      render(_, article) {
-        const _weight = ws(article.weight as number)
-        return <Tag color={_weight.color}>{_weight.name}</Tag>
-      }
-    },
-    {
       title: '关注',
       dataIndex: 'likes',
       render(_, article) {
         return (
           <Space direction="vertical">
             <Space>
-              <span>浏览</span>
-              <Tag color="magenta">{article.views}</Tag>
+              <Icon.EyeOutlined />
+              <Typography.Text type="success">{article.views}</Typography.Text>
             </Space>
             <Space>
-              <span>评论</span>
-              <Tag color="cyan">{article.comments}</Tag>
+              <Icon.CommentOutlined />
+              <Typography.Text type="warning">{article.comments}</Typography.Text>
             </Space>
             <Space>
-              <span>喜欢</span>
-              <Tag color="error">{article.likes}</Tag>
+              <Icon.HeartOutlined />
+              <Typography.Text type="danger">{article.likes}</Typography.Text>
             </Space>
           </Space>
         )
@@ -109,8 +101,8 @@ const ArticleList: React.FC = () => {
       render(_, article) {
         return (
           <Space direction="vertical">
-            <span>发布时间: {dateFormat(article.createdAt)}</span>
-            <span>更新时间: {dateFormat(article.updatedAt)}</span>
+            <span>发布时间: {dateFormat(article.created_at * 1000)}</span>
+            <span>更新时间: {dateFormat(article.updated_at * 1000)}</span>
           </Space>
         )
       }

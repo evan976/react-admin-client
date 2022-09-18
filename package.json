@@ -1,6 +1,6 @@
 {
   "name": "react-admin-client",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Admin client for my personal blog, powered by @reactjs",
   "private": true,
   "author": {
@@ -9,10 +9,13 @@
     "url": "https://evanone.site"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "release": "semantic-release"
+    "dev": "vite --config ./config/vite.config.dev.ts",
+    "build": "tsc --noEmit && vite build --config ./config/vite.config.prod.ts",
+    "preview": "pnpm run build && vite preview --host",
+    "release": ". ./scripts/release.sh"
+  },
+  "peerDependencies": {
+    "rc-input-number": "^7.3.5"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -21,10 +24,8 @@
     "@bytemd/plugin-highlight-ssr": "1.13.1",
     "@bytemd/react": "^1.13.1",
     "@reduxjs/toolkit": "^1.8.1",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
     "ahooks": "^3.1.13",
-    "antd": "^4.18.9",
+    "antd": "^4.23.1",
     "axios": "^0.24.0",
     "bytemd": "^1.13.1",
     "classnames": "^2.3.1",
@@ -39,7 +40,6 @@
     "react-top-loading-bar": "^2.1.0",
     "redux-persist": "^6.0.0",
     "remark-gemoji": "^7.0.1",
-    "semantic-release": "^19.0.3",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
@@ -56,7 +56,7 @@
     "@typescript-eslint/parser": "^5.13.0",
     "@vitejs/plugin-react-refresh": "^1.3.6",
     "commitizen": "^4.2.4",
-    "cz-customizable": "^6.3.0",
+    "consola": "^2.15.3",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -65,16 +65,14 @@
     "lint-staged": "^13.0.1",
     "prettier": "^2.5.1",
     "redux-devtools": "^3.7.0",
-    "typescript": "^4.5.4",
+    "typescript": "^4.7.4",
     "vite": "^2.8.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-imagemin": "^0.6.1",
     "vite-plugin-imp": "^2.1.6",
     "vite-plugin-style-import": "^2.0.0",
     "vite-plugin-svg-icons": "^2.0.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-customizable"
-    }
   },
   "gitHooks": {
     "pre-commit": "lint-staged",

@@ -29,7 +29,7 @@ export enum WeightSate {
 export enum Paths {
   Login = '/auth/login',
   User = '/users',
-  Post = '/posts',
+  Post = '/articles',
   Category = '/categories',
   Tag = '/tags',
   Config = '/config',

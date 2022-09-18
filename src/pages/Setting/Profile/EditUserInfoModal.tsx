@@ -59,7 +59,7 @@ const EditUserInfoModal: React.FC<Props> = ({
         <Form.Item name="address" label="地址">
           <Input placeholder="请输入地址" />
         </Form.Item>
-        <Form.Item name="siteUrl" label="网站">
+        <Form.Item name="site_url" label="网站">
           <Input placeholder="请输入网站链接" />
         </Form.Item>
         <Form.Item name="role" label="权限">

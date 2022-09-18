@@ -8,7 +8,6 @@ export enum RouteKey {
   Category,
   Tag,
   Comment,
-  Advertisement,
   User,
   Article,
   ArticleList,
@@ -57,12 +56,6 @@ export const routeMap: ReadonlyMap<RouteKey, RouteConfig> = new Map(
       name: '评论管理',
       path: '/comment',
       icon: <Icon.CommentOutlined />
-    },
-    {
-      key: RouteKey.Advertisement,
-      name: '广告管理',
-      path: '/advertisement',
-      icon: <Icon.PictureOutlined />
     },
     {
       key: RouteKey.User,

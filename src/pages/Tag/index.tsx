@@ -57,6 +57,7 @@ const TagPage: React.FC = () => {
               onSubmit={handleSubmit}
               onCancel={() => {
                 form.resetFields()
+                setBackground('')
                 setType('create')
               }}
               onDelete={handleRemove}
@@ -66,7 +67,7 @@ const TagPage: React.FC = () => {
         <Col span={14}>
           <Card title={'标签列表'} bordered={false}>
             <Space size={'small'} wrap>
-              {data?.data?.map((tag) => (
+              {data?.result?.map((tag) => (
                 <Tag
                   color={tag.color}
                   key={tag.id}

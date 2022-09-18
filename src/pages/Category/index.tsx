@@ -7,7 +7,7 @@ import type { Category } from '@/types'
 import * as mainApi from '@/api'
 import { dateFormat } from '@/utils/dateFormat'
 import EditModal from './EditModal'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import { categoryService } from '@/api'
 
 const CategoryPage: React.FC = () => {
@@ -16,7 +16,7 @@ const CategoryPage: React.FC = () => {
   const [visible, setVisible] = useSafeState<boolean>(false)
   const [selectedRowKeys, setSelectedRowKeys] = useSafeState<React.Key[]>([])
   const [background, setBackground] = useSafeState<string>('')
-  const [getTableData] = useTableData<Category>(categoryService)
+  const [getTableData] = usePagination<Category>(categoryService)
 
   const { tableProps, refresh } = useAntdTable(getTableData)
 
@@ -39,7 +39,7 @@ const CategoryPage: React.FC = () => {
     {
       title: '文章数',
       width: 120,
-      dataIndex: 'postCount'
+      dataIndex: 'article_count'
     },
     {
       title: '时间',
@@ -47,8 +47,8 @@ const CategoryPage: React.FC = () => {
       render(_, category) {
         return (
           <Space direction="vertical">
-            <span>发布时间: {dateFormat(category.createdAt)}</span>
-            <span>更新时间: {dateFormat(category.updatedAt)}</span>
+            <span>发布时间: {dateFormat(category.created_at * 1000)}</span>
+            <span>更新时间: {dateFormat(category.updated_at * 1000)}</span>
           </Space>
         )
       }
@@ -100,9 +100,9 @@ const CategoryPage: React.FC = () => {
 
   const fetchCategoryDetail = async (id: string) => {
     setVisible(true)
-    const result = await mainApi.categoryService.findOne(id)
-    form.setFieldsValue(result.data)
-    setBackground(result.data.background)
+    const { result } = await mainApi.categoryService.findOne(id)
+    form.setFieldsValue(result)
+    setBackground(result.background)
     setType('edit')
   }
 
@@ -146,7 +146,7 @@ const CategoryPage: React.FC = () => {
       />
       <Modal
         title={type === 'create' ? '新建分类' : '编辑分类'}
-        visible={visible}
+        open={visible}
         onOk={handleSubmit}
         onCancel={() => {
           setVisible(false)

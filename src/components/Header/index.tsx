@@ -57,22 +57,22 @@ const AwesomeHeader: React.FC<Props> = props => {
   return (
     <Container>
       <div
-          className='trigger'
-          onClick={props.setCollapsed}
-        >
-          {props.collapsed ? <Icon.MenuUnfoldOutlined /> : <Icon.MenuFoldOutlined />}
+        className='trigger'
+        onClick={props.setCollapsed}
+      >
+        {props.collapsed ? <Icon.MenuUnfoldOutlined /> : <Icon.MenuFoldOutlined />}
+      </div>
+      <div className='right'>
+        <div className='link'>
+          <a href={user.site_url} target='_blank'><Icon.LinkOutlined /></a>
         </div>
-        <div className='right'>
-          <div className='link'>
-            <a href={user.siteUrl} target='_blank'><Icon.LinkOutlined /></a>
-          </div>
-          <div className='github'>
-            <a href="https://github.com/wujihua118" target='_blank'><Icon.GithubOutlined /></a>
-          </div>
-          <Dropdown overlay={headerMenu} placement='bottomRight' arrow>
-            <Avatar src={user?.avatar} className='user' />
-          </Dropdown>
+        <div className='github'>
+          <a href="https://github.com/wujihua118" target='_blank'><Icon.GithubOutlined /></a>
         </div>
+        <Dropdown overlay={headerMenu} placement='bottomRight' arrow>
+          <Avatar src={user?.avatar} className='user' />
+        </Dropdown>
+      </div>
     </Container>
   )
 }

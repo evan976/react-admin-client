@@ -4,7 +4,7 @@ import { Button, Col, Drawer, Form, FormInstance, Input, Row, Select, Space } fr
 import { useRequest } from 'ahooks'
 import AwesomeUpload from '@/components/Upload'
 import * as mainApi from '@/api'
-import { originStates, publishStates, weightStates } from '@/enums'
+import { originStates, publishStates } from '@/enums'
 import { Tag as ITag } from '@/types'
 
 type Props = {
@@ -36,7 +36,7 @@ const PublishOption: React.FC<Props> = (props) => {
       title="发布选项"
       width={500}
       onClose={() => props.setVisible(false)}
-      visible={props.visible}
+      open={props.visible}
     >
       <Form
         form={props.form}
@@ -54,7 +54,7 @@ const PublishOption: React.FC<Props> = (props) => {
         >
           <Space wrap={true} size={[12, 12]}>
             {
-              categories?.data.data?.map((category) => {
+              categories?.result.data?.map((category) => {
                 const isChecked = props.category === category.id
                 return (
                   <Button
@@ -76,7 +76,7 @@ const PublishOption: React.FC<Props> = (props) => {
         >
           <Space wrap={true} size={[12, 12]}>
             {
-              tags?.data.map((tag) => {
+              tags?.result.map((tag) => {
                 const isChecked = props.tags.includes(tag.id!)
                 return (
                   <Button
@@ -94,7 +94,7 @@ const PublishOption: React.FC<Props> = (props) => {
           </Space>
         </Form.Item>
         <Row gutter={16}>
-          <Col span={8}>
+          <Col span={12}>
             <Form.Item
               name="origin"
               label="文章来源"
@@ -113,7 +113,7 @@ const PublishOption: React.FC<Props> = (props) => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={12}>
             <Form.Item
               name="status"
               label="发布状态"
@@ -121,22 +121,6 @@ const PublishOption: React.FC<Props> = (props) => {
               <Select placeholder="选择文章状态">
                 {
                   publishStates.map(item => (
-                    <Select.Option
-                      key={item.value}
-                      value={item.value}
-                    >
-                      {item.name}
-                    </Select.Option>
-                  ))
-                }
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item name="weight" label="权重">
-              <Select placeholder="选择文章权重">
-                {
-                  weightStates.map(item => (
                     <Select.Option
                       key={item.value}
                       value={item.value}

@@ -1,21 +1,21 @@
 type BaseType = {
   id: string
-  createdAt: Date
-  updatedAt: Date
+  created_at: number
+  updated_at: number
 }
 
 type List<T> = {
   data?: T[]
   total?: number
   page?: number
-  pageSize?: number
-  totalPage?: number
+  page_size?: number
+  total_page?: number
 }
 
 type ResBaseList<T> = {
   code: number
   message: string
-  data: List<T>
+  result: List<T>
 }
 
 interface TableResult<T> {
@@ -43,7 +43,7 @@ type Category = BaseType & {
   slug: string
   icon: string
   description: string
-  postCount: number
+  article_count: number
   background: string
 }
 
@@ -52,29 +52,27 @@ type Tag = BaseType & {
   slug: string
   color: string
   icon: string
-  postCount: number
+  article_count: number
   background: string
 }
 
 type IComment = BaseType & {
-  postId: number
-  parentId: number
+  article_id: number
+  parent_id: number
   name: string
   email: string
   site: string
   avatar: string
   content: string
-  html: string
-  url: string
-  userAgent: string
   status: number
-  weight: number
   address: string
   browser: string
   ip: string
   os: string
-  replyUserName: string
-  replyUserEmail: string
+  reply_user_email: string
+  reply_user_name: string
+  reply_user_site: string
+  replys: Array<IComment>
 }
 
 type Config = BaseType & {
@@ -84,15 +82,15 @@ type Config = BaseType & {
   description: string
   copyright: string
   icp: string
-  icpUrl: string
+  icp_url: string
   keywords: string[]
   logo: string
   favicon: string
-  siteUrl: string
+  site_url: string
 }
 
 export type SiteData = {
-  post: number
+  article: number
   category: number
   tag: number
   comment: number
@@ -101,25 +99,16 @@ export type SiteData = {
 type UserInfo = BaseType & {
   name: string
   password: string
-  newPassword: string
-  relNewPassword: string
+  new_password: string
+  rel_new_password: string
   email: string
   role: string
   avatar: string
-  siteUrl: string
+  site_url: string
   position: string
   address: string
 }
 
 export type Token = {
   token: string
-}
-
-type Wallpaper = BaseType & {
-  name: string
-  description: string
-  url: string
-  link: string
-  status: number
-  weight: number
 }

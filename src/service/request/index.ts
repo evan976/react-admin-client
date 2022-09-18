@@ -36,23 +36,20 @@ class Request {
   }
 
   private getSourceIndex(url: string): number {
-    return this.cancelRequestSourceList?.findIndex(
-      (item: CancelRequestSource) => {
-        return Object.keys(item)[0] === url
-      },
-    ) as number
+    return this.cancelRequestSourceList?.findIndex((item: CancelRequestSource) => {
+      return Object.keys(item)[0] === url
+    }) as number
   }
 
   private removeUrl(url: string) {
-    const urlIndex = this.requestUrlList?.findIndex(u => u === url)
+    const urlIndex = this.requestUrlList?.findIndex((u) => u === url)
     const sourceIndex = this.getSourceIndex(url)
     // 删除 url 和 cancel 方法
     urlIndex !== -1 && this.requestUrlList?.splice(urlIndex as number, 1)
-    sourceIndex !== -1 &&
-      this.cancelRequestSourceList?.splice(sourceIndex as number, 1)
+    sourceIndex !== -1 && this.cancelRequestSourceList?.splice(sourceIndex as number, 1)
   }
 
-  request<T = any>(config: RequestConfig): Promise<T> {
+  request<T extends RequestConfig = any>(config: RequestConfig): Promise<T> {
     return new Promise((resolve, reject) => {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
@@ -61,7 +58,7 @@ class Request {
       const url = config.url
       if (url) {
         this.requestUrlList?.push(url)
-        config.cancelToken = new axios.CancelToken(c => {
+        config.cancelToken = new axios.CancelToken((c) => {
           this.cancelRequestSourceList?.push({
             [url]: c
           })
@@ -70,13 +67,13 @@ class Request {
 
       this.instance
         .request<any, T>(config)
-        .then(response => {
+        .then((response) => {
           if (config.interceptors?.responseInterceptor) {
             config = config.interceptors.responseInterceptor(response)
           }
           resolve(response)
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error)
         })
         .finally(() => {
@@ -90,7 +87,7 @@ class Request {
       const sourceIndex = this.getSourceIndex(url)
       sourceIndex >= 0 && this.cancelRequestSourceList?.[sourceIndex][url]()
     } else {
-      url.forEach(u => {
+      url.forEach((u) => {
         const sourceIndex = this.getSourceIndex(u)
         sourceIndex >= 0 && this.cancelRequestSourceList?.[sourceIndex][u]()
       })
@@ -98,7 +95,7 @@ class Request {
   }
 
   cancelAllRequest() {
-    this.cancelRequestSourceList?.forEach(source => {
+    this.cancelRequestSourceList?.forEach((source) => {
       const key = Object.keys(source)[0]
       source[key]()
     })

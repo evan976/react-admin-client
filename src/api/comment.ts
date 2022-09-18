@@ -5,7 +5,7 @@ import { Methods, Paths } from '@/enums'
 class CommentService {
   findAll(data: Record<string, string | number> = {}) {
     return request<Record<string, string | number>, List<IComment>>({
-      url: Paths.Comment,
+      url: `${Paths.Comment}/list`,
       method: Methods.GET,
       data,
       interceptors: {

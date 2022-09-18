@@ -8,7 +8,7 @@ import type { UserInfo } from '@/types'
 import { dateFormat } from '@/utils/dateFormat'
 import UpdatePasswordModal from './UpdatePasswordModal'
 import CreateUserModal from './createUserModal'
-import useTableData from '@/hooks/useTableData'
+import usePagination from '@/hooks/usePagination'
 import { userService } from '@/api'
 import EditUserInfoModal from './EditUserInfoModal'
 import { accountApi } from '@/store/features/acountSlice'
@@ -23,7 +23,7 @@ const UserList: React.FC = () => {
   const [showCreateUserModal, setShowCreateUserModal] = useSafeState<boolean>(false)
   const [showEditUserModal, setShowEditUserModal] = useSafeState<boolean>(false)
 
-  const [getTableData] = useTableData<UserInfo>(userService)
+  const [getTableData] = usePagination<UserInfo>(userService)
   const { tableProps, refresh } = useAntdTable(getTableData)
 
   const columns: ColumnsType<UserInfo> = [
@@ -56,7 +56,7 @@ const UserList: React.FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      render: (_, user) => <div>{dateFormat(user.createdAt)}</div>
+      render: (_, user) => <div>{dateFormat(user.created_at * 1000)}</div>
     },
     {
       title: '操作',
@@ -109,7 +109,7 @@ const UserList: React.FC = () => {
 
   const handleSubmit = async () => {
     const values = passwordForm.getFieldsValue()
-    if (values.newPassword !== values.relNewPassword) {
+    if (values.new_password !== values.rel_new_password) {
       notification.error({ message: '两次输入密码不一致' })
       return false
     }
