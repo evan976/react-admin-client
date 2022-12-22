@@ -6,7 +6,7 @@
   "author": {
     "name": "Evan",
     "email": "wjh50940@163.com",
-    "url": "https://evanone.site"
+    "url": "https://evanone.me"
   },
   "scripts": {
     "dev": "vite --config ./config/vite.config.dev.ts",
