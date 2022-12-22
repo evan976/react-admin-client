@@ -1,13 +1,13 @@
 import { TableResult } from '@/types'
 
-function useTableData<T = any>(service: any) {
+function usePagination<T = any>(service: any) {
   const getTableData = async (
-    { current, page_size }: Record<string, number>,
+    { current, pageSize }: Record<string, number>,
     rest: Record<string, string | number>
   ): Promise<TableResult<T>> => {
     const query = {
       page: current,
-      page_size,
+      page_size: pageSize,
       ...rest
     }
     const res = await service?.findAll(query)
@@ -20,4 +20,4 @@ function useTableData<T = any>(service: any) {
   return [getTableData]
 }
 
-export default useTableData
+export default usePagination
